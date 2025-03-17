@@ -39,21 +39,21 @@
                 <!-- End::header-link -->
             </div>
 
-            {{-- <div class="header-element">
-                @php
+            <div class="header-element">
+                {{-- @php
                     $AllApps = DB::table('tv_apps')->get();
                     $currentApp = DB::table('temporary_app_codes')->first();
-                @endphp
+                @endphp --}}
                 <div class="mt-2 mw-100">
                     <select class="form-control" data-trigger name="appChange" id="appChange">
-                        @foreach ($AllApps as $app)
+                        {{-- @foreach ($AllApps as $app)
                             <option value="{{ $app->code }}" @if ($app->code === $currentApp->appCode) selected @endif>
                                 {{ $app->name }}</option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                 </div>
-            </div> --}}
+            </div>
 
             <!-- End::header-element -->
 
@@ -63,7 +63,7 @@
         <!-- Start::header-content-right -->
         <div class="header-content-right">
 
-            <!-- Start::header-element -->
+            {{-- <!-- Start::header-element -->
             <div class="header-element header-search">
                 <!-- Start::header-link -->
                 <a href="javascript:void(0);" class="header-link" data-bs-toggle="modal" data-bs-target="#searchModal">
@@ -71,7 +71,7 @@
                 </a>
                 <!-- End::header-link -->
             </div>
-            <!-- End::header-element -->
+            <!-- End::header-element --> --}}
 
             <!-- Start::header-element -->
             <div class="header-element country-selector">
@@ -154,7 +154,7 @@
             </div>
             <!-- End::header-element -->
 
-            <!-- Start::header-element -->
+            {{-- <!-- Start::header-element -->
             <div class="header-element cart-dropdown">
                 <!-- Start::header-link|dropdown-toggle -->
                 <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-auto-close="outside"
@@ -593,7 +593,7 @@
                 </div>
                 <!-- End::main-header-dropdown -->
             </div>
-            <!-- End::header-element -->
+            <!-- End::header-element --> --}}
 
             <!-- Start::header-element -->
             <div class="header-element header-fullscreen">
