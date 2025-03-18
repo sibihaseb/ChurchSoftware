@@ -39,7 +39,7 @@
     <script src="{{ asset('build/assets/main.js') }}"></script>
 
     @yield('styles')
-
+    @livewireStyles
 </head>
 
 <body>
@@ -111,6 +111,7 @@
     <!-- CUSTOM-SWITCHER JS -->
     @vite('resources/assets/js/custom-switcher.js')
 
+    @livewireScripts
 
     <!-- END SCRIPTS -->
 
