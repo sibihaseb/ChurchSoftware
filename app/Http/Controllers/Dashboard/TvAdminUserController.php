@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\Church;
 use App\Models\User;
 use App\Models\TvApp;
 use Illuminate\Support\Str;
@@ -27,7 +28,9 @@ class TvAdminUserController extends Controller
      */
     public function index(TvAdminUserDataTable $dataTable)
     {
-        return $dataTable->render('pages.adminuser.index');
+        $church = Church::get();
+        $role = Role::get();
+        return $dataTable->render('pages.adminuser.index', compact('church', 'role'));
     }
 
     /**

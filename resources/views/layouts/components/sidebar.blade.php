@@ -34,12 +34,38 @@
                 <!-- End::slide__category -->
 
                 <!-- Start::slide -->
-                <li class="slide">
+                {{-- <li class="slide">
                     <a href="{{ url('admin/adminuser') }}" class="side-menu__item">
                         <i class="bx bx-layer side-menu__icon"></i>
                         <span class="side-menu__label">{{ __('User Management') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                     </a>
+                </li> --}}
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-fingerprint side-menu__icon"></i>
+                        <span class="side-menu__label">USER Management<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0);">Dashboards</a>
+                        </li>
+
+                        <li class="slide">
+                            <a href="{{ url('admin/adminuser') }}" class="side-menu__item">Admin Users</a>
+                        </li>
+                        <li class="slide">
+
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('admin/roletable') }}" class="side-menu__item">View All Roles</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('admin/createrole') }}" class="side-menu__item">Create Role</a>
+                        </li>
+                    </ul>
                 </li>
                 <!-- End::slide -->
 

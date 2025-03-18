@@ -26,9 +26,9 @@ class User extends Authenticatable
         'password',
         'phone',
         'account_type',
-        'login_ip',
-        'last_login',
-        'status'
+        'status',
+        'role',
+        'church_id',
     ];
 
     /**

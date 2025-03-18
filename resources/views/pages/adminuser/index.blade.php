@@ -96,6 +96,71 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="control-label col-md-4 mt-3"
+                                        id="plan_period_label">{{ __('App Name') }}<span
+                                            style="color: red;">*</span></label>
+                                    <select name="app_code[]"
+                                        class="app_code_select @error('app_code') is-invalid @enderror"
+                                        multiple="multiple" id="tvapp">
+                                        <option disabled>{{ __('Select') }}</option>
+                                        @foreach ($church as $app)
+                                            {{-- @if (auth()->user()->account_type === 'S')
+                                                <option value="{!! $app->id !!}">{{ $app->name }}</option>
+                                            @else
+                                                @php
+                                                    $userAppCodes = explode(',', auth()->user()->app_code);
+                                                @endphp
+                                                @if (in_array($app->id, $userAppCodes))
+                                                    <option value="{!! $app->id !!}">{{ $app->name }}
+                                                    </option>
+                                                @endif
+                                            @endif --}}
+                                            <option value="{!! $app->id !!}">{{ $app->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="control-label col-md-4 mt-3">{{ __('Account Type') }}</label>
+                                    <select name="account_type" id="account_type" class="form-control">
+                                        <option disabled selected> {{ __('Select Type') }}</option>
+                                        {{-- @if (auth()->user()->account_type == 'S')
+                                            <option value="S">{{ __('Super Admin') }}</option>
+                                            <option value="A">{{ __('Admin') }}</option>
+                                        @endif --}}
+                                        <option value="S">{{ __('Super Admin') }}</option>
+                                        <option value="A">{{ __('Admin') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="role"
+                                        class="control-label col-md-4 mt-3">{{ __('Role') }}</label>
+                                    <select name="role" id="role" class="form-control">
+                                        <option disabled selected>{{ __('Select role') }}</option>
+                                        @foreach ($role as $roles)
+                                            {{-- @if (auth()->user()->account_type === 'S' || ($roles->name !== 'Superadmin' && $roles->name !== 'Admin'))
+                                                @if ($roles->name === 'Content Partner')
+                                                    @can('Content Partner')
+                                                        <option value="{{ $roles->name }}">{{ $roles->name }}</option>
+                                                    @endcan
+                                                @else
+                                                    <option value="{{ $roles->name }}">{{ $roles->name }}</option>
+                                                @endif
+                                            @endif --}}
+                                            <option value="{{ $roles->name }}">{{ $roles->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                     <br />
                     <div class="form-group" align="center">
@@ -157,11 +222,11 @@
         }
     </script>
     <script>
-        // var select2type = $('.app_code_select').select2({
-        //     tags: true,
-        //     placeholder: "Select",
-        //     dropdownParent: $("#formModal")
-        // });
+        var select2type = $('.app_code_select').select2({
+            tags: true,
+            placeholder: "Select",
+            dropdownParent: $("#formModal")
+        });
 
         $(document).ready(function() {
 
@@ -178,8 +243,8 @@
                 $('#password_confirmation').val("");
                 $('#oldpassword').val("");
                 // $('#status').val("1");
-                // $('#account_type').val("");
-                // $('#tvapp').val("");
+                $('#account_type').val("");
+                 $('#tvapp').val("");
                 // $('#day').val("");
                 // $('.select2-selection__choice').remove();
                 $('#hidden_id').val("");
@@ -300,9 +365,9 @@
                         // $('#phone').val(data.phone);
                         $('#oldpassword').val(data.password);
                         // $('#status').val(data.status);
-                        // $('#role').val(data.role);
+                         $('#role').val(data.role);
                         // $('#day').val(data.day);
-                        // $('#account_type').val(data.account_type);
+                         $('#account_type').val(data.account_type);
                         // $('#tvapp').val(data.app_code);
                         // if (data.app_code) {
                         //     var typearry = data.app_code.split(',');
