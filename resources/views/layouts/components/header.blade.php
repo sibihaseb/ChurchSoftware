@@ -40,17 +40,47 @@
             </div>
 
             <div class="header-element">
-                {{-- @php
-                    $AllApps = DB::table('tv_apps')->get();
-                    $currentApp = DB::table('temporary_app_codes')->first();
-                @endphp --}}
-                <div class="mt-2 mw-100">
-                    <select class="form-control" data-trigger name="appChange" id="appChange">
-                        {{-- @foreach ($AllApps as $app)
-                            <option value="{{ $app->code }}" @if ($app->code === $currentApp->appCode) selected @endif>
-                                {{ $app->name }}</option>
-                        @endforeach --}}
-                    </select>
+                @php
+                    $AllApps = DB::table('churches')->get();
+                    $currentApp = DB::table('temporary_app_codes')
+                        ->where('user_id', auth()->user()->id)
+                        ->first();
+
+                    if (auth()->user()->account_type === 'A') {
+                        $appCode = auth()->user()->church_id;
+                        $appCodeArray = explode(',', $appCode);
+                    }
+
+                    $currentAppData = null;
+                    if ($currentApp) {
+                        $currentAppData = DB::table('churches')->where('id', $currentApp->church_id)->first();
+                    }
+                @endphp
+                <div class="mt-2" style="width: 200px">
+                    @if (auth()->user()->account_type === 'A')
+                        @if (is_array($appCodeArray) && count($appCodeArray) > 1)
+                            <select class="form-control" data-trigger name="appChange" id="appChange">
+                                @foreach ($AllApps as $app)
+                                    @foreach ($appCodeArray as $singleApp)
+                                        @if ($app->id === $singleApp)
+                                            <option value="{{ $app->id }}"
+                                                @if ($app->id == $currentApp?->church_id) selected @endif>
+                                                {{ $app->name }}</option>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </select>
+                        @else
+                            <input type="hidden" name="appChange" id="appChange" value="{{ $appCodeArray[0] }}">
+                        @endif
+                    @else
+                        <select class="form-control" data-trigger name="appChange" id="appChange">
+                            @foreach ($AllApps as $app)
+                                <option value="{{ $app->id }}" @if ($app->id == $currentApp?->church_id) selected @endif>
+                                    {{ $app->name }}</option>
+                            @endforeach
+                        </select>
+                    @endif
                     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                 </div>
             </div>
@@ -686,6 +716,54 @@
                 $('#mainHeaderProfileul').css('transform', 'translate(-61px, 61px)');
             }
         });
+        $('#languageChangeDropDown').click(function() {
+            if ($('#languageChangeDropDown').hasClass("show")) {
+                $('#languageChangeDropDown').removeClass('show');
+                $('#languageChangeDropDown').attr("aria-expanded", "false");
+                $('#languageChangeDropDownUl').removeClass('show');
+                $('#languageChangeDropDownUl').removeAttr('style');
+            } else {
+                $('#languageChangeDropDown').addClass('show');
+                $('#languageChangeDropDown').attr("aria-expanded", "true");
+                $('#languageChangeDropDownUl').addClass('show');
+                $('#languageChangeDropDownUl').css('position', 'absolute');
+                $('#languageChangeDropDownUl').css('inset', '0px 0px auto auto');
+                $('#languageChangeDropDownUl').css('margin', '0px');
+                $('#languageChangeDropDownUl').css('transform', 'translate(-230px, 61px)');
+            }
+        })
+        $(document).ready(function() {
+            let value = $('#appChange').val();
+            saveAppCodeForUser(value, false);
+        });
+        $('#appChange').change(function() {
+            let value = $('#appChange').val();
+            saveAppCodeForUser(value, true);
+        })
+
+        function saveAppCodeForUser(value, once) {
+            let formData = new FormData();
+            formData.append('appCode', value);
+            action_url = "{{ route('currentapp') }}";
+            $.ajax({
+                url: action_url,
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                },
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function(data) {
+                    if (once) {
+                        location.reload();
+                    }
+                }
+
+            });
+        }
     </script>
 
 </header>

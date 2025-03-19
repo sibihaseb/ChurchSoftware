@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('churches', function (Blueprint $table) {
+        Schema::create('temporary_app_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('logo');
-            $table->string('location');
+            $table->string('church_id')->nullable();
+            $table->string('user_id')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('churches');
+        Schema::dropIfExists('temporary_app_codes');
     }
 };

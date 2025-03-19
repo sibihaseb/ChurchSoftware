@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\ChurchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\IndexController;
 use App\Http\Controllers\Dashboard\ProjectController;
@@ -34,8 +35,12 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('role/destroy/{id}', [RolePermissionController::class, 'destroy']);
     });
     Route::resource('adminuser', TvAdminUserController::class);
+    Route::post('setappconfig', [TvAdminUserController::class, 'appCodeSet'])->name('currentapp');
     Route::resource('projects', ProjectController::class);
     Route::post('projectfile/{id}', [ProjectController::class, 'uploadfile']);
 
     Route::resource('invoice', InvoiceController::class);
+
+    //All churches
+    Route::resource('church', ChurchController::class);
 });

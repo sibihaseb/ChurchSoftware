@@ -49,10 +49,15 @@ class TvAdminUserController extends Controller
         $validatedData = $request->validated();
         // $code = Str::random(32);
         // $validatedData['code'] = $code;
-        // $validatedData['app_code'] = implode(',', $validatedData['app_code']);
+        if (isset($validatedData['church_id'])) {
+            $validatedData['church_id'] = implode(',', $validatedData['church_id']);
+        } else {
+            $validatedData['church_id'] = null;
+        }
         $adminuser = User::create($validatedData);
 
         if ($adminuser) {
+            $adminuser->assignRole($validatedData['role']);
             return $this->successMessageResponse("Admin User Created Successfully", 201);
         } else {
             return $this->errorResponse(__('Admin Not created'), 422);
@@ -63,12 +68,12 @@ class TvAdminUserController extends Controller
      */
     public function show(User $adminuser)
     {
-        // $adminuser->roles();
-        // $role = DB::table('roles')->where('name',  $adminuser->role)->value('name') ?? null;
-        // if (empty($role)) {
-        //     $role = $adminuser->roles()->pluck('name')->first();
-        // }
-        // $adminuser->setAttribute('role', $role);
+        $adminuser->roles();
+        $role = DB::table('roles')->where('name',  $adminuser->role)->value('name') ?? null;
+        if (empty($role)) {
+            $role = $adminuser->roles()->pluck('name')->first();
+        }
+        $adminuser->setAttribute('role', $role);
         return $adminuser;
     }
 
@@ -88,6 +93,11 @@ class TvAdminUserController extends Controller
         $validatedData = $request->validated();
         if (isset($validatedData['password'])) {
             $validatedData['password'] = Hash::make($validatedData['password']);
+        }
+        if (isset($validatedData['church_id'])) {
+            $validatedData['church_id'] = implode(',', $validatedData['church_id']);
+        } else {
+            $validatedData['church_id'] = null;
         }
 
         $adminuser->update($validatedData);
@@ -111,5 +121,34 @@ class TvAdminUserController extends Controller
         }, 2);
 
         return response()->json(['success' => __('Tv App User Deleted Successfully')]);
+    }
+
+    public function appCodeSet(Request $request)
+    {
+        // dd($request->appCode);
+        // $enable_app_role =  DB::table('tv_apps')->where('code', $request->appCode)->value('enable_app_role') ?? null;
+        // if ($enable_app_role == 1 && auth()->user()->account_type !== 'S') {
+        //     auth()->user()->roles()->detach();
+
+        //     if (auth()->user()->account_type === 'F') {
+        //         $role = Role::where('name', 'Content Partner')->first();
+        //         auth()->user()->assignRole($role->id);
+        //     } else {
+        //         $new_role_id = DB::table('tv_apps')->where('code', $request->appCode)->value('role_id');
+        //         auth()->user()->assignRole($new_role_id);
+        //     }
+        // } else {
+        //     $role = auth()->user()->role;
+        //     if (!empty($role)) {
+        //         auth()->user()->roles()->detach();
+        //         auth()->user()->assignRole($role);
+        //     }
+        // }
+        $currentuser = auth()->user()->id;
+        TemporaryAppCode::updateOrCreate([
+            'user_id' => $currentuser
+        ], ['church_id' => $request->appCode]);
+
+        return response()->json(['success' => __('App Changed')]);
     }
 }

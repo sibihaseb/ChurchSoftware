@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'sibi',
             'password' => Hash::make('123456'),
             'role' => 'Superadmin',
+            'account_type' => 'S',
         ]);
 
         // Retrieve or create the Superadmin role

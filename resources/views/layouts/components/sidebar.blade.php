@@ -43,6 +43,26 @@
                 </li> --}}
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-home side-menu__icon"></i>
+                        <span class="side-menu__label">ANALATICS<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0);">ANALATICS</a>
+                        </li>
+
+                        <li class="slide">
+                            <a href="{{ url('index') }}" class="side-menu__item">View Analytics</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('index') }}" class="side-menu__item">Analytics Report</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-fingerprint side-menu__icon"></i>
                         <span class="side-menu__label">USER Management<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
@@ -67,6 +87,27 @@
                         </li>
                     </ul>
                 </li>
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bxs-church side-menu__icon"></i>
+                        <span class="side-menu__label">Church Management<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0);">Dashboards</a>
+                        </li>
+
+                        <li class="slide">
+                            <a href="{{ url('admin/church') }}" class="side-menu__item">All Churches</a>
+                        </li>
+                        <li class="slide">
+
+                        </li>
+                       
+                    </ul>
+                </li>
                 <!-- End::slide -->
 
                 {{-- <!-- Start::slide -->
@@ -80,26 +121,6 @@
                 <!-- End::slide --> --}}
 
                 <!-- Start::slide -->
-                <li class="slide has-sub">
-                    <a href="javascript:void(0);" class="side-menu__item">
-                        <i class="bx bx-home side-menu__icon"></i>
-                        <span class="side-menu__label">ANALATICS<span
-                                class="badge bg-warning-transparent ms-2"></span></span>
-                        <i class="fe fe-chevron-right side-menu__angle"></i>
-                    </a>
-                    <ul class="slide-menu child1">
-                        <li class="slide side-menu__label1">
-                            <a href="javascript:void(0);">ANALATICS</a>
-                        </li>
-
-                        <li class="slide">
-                            <a href="{{ url('index') }}" class="side-menu__item">View Analytics</a>
-                        </li>
-                        <li class="slide">
-                            <a href="{{ url('index') }}" class="side-menu__item">Analytics Report</a>
-                        </li>
-                    </ul>
-                </li>
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                     width="24" height="24" viewBox="0 0 24 24">

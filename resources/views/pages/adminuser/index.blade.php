@@ -100,26 +100,24 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label class="control-label col-md-4 mt-3"
-                                        id="plan_period_label">{{ __('App Name') }}<span
+                                        id="plan_period_label">{{ __('Church Name') }}<span
                                             style="color: red;">*</span></label>
-                                    <select name="app_code[]"
+                                    <select name="church_id[]"
                                         class="app_code_select @error('app_code') is-invalid @enderror"
-                                        multiple="multiple" id="tvapp">
+                                        multiple="multiple" id="church_id">
                                         <option disabled>{{ __('Select') }}</option>
                                         @foreach ($church as $app)
-                                            {{-- @if (auth()->user()->account_type === 'S')
+                                            @if (auth()->user()->account_type === 'S')
                                                 <option value="{!! $app->id !!}">{{ $app->name }}</option>
                                             @else
                                                 @php
-                                                    $userAppCodes = explode(',', auth()->user()->app_code);
+                                                    $userAppCodes = explode(',', auth()->user()->church_id);
                                                 @endphp
                                                 @if (in_array($app->id, $userAppCodes))
                                                     <option value="{!! $app->id !!}">{{ $app->name }}
                                                     </option>
                                                 @endif
-                                            @endif --}}
-                                            <option value="{!! $app->id !!}">{{ $app->name }}
-                                            </option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -244,7 +242,7 @@
                 $('#oldpassword').val("");
                 // $('#status').val("1");
                 $('#account_type').val("");
-                 $('#tvapp').val("");
+                 $('#church_id').val("");
                 // $('#day').val("");
                 // $('.select2-selection__choice').remove();
                 $('#hidden_id').val("");
@@ -368,9 +366,9 @@
                          $('#role').val(data.role);
                         // $('#day').val(data.day);
                          $('#account_type').val(data.account_type);
-                        // $('#tvapp').val(data.app_code);
-                        // if (data.app_code) {
-                        //     var typearry = data.app_code.split(',');
+                        // $('#church_id').val(data.church_id);
+                        // if (data.church_id) {
+                        //     var typearry = data.church_id.split(',');
                         // }
                         // select2type.val(typearry).trigger("change");
                         // $('#code').val(data.code);

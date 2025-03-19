@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Church extends Model
+class TemporaryAppCode extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'logo',
-        'location',
+        'church_id',
+        'user_id',
     ];
 }
