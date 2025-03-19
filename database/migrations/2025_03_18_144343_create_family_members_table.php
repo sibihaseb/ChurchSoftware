@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('family_type_id')->references('id')->on('family_member_types');
             $table->unsignedBigInteger('parent_id');
             $table->foreign('parent_id')->references('id')->on('members');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('address')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();

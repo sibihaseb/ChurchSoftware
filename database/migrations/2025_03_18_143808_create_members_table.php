@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('member_type_id');
             $table->foreign('member_type_id')->references('id')->on('member_types');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('address')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
