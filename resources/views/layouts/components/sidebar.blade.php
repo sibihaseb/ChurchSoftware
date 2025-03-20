@@ -30,7 +30,7 @@
             </div>
             <ul class="main-menu">
                 <!-- Start::slide__category -->
-                <li class="slide__category"><span class="category-name">Main</span></li>
+                <li class="slide__category"><span class="category-name">{{ __('Main') }}</span></li>
                 <!-- End::slide__category -->
 
                 <!-- Start::slide -->
@@ -44,63 +44,66 @@
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-home side-menu__icon"></i>
-                        <span class="side-menu__label">ANALATICS<span
+                        <span class="side-menu__label">{{ __('ANALATICS') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
                     <ul class="slide-menu child1">
                         <li class="slide side-menu__label1">
-                            <a href="javascript:void(0);">ANALATICS</a>
+                            <a href="javascript:void(0);">{{ __('Dashboards') }}ANALATICS</a>
                         </li>
 
                         <li class="slide">
-                            <a href="{{ url('index') }}" class="side-menu__item">View Analytics</a>
+                            <a href="{{ url('index') }}" class="side-menu__item">{{ __('View Analytics') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ url('index') }}" class="side-menu__item">Analytics Report</a>
+                            <a href="{{ url('index') }}" class="side-menu__item">{{ __('Analytics Report') }}</a>
                         </li>
                     </ul>
                 </li>
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-fingerprint side-menu__icon"></i>
-                        <span class="side-menu__label">USER Management<span
+                        <span class="side-menu__label">{{ __('USER Management') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
                     <ul class="slide-menu child1">
                         <li class="slide side-menu__label1">
-                            <a href="javascript:void(0);">Dashboards</a>
+                            <a href="javascript:void(0);">{{ __('Dashboards') }}</a>
                         </li>
 
                         <li class="slide">
-                            <a href="{{ url('admin/adminuser') }}" class="side-menu__item">Admin Users</a>
+                            <a href="{{ url('admin/adminuser') }}" class="side-menu__item">{{ __('Admin Users') }}</a>
                         </li>
                         <li class="slide">
 
                         </li>
                         <li class="slide">
-                            <a href="{{ url('admin/roletable') }}" class="side-menu__item">View All Roles</a>
+                            <a href="{{ url('admin/roletable') }}" class="side-menu__item">{{ __('View All Roles') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ url('admin/createrole') }}" class="side-menu__item">Create Role</a>
+                            <a href="{{ url('admin/createrole') }}" class="side-menu__item">{{ __('Create Role') }}</a>
                         </li>
                     </ul>
                 </li>
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bxs-church side-menu__icon"></i>
-                        <span class="side-menu__label">Church Management<span
+                        <span class="side-menu__label">{{ __('Church Management') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
                     <ul class="slide-menu child1">
                         <li class="slide side-menu__label1">
-                            <a href="javascript:void(0);">Dashboards</a>
+                            <a href="javascript:void(0);">{{ __('Dashboards') }}</a>
                         </li>
 
                         <li class="slide">
-                            <a href="{{ url('admin/church') }}" class="side-menu__item">All Churches</a>
+                            <a href="{{ url('admin/church') }}" class="side-menu__item">{{ __('All Churches') }}</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('admin/dashboard/languages') }}" class="side-menu__item {{ request()->is('dashboard/languages*','dashboard/languages/create') ? 'active' : '' }}">{{ __('Dashboard Languages') }}</a>
                         </li>
                         <li class="slide">
 

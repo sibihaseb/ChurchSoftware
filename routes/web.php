@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\ChurchController;
+use App\Http\Controllers\Dashboard\DashboardLanguageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\IndexController;
 use App\Http\Controllers\Dashboard\ProjectController;
@@ -43,4 +44,12 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     //All churches
     Route::resource('church', ChurchController::class);
+    //dashbaord Lnaguage 
+    // Route::group(['middleware' => 'permission:Dashboard Language'], function () {
+        Route::get('dashboard/languages', [DashboardLanguageController::class, 'index'])->name('dash.language');
+        Route::get('dashboard/languages/create', [DashboardLanguageController::class, 'create'])->name('dash.lang.create');
+        Route::post('dashboard/lang', [DashboardLanguageController::class, 'store'])->name('dash.lang');
+        Route::post('change/lang', [DashboardLanguageController::class, 'change'])->name('user.lang');
+        Route::delete('dash/languages/{id}', [DashboardLanguageController::class, 'destroy'])->name('dashboardlanguage.destroy');
+    // });
 });

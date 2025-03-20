@@ -104,64 +104,44 @@
             <!-- End::header-element --> --}}
 
             <!-- Start::header-element -->
+            @php
+                $languages = DB::table('dashboard_languages')->orderBy('created_at', 'desc')->get();
+                $currentLangCode = session('locale') ?? 'en';
+            @endphp
             <div class="header-element country-selector">
                 <!-- Start::header-link|dropdown-toggle -->
                 <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-auto-close="outside"
-                    data-bs-toggle="dropdown">
-                    <img src="{{ asset('build/assets/images/flags/us_flag.jpg') }}" alt="img"
-                        class="rounded-circle header-link-icon">
+                    data-bs-toggle="dropdown" id="languageChangeDropDown">
+                    @if ($languages->isNotEmpty())
+                        @foreach ($languages as $lang)
+                            @if ($currentLangCode == $lang->code && $lang->flag_image)
+                                <img src="{{ Storage::url($lang->flag_image) }}" alt="img"
+                                    class="rounded-circle header-link-icon">
+                            @endif
+                        @endforeach
+                    @else
+                        <img src="{{ asset('build/assets/images/flags/us_flag.jpg') }}" alt="img"
+                            class="rounded-circle header-link-icon">
+                    @endif
                 </a>
-                <!-- End::header-link|dropdown-toggle -->
-                <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none">
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-xs lh-1 me-2">
-                                <img src="{{ asset('build/assets/images/flags/us_flag.jpg') }}" alt="img">
-                            </span>
-                            English
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-xs lh-1 me-2">
-                                <img src="{{ asset('build/assets/images/flags/spain_flag.jpg') }}" alt="img">
-                            </span>
-                            Spanish
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-xs lh-1 me-2">
-                                <img src="{{ asset('build/assets/images/flags/french_flag.jpg') }}" alt="img">
-                            </span>
-                            French
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-xs lh-1 me-2">
-                                <img src="{{ asset('build/assets/images/flags/germany_flag.jpg') }}" alt="img">
-                            </span>
-                            German
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-xs lh-1 me-2">
-                                <img src="{{ asset('build/assets/images/flags/italy_flag.jpg') }}" alt="img">
-                            </span>
-                            Italian
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
-                            <span class="avatar avatar-xs lh-1 me-2">
-                                <img src="{{ asset('build/assets/images/flags/russia_flag.jpg') }}" alt="img">
-                            </span>
-                            Russian
-                        </a>
-                    </li>
-                </ul>
+                <form id="langform" action="{{ route('user.lang') }}" method="post">
+                    @csrf
+                    <ul class="main-header-dropdown dropdown-menu dropdown-menu-end" data-popper-placement="none"
+                        id="languageChangeDropDownUl">
+                        @foreach ($languages as $lang)
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"
+                                    onclick="document.getElementById('lang').value='{{ $lang->code }}'; document.getElementById('langform').submit();">
+                                    <span class="avatar avatar-xs lh-1 me-2">
+                                        <img src="{{ Storage::url($lang->flag_image) }}" alt="img">
+                                    </span>
+                                    {{ $lang->title }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <input type="hidden" name="lang" id="lang" value="{{ session('locale') }}">
+                </form>
             </div>
             <!-- End::header-element -->
 
