@@ -4,46 +4,59 @@
     <form wire:submit.prevent="save">
         @csrf
         <div class="grid grid-cols-2 gap-4 mb-4">
-            <div>
+            <div wire:ignore>
                 <label class="block font-bold">Donor</label>
-                <select wire:model="member_id" class="border rounded p-2 w-full">
-                    <option selected disabled>{{ __('Select Donar') }}</option>
+                <select id="member_id" wire:model="member_id" class="border rounded p-2 w-full">
+                    <option value="">{{ __('Select Donar') }}</option>
                     @foreach ($members as $member)
-                        <option value="{{ $member->id }}"
-                            {{ old('member_id') == $member->id || (isset($invoice) && $invoice->member_id == $member->id) ? 'selected' : '' }}>
+                        <option value="{{ $member->id }}">
                             {{ $member->first_name . ' ' . $member->last_name }}
                         </option>
                     @endforeach
                 </select>
+                @error('member_id')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
             <div>
                 <label class="block font-bold">Email</label>
-                <input type="email" wire:model="email" name="email" class="border rounded p-2 w-full">
+                <input type="email" wire:model="email" class="border rounded p-2 w-full">
+                @error('email')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4 mb-4">
             <div>
                 <label class="block font-bold">Billing Address</label>
-                <textarea name="billing_address" wire:model="billing_address" class="border rounded p-2 w-full"></textarea>
+                <textarea wire:model="billing_address" class="border rounded p-2 w-full"></textarea>
+                @error('billing_address')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
             <div>
                 <label class="block font-bold">Sales Receipt Date</label>
-                <input type="date" name="sales_receipt_date" wire:model="sales_receipt_date"
-                    class="border rounded p-2 w-full">
+                <input type="date" wire:model="sales_receipt_date" class="border rounded p-2 w-full">
+                @error('sales_receipt_date')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
         </div>
 
         <div>
             <label class="block font-bold">Tags</label>
-            <input type="text" name="tags" wire:model="tags" class="border rounded p-2 w-full">
+            <input type="text" wire:model="tags" class="border rounded p-2 w-full">
+            @error('tags')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
         </div>
 
-        <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="grid grid-cols-2 gap-4 mb-4 mt-4">
             <div>
                 <label class="block font-bold">Payment Method</label>
-                <select name="payment_method" wire:model="payment_method" class="border rounded p-2 w-full">
-                    <option selected disabled>{{ __('Select Payment Method') }}</option>
+                <select wire:model="payment_method" class="border rounded p-2 w-full">
+                    <option value="">{{ __('Select Payment Method') }}</option>
                     @foreach ($paymentmethods as $method)
                         <option value="{{ $method->id }}"
                             {{ old('member_id') == $method->id || (isset($invoice) && $invoice->payment_method == $method->id) ? 'selected' : '' }}>
@@ -51,11 +64,14 @@
                         </option>
                     @endforeach
                 </select>
+                @error('payment_method')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
             <div>
                 <label class="block font-bold">Deposit To</label>
-                <select name="deposit_to" class="border rounded p-2 w-full">
-                    <option selected disabled>{{ __('Select Deposite Method') }}</option>
+                <select wire:model="deposit_to" class="border rounded p-2 w-full">
+                    <option value="">{{ __('Select Deposite Method') }}</option>
                     @foreach ($depositetos as $deposite)
                         <option value="{{ $deposite->id }}"
                             {{ old('member_id') == $deposite->id || (isset($invoice) && $invoice->deposit_to == $deposite->id) ? 'selected' : '' }}>
@@ -63,6 +79,9 @@
                         </option>
                     @endforeach
                 </select>
+                @error('deposit_to')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
         </div>
         <div>
@@ -89,6 +108,9 @@
                                         <option value="{{ $product->id }}">{{ $product->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('deposit_to')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
                             </td>
                             <td class="border p-2">
                                 <input type="text" wire:model="items.{{ $index }}.description"
@@ -96,15 +118,17 @@
                             </td>
                             <td class="border p-2">
                                 <input type="number" wire:model="items.{{ $index }}.qty"
-                                    class="border rounded p-1 w-full" min="1">
+                                    wire:input="calculateAmount({{ $index }})" class="border rounded p-1 w-full"
+                                    min="1">
                             </td>
                             <td class="border p-2">
                                 <input type="text" wire:model="items.{{ $index }}.rate"
+                                    wire:input="calculateAmount({{ $index }})"
                                     class="border rounded p-1 w-full">
                             </td>
                             <td class="border p-2">
                                 <input type="text" wire:model="items.{{ $index }}.amount"
-                                    class="border rounded p-1 w-full">
+                                    class="border rounded p-1 w-full" readonly>
                             </td>
                             <td class="border p-2">
                                 <button type="button" wire:click="removeItem({{ $index }})"
@@ -123,3 +147,12 @@
         </div>
     </form>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#member_id').select2();
+    });
+    $('#member_id').on('change', function(e) {
+        @this.set('member_id', e.target.value);
+    })
+</script>
