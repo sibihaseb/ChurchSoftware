@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('churches', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('logo');
-            $table->string('location');
+            $table->string('name')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('location')->nullable();
             $table->timestamps();
         });
     }

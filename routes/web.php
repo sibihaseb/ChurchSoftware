@@ -2,8 +2,14 @@
 
 use App\Http\Controllers\Dashboard\ChurchController;
 use App\Http\Controllers\Dashboard\DashboardLanguageController;
+use App\Http\Controllers\Dashboard\DepositeAccountController;
+use App\Http\Controllers\Dashboard\FamilyMemberTypeController;
+use App\Http\Controllers\Dashboard\MemberTypeController;
+use App\Http\Controllers\Dashboard\PaymentMethodController;
+use App\Http\Controllers\Dashboard\TagController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\IndexController;
+use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProjectController;
 use App\Http\Controllers\Dashboard\RolePermissionController;
 use App\Http\Controllers\Dashboard\TvAdminUserController;
@@ -52,4 +58,17 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::post('change/lang', [DashboardLanguageController::class, 'change'])->name('user.lang');
         Route::delete('dash/languages/{id}', [DashboardLanguageController::class, 'destroy'])->name('dashboardlanguage.destroy');
     // });
+
+    //DepositeAccount
+    Route::resource('deposite-account', DepositeAccountController::class);
+   // PaymentMethod
+    Route::resource('payment-method', PaymentMethodController::class);
+    // Product
+    Route::resource('product', ProductController::class);
+     // Tag
+     Route::resource('tag', TagController::class);
+     // FamilyMemberType
+     Route::resource('family-member-type', FamilyMemberTypeController::class);
+     // MemberType
+     Route::resource('member-type', MemberTypeController::class);
 });

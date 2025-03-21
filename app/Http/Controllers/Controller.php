@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
 {
@@ -75,5 +76,10 @@ class Controller extends BaseController
                 null,
                 Response::HTTP_NO_CONTENT
             );
+    }
+    public function currentApp()
+    {
+        $currentApp = DB::table('temporary_app_codes')->where('user_id', auth()->user()?->id)->first();
+        return $currentApp;
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('qty')->default(1);
             $table->decimal('rate', 10, 2)->default(0);
             $table->decimal('amount', 10, 2)->default(0);
+            $table->string('church_id')->nullable();
             $table->timestamps();
         });
     }

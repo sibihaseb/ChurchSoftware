@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->dateTime('check_in')->nullable();
             $table->dateTime('check_out')->nullable();
+            $table->string('church_id')->nullable();
             $table->timestamps();
         });
     }
