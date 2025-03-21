@@ -80,10 +80,12 @@
 
                         </li>
                         <li class="slide">
-                            <a href="{{ url('admin/roletable') }}" class="side-menu__item">{{ __('View All Roles') }}</a>
+                            <a href="{{ url('admin/roletable') }}"
+                                class="side-menu__item">{{ __('View All Roles') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ url('admin/createrole') }}" class="side-menu__item">{{ __('Create Role') }}</a>
+                            <a href="{{ url('admin/createrole') }}"
+                                class="side-menu__item">{{ __('Create Role') }}</a>
                         </li>
                     </ul>
                 </li>
@@ -103,13 +105,24 @@
                             <a href="{{ url('admin/church') }}" class="side-menu__item">{{ __('All Churches') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ url('admin/dashboard/languages') }}" class="side-menu__item {{ request()->is('dashboard/languages*','dashboard/languages/create') ? 'active' : '' }}">{{ __('Dashboard Languages') }}</a>
+                            <a href="{{ url('admin/dashboard/languages') }}"
+                                class="side-menu__item {{ request()->is('dashboard/languages*', 'dashboard/languages/create') ? 'active' : '' }}">{{ __('Dashboard Languages') }}</a>
                         </li>
                         <li class="slide">
 
                         </li>
-                       
+
                     </ul>
+                </li>
+                <!-- End::slide -->
+
+                <!-- Start::slide -->
+                <li class="slide">
+                    <a href="{{ route('invoice.index') }}" class="side-menu__item">
+                        <i class="bx bx-layer side-menu__icon"></i>
+                        <span class="side-menu__label">{{ __('Donor') }}<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                    </a>
                 </li>
                 <!-- End::slide -->
 

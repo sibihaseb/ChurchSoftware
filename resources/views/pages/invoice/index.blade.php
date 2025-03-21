@@ -61,7 +61,7 @@
                         </div>
 
                         <div class="d-flex align-items-center justify-content-center gap-2">
-                            <a href="{{ route('projects.create') }}"
+                            <a href="{{ route('invoice.create') }}"
                                 class="btn btn-success btn-sm">{{ __('Create Invoice') }}</a>
                         </div>
                     </div>

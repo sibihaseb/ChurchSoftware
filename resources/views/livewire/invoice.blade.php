@@ -130,9 +130,9 @@
                                 <input type="text" wire:model="items.{{ $index }}.amount"
                                     class="border rounded p-1 w-full" readonly>
                             </td>
-                            <td class="border p-2">
+                            <td class="border p-2 text-center">
                                 <button type="button" wire:click="removeItem({{ $index }})"
-                                    class="text-red-500">Remove</button>
+                                    class="text-red-500"><i class="ri-delete-bin-2-line"></i></button>
                             </td>
                         </tr>
                     @endforeach
