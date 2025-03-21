@@ -114,6 +114,78 @@
 
                     </ul>
                 </li>
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-cog side-menu__icon"></i>
+                        <span class="side-menu__label">{{ __('Account Management') }}<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0);">{{ __('Dashboards') }}</a>
+                        </li>
+
+                        <li class="slide">
+                            <a href="{{ url('admin/deposite-account') }}" class="side-menu__item">{{ __('Deposite Account') }}</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('admin/payment-method') }}" class="side-menu__item">{{ __('Payment Method') }}</a>
+                        </li>
+                        <li class="slide">
+
+                        </li>
+                     
+                    </ul>
+                </li>
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-store side-menu__icon"></i>
+                        <span class="side-menu__label">{{ __('Product Management') }}<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0);">{{ __('Dashboards') }}</a>
+                        </li>
+
+                        <li class="slide">
+                            <a href="{{ url('admin/product') }}" class="side-menu__item">{{ __('All Products') }}</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('admin/tag') }}" class="side-menu__item">{{ __('All Tags') }}</a>
+                        </li>
+                        <li class="slide">
+
+                        </li>
+                     
+                    </ul>
+                </li>
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-group side-menu__icon"></i>
+                        <span class="side-menu__label">{{ __('Members Management') }}<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0);">{{ __('Dashboards') }}</a>
+                        </li>
+
+                        <li class="slide">
+                            <a href="{{ url('admin/family-member-type') }}" class="side-menu__item">{{ __('Family Member Type') }}</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('admin/member-type') }}" class="side-menu__item">{{ __('Member Type') }}</a>
+                        </li>
+                        <li class="slide">
+
+                        </li>
+                     
+                    </ul>
+                </li>
                 <!-- End::slide -->
 
                 <!-- Start::slide -->
