@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class InvoiceItem extends Model
+class ServiceInvoiceItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'invoice_id',
+        'service_invoice_id',
         'product_id',
         'description',
         'qty',
@@ -20,7 +20,7 @@ class InvoiceItem extends Model
 
     public function salesReceipt()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(ServiceInvoice::class);
     }
 
     public function product()

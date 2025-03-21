@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\IndexController;
 use App\Http\Controllers\Dashboard\ProjectController;
 use App\Http\Controllers\Dashboard\RolePermissionController;
+use App\Http\Controllers\Dashboard\ServiceInvoiceController;
 use App\Http\Controllers\Dashboard\TvAdminUserController;
 use App\Http\Controllers\InvoiceController;
 
@@ -39,7 +40,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('projects', ProjectController::class);
     Route::post('projectfile/{id}', [ProjectController::class, 'uploadfile']);
 
-    Route::resource('invoice', InvoiceController::class);
+    Route::resource('invoice', ServiceInvoiceController::class);
 
     //All churches
     Route::resource('church', ChurchController::class);

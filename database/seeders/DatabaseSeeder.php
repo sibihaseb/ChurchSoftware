@@ -5,10 +5,12 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -39,5 +41,31 @@ class DatabaseSeeder extends Seeder
 
         // Assign role to the user
         $superadmin->assignRole($roleSuperadmin);
+
+        //dummy data
+
+        DB::table('member_types')->insert([
+            'name' => 'Family'
+        ]);
+        // DB::table('members')->insert([
+        //     'member_type_id ' => "1",
+        //     'first_name ' => 'Sibi',
+        //     'last_name ' => 'Haseb',
+        //     'address ' => 'xyz',
+        //     'email ' => 'sasdasd@mail.com',
+        //     'phone ' => "123123123",
+        //     'check_in ' => Carbon::now(),
+        //     'check_out ' => Carbon::now(),
+        // ]);
+
+        DB::table('products')->insert([
+            'name' => 'Family'
+        ]);
+        DB::table('payment_methods')->insert([
+            'name' => 'Family'
+        ]);
+        DB::table('deposite_accounts')->insert([
+            'name' => 'Family'
+        ]);
     }
 }

@@ -7,8 +7,8 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\PaymentMethod;
 use App\Models\DepositeAccount;
-use App\Models\Invoice as ModelsInvoice;
-use App\Models\InvoiceItem;
+use App\Models\ServiceInvoice;
+use App\Models\ServiceInvoiceItem;
 use Illuminate\Validation\Rule;
 
 class Invoice extends Component
@@ -29,7 +29,7 @@ class Invoice extends Component
         $this->invoiceEditId = $invoiceEditId;
         if ($invoiceEditId) {
             $this->edit_mode = true;
-            $invoiceData = ModelsInvoice::findOrFail($invoiceEditId);
+            $invoiceData = ServiceInvoice::findOrFail($invoiceEditId);
             $itemsInvoice = $invoiceData->items()->get()->toArray();
             $this->items = $itemsInvoice;
             $this->member_id = $invoiceData->member_id;
@@ -86,7 +86,7 @@ class Invoice extends Component
     {
         $validatedData = $this->validate();
 
-        $invoiceCreated = ModelsInvoice::create([
+        $invoiceCreated = ServiceInvoice::create([
             'member_id' => $validatedData['member_id'],
             'email' => $validatedData['email'],
             'billing_address' => $validatedData['billing_address'],
@@ -98,8 +98,8 @@ class Invoice extends Component
 
         if ($invoiceCreated) {
             foreach ($validatedData['items'] as $item) {
-                InvoiceItem::create([
-                    'invoice_id' => $invoiceCreated->id,
+                ServiceInvoiceItem::create([
+                    'service_invoice_id' => $invoiceCreated->id,
                     'product_id' => $item['product_id'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],
