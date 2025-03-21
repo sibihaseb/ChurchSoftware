@@ -178,6 +178,9 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         //Pdf
         Barryvdh\Snappy\ServiceProvider::class,
+
+        \Devaslanphp\AutoTranslate\AutoTranslateProvider::class,
+
     ])->toArray(),
 
     /*
