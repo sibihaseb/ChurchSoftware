@@ -27,10 +27,12 @@ class ServiceInvoiceDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $button = null;
                 // if (auth()->user()->hasPermissionTo('Edit Content')) {
-                $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
+                $button = '<div style="display:flex"><a href="' . url('admin/invoice/' . $data->id . '/edit') . '">
+                        <i class="edit ri-pencil-line text-info m-2"></i>
+                    </a>';
                 // }
                 // if (auth()->user()->hasPermissionTo('Edit Content')) {
-                $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
+                $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i></div>';
                 // }
                 return $button;
             })

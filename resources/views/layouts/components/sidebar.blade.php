@@ -127,15 +127,17 @@
                         </li>
 
                         <li class="slide">
-                            <a href="{{ url('admin/deposite-account') }}" class="side-menu__item">{{ __('Deposite Account') }}</a>
+                            <a href="{{ url('admin/deposite-account') }}"
+                                class="side-menu__item">{{ __('Deposite Account') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ url('admin/payment-method') }}" class="side-menu__item">{{ __('Payment Method') }}</a>
+                            <a href="{{ url('admin/payment-method') }}"
+                                class="side-menu__item">{{ __('Payment Method') }}</a>
                         </li>
                         <li class="slide">
 
                         </li>
-                     
+
                     </ul>
                 </li>
                 <li class="slide has-sub">
@@ -151,7 +153,8 @@
                         </li>
 
                         <li class="slide">
-                            <a href="{{ url('admin/product') }}" class="side-menu__item">{{ __('All Products') }}</a>
+                            <a href="{{ url('admin/product') }}"
+                                class="side-menu__item">{{ __('All Products') }}</a>
                         </li>
                         <li class="slide">
                             <a href="{{ url('admin/tag') }}" class="side-menu__item">{{ __('All Tags') }}</a>
@@ -159,13 +162,13 @@
                         <li class="slide">
 
                         </li>
-                     
+
                     </ul>
                 </li>
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-group side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('Members Management') }}<span
+                        <span class="side-menu__label">{{ __('Donor Management') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
@@ -175,30 +178,33 @@
                         </li>
 
                         <li class="slide">
-                            <a href="{{ url('admin/family-member-type') }}" class="side-menu__item">{{ __('Family Member Type') }}</a>
+                            <a href="{{ url('admin/family-member-type') }}"
+                                class="side-menu__item">{{ __('Family Donor Type') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ url('admin/member-type') }}" class="side-menu__item">{{ __('Member Type') }}</a>
+                            <a href="{{ url('admin/member-type') }}"
+                                class="side-menu__item">{{ __('Donor Type') }}</a>
                         </li>
                         <li class="slide">
-
+                            <a href="#" class="side-menu__item">{{ __('Donors') }}</a>
                         </li>
-                     
-                    </ul>
                 </li>
-                <!-- End::slide -->
 
-                <!-- Start::slide -->
-                <li class="slide">
-                    <a href="{{ route('invoice.index') }}" class="side-menu__item">
-                        <i class="bx bx-layer side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('Donor') }}<span
-                                class="badge bg-warning-transparent ms-2"></span></span>
-                    </a>
-                </li>
-                <!-- End::slide -->
+            </ul>
+            </li>
+            <!-- End::slide -->
 
-                {{-- <!-- Start::slide -->
+            <!-- Start::slide -->
+            <li class="slide">
+                <a href="{{ route('invoice.index') }}" class="side-menu__item">
+                    <i class="bx bx-layer side-menu__icon"></i>
+                    <span class="side-menu__label">{{ __('Donor') }}<span
+                            class="badge bg-warning-transparent ms-2"></span></span>
+                </a>
+            </li>
+            <!-- End::slide -->
+
+            {{-- <!-- Start::slide -->
                 <li class="slide">
                     <a href="{{ url('admin/projects') }}" class="side-menu__item">
                         <i class="bx bx-layer side-menu__icon"></i>
@@ -208,7 +214,7 @@
                 </li>
                 <!-- End::slide --> --}}
 
-                <!-- Start::slide -->
+            <!-- Start::slide -->
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                     width="24" height="24" viewBox="0 0 24 24">
