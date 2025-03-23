@@ -174,6 +174,12 @@ class Invoice extends Component
         return view('livewire.invoice', compact('members', 'paymentmethods', 'depositetos', 'products', 'churchs', 'allmembertype'));
     }
 
+    // Add this method to the Livewire component
+    public function getTotalAmountProperty()
+    {
+        return array_sum(array_column($this->items, 'amount'));
+    }
+
     public function messages()
     {
         return [

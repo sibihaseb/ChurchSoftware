@@ -2,17 +2,14 @@
 
     <!-- Start::main-sidebar-header -->
     <div class="main-sidebar-header">
-        <a href="{{ url('index') }}" class="header-logo">
-            <img src="{{ asset('build/assets/images/brand-logos/desktop-logo.png') }}" alt="logo" class="desktop-logo">
-            <img src="{{ asset('build/assets/images/brand-logos/toggle-logo.png') }}" alt="logo" class="toggle-logo">
-            <img src="{{ asset('build/assets/images/brand-logos/desktop-dark.png') }}" alt="logo"
-                class="desktop-dark">
-            <img src="{{ asset('build/assets/images/brand-logos/toggle-dark.png') }}" alt="logo"
-                class="toggle-dark">
-            <img src="{{ asset('build/assets/images/brand-logos/desktop-white.png') }}" alt="logo"
-                class="desktop-white">
-            <img src="{{ asset('build/assets/images/brand-logos/toggle-white.png') }}" alt="logo"
-                class="toggle-white">
+        <a href="{{ url('index') }}" class="header-logo text-white" style="font-size: 1rem">
+            {{-- <img src="{{ asset('images/chruchlogo.png') }}" alt="logo" class="desktop-logo">
+            <img src="{{ asset('images/chruchlogo.png') }}" alt="logo" class="toggle-logo">
+            <img src="{{ asset('images/chruchlogo.png') }}" alt="logo" class="desktop-dark">
+            <img src="{{ asset('images/chruchlogo.png') }}" alt="logo" class="toggle-dark">
+            <img src="{{ asset('images/chruchlogo.png') }}" alt="logo" class="desktop-white">
+            <img src="{{ asset('images/chruchlogo.png') }}" alt="logo" class="toggle-white"> --}}
+            {{ env('APP_NAME') }}
         </a>
     </div>
     <!-- End::main-sidebar-header -->
@@ -142,8 +139,7 @@
                         </li>
 
                         <li class="slide">
-                            <a href="{{ url('admin/product') }}"
-                                class="side-menu__item">{{ __('All Products') }}</a>
+                            <a href="{{ url('admin/product') }}" class="side-menu__item">{{ __('All Products') }}</a>
                         </li>
                         <li class="slide">
                             <a href="{{ url('admin/tag') }}" class="side-menu__item">{{ __('All Tags') }}</a>
@@ -186,7 +182,7 @@
             <!-- Start::slide -->
             <li class="slide">
                 <a href="{{ route('invoice.index') }}" class="side-menu__item">
-                    <i class="bx bx-layer side-menu__icon"></i>
+                    <i class="bx bx-donate-heart side-menu__icon"></i>
                     <span class="side-menu__label">{{ __('Donor') }}<span
                             class="badge bg-warning-transparent ms-2"></span></span>
                 </a>
