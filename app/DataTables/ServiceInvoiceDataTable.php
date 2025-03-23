@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\Member;
 use App\Models\PaymentMethod;
 use App\Models\ServiceInvoice;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -38,6 +39,15 @@ class ServiceInvoiceDataTable extends DataTable
             })
             ->addColumn('amount', function ($data) {
                 return '$' . collect($data->items)->sum('amount');
+            })
+            ->addColumn('email', function ($data) {
+                $text = null;
+                if ($data->email) {
+                    $text = $data->email;
+                } else {
+                    $text = Member::find($data->member_id)->email;
+                }
+                return $text;
             })
             ->addColumn('payment_method', function ($data) {
                 $paymentmethod = PaymentMethod::findOrFail($data->payment_method);

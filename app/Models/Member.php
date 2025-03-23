@@ -21,4 +21,9 @@ class Member extends Model
         'check_out',
         'church_id',
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(ServiceInvoice::class, 'member_id');
+    }
 }

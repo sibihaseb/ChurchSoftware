@@ -41,30 +41,19 @@
                                 class="badge bg-warning-transparent ms-2"></span></span>
                     </a>
                 </li> --}}
-                <li class="slide has-sub">
-                    <a href="javascript:void(0);" class="side-menu__item">
-                        <i class="bx bx-home side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('ANALATICS') }}<span
+                <!-- Start::slide -->
+                <li class="slide">
+                    <a href="{{ url('home') }}" class="side-menu__item">
+                        <i class="bx bx-layer side-menu__icon"></i>
+                        <span class="side-menu__label">{{ __('Analytics') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
-                        <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
-                    <ul class="slide-menu child1">
-                        <li class="slide side-menu__label1">
-                            <a href="javascript:void(0);">{{ __('Dashboards') }}ANALATICS</a>
-                        </li>
-
-                        <li class="slide">
-                            <a href="{{ url('index') }}" class="side-menu__item">{{ __('View Analytics') }}</a>
-                        </li>
-                        <li class="slide">
-                            <a href="{{ url('index') }}" class="side-menu__item">{{ __('Analytics Report') }}</a>
-                        </li>
-                    </ul>
                 </li>
+                <!-- End::slide -->
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-fingerprint side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('USER Management') }}<span
+                        <span class="side-menu__label">{{ __('User Setting') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
@@ -92,7 +81,7 @@
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bxs-church side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('Church Management') }}<span
+                        <span class="side-menu__label">{{ __('Church Setting') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
@@ -117,7 +106,7 @@
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-cog side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('Account Management') }}<span
+                        <span class="side-menu__label">{{ __('Account Setting') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
@@ -143,7 +132,7 @@
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-store side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('Product Management') }}<span
+                        <span class="side-menu__label">{{ __('Product Setting') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
@@ -168,7 +157,7 @@
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-group side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('Donor Management') }}<span
+                        <span class="side-menu__label">{{ __('Donor Setting') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>

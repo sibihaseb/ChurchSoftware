@@ -14,7 +14,7 @@ class IndexController extends Controller
         if (!auth()->user()) {
             return view('pages.auth.signin-cover');
         } else {
-            return redirect('/home');
+            return redirect('/admin/home');
         }
     }
 

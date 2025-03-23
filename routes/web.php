@@ -73,7 +73,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('family-member-type', FamilyMemberTypeController::class);
     // MemberType
     Route::resource('member-type', MemberTypeController::class);
-
+    //payments
     Route::get('/members/{member}/payment/{amount}', [BillingController::class, 'showPaymentForm'])->name('show.payment');
     Route::post('/members/{member}/pay', [BillingController::class, 'processPayment']);
 });
