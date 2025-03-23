@@ -37,7 +37,7 @@ class ServiceInvoiceDataTable extends DataTable
                 return $button;
             })
             ->addColumn('amount', function ($data) {
-                return collect($data->items)->sum('amount');
+                return '$' . collect($data->items)->sum('amount');
             })
             ->addColumn('payment_method', function ($data) {
                 $paymentmethod = PaymentMethod::findOrFail($data->payment_method);
@@ -66,7 +66,7 @@ class ServiceInvoiceDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
-            ->orderBy(1)
+            ->orderBy(0)
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),

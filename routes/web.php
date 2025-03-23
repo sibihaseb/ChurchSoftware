@@ -1,20 +1,21 @@
 <?php
 
-use App\Http\Controllers\Dashboard\ChurchController;
-use App\Http\Controllers\Dashboard\DashboardLanguageController;
-use App\Http\Controllers\Dashboard\DepositeAccountController;
-use App\Http\Controllers\Dashboard\FamilyMemberTypeController;
-use App\Http\Controllers\Dashboard\MemberTypeController;
-use App\Http\Controllers\Dashboard\PaymentMethodController;
-use App\Http\Controllers\Dashboard\TagController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\IndexController;
+use App\Http\Controllers\Dashboard\ChurchController;
+use App\Http\Controllers\Dashboard\BillingController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProjectController;
+use App\Http\Controllers\Dashboard\MemberTypeController;
+use App\Http\Controllers\Dashboard\TvAdminUserController;
+use App\Http\Controllers\Dashboard\PaymentMethodController;
 use App\Http\Controllers\Dashboard\RolePermissionController;
 use App\Http\Controllers\Dashboard\ServiceInvoiceController;
-use App\Http\Controllers\Dashboard\TvAdminUserController;
-use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\Dashboard\DepositeAccountController;
+use App\Http\Controllers\Dashboard\FamilyMemberTypeController;
+use App\Http\Controllers\Dashboard\DashboardLanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,25 +52,28 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     //All churches
     Route::resource('church', ChurchController::class);
-    //dashbaord Lnaguage 
+    //dashbaord Lnaguage
     // Route::group(['middleware' => 'permission:Dashboard Language'], function () {
-        Route::get('dashboard/languages', [DashboardLanguageController::class, 'index'])->name('dash.language');
-        Route::get('dashboard/languages/create', [DashboardLanguageController::class, 'create'])->name('dash.lang.create');
-        Route::post('dashboard/lang', [DashboardLanguageController::class, 'store'])->name('dash.lang');
-        Route::post('change/lang', [DashboardLanguageController::class, 'change'])->name('user.lang');
-        Route::delete('dash/languages/{id}', [DashboardLanguageController::class, 'destroy'])->name('dashboardlanguage.destroy');
+    Route::get('dashboard/languages', [DashboardLanguageController::class, 'index'])->name('dash.language');
+    Route::get('dashboard/languages/create', [DashboardLanguageController::class, 'create'])->name('dash.lang.create');
+    Route::post('dashboard/lang', [DashboardLanguageController::class, 'store'])->name('dash.lang');
+    Route::post('change/lang', [DashboardLanguageController::class, 'change'])->name('user.lang');
+    Route::delete('dash/languages/{id}', [DashboardLanguageController::class, 'destroy'])->name('dashboardlanguage.destroy');
     // });
 
     //DepositeAccount
     Route::resource('deposite-account', DepositeAccountController::class);
-   // PaymentMethod
+    // PaymentMethod
     Route::resource('payment-method', PaymentMethodController::class);
     // Product
     Route::resource('product', ProductController::class);
-     // Tag
-     Route::resource('tag', TagController::class);
-     // FamilyMemberType
-     Route::resource('family-member-type', FamilyMemberTypeController::class);
-     // MemberType
-     Route::resource('member-type', MemberTypeController::class);
+    // Tag
+    Route::resource('tag', TagController::class);
+    // FamilyMemberType
+    Route::resource('family-member-type', FamilyMemberTypeController::class);
+    // MemberType
+    Route::resource('member-type', MemberTypeController::class);
+
+    Route::get('/members/{member}/payment/{amount}', [BillingController::class, 'showPaymentForm'])->name('show.payment');
+    Route::post('/members/{member}/pay', [BillingController::class, 'processPayment']);
 });

@@ -145,6 +145,13 @@ class Invoice extends Component
         $message = $this->edit_mode ? 'Power of Attorney updated' : 'Power of Attorney created';
         $this->dispatch('success', __($message));
 
+        $paymentmethoddata = PaymentMethod::find($validatedData['payment_method']);
+
+        if ($paymentmethoddata->name == 'stripe') {
+            $totalAmount = array_sum(array_column($validatedData['items'], 'amount'));
+            return redirect()->route('show.payment', ['member' => $member_id, 'amount' => $totalAmount]);
+        }
+
         if ($action === 'save') {
             return redirect()->to('/admin/invoice');  // Redirect on "Save"
         }
