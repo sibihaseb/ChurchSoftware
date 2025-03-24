@@ -149,11 +149,12 @@
             </div>
             <div>
                 <label class="block font-bold">Payment Method</label>
-                <select wire:model="payment_method" class="border-2 rounded p-2 w-full">
+                <select wire:model="payment_method" class="border-2 rounded p-2 w-full"
+                    wire:change="checkNewPaymentMethod($event.target.value)">
                     <option value="">{{ __('Select Payment Method') }}</option>
+                    <option value="create_new" class="bg-green-500 text-white">+ Create New</option>
                     @foreach ($paymentmethods as $method)
-                        <option value="{{ $method->id }}"
-                            {{ old('member_id') == $method->id || (isset($invoice) && $invoice->payment_method == $method->id) ? 'selected' : '' }}>
+                        <option value="{{ $method->id }}">
                             {{ $method->name }}
                         </option>
                     @endforeach
@@ -162,13 +163,43 @@
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
+            <!-- Modal or Hidden Div for Creating New Payment Method -->
+            <!-- Modal for Creating New Payment Method -->
+            <div x-data="{ showNewPayment: @entangle('showNewPayment') }" x-show="showNewPayment"
+                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                style="display: none;">
+                <!-- Modal Box -->
+                <div class="bg-white p-6 rounded-lg w-1/3 shadow-lg">
+                    <h2 class="text-lg font-bold mb-4">Create New Payment Method</h2>
+
+                    <!-- Input Field -->
+                    <input type="text" wire:model="new_payment_method" class="border-2 rounded p-2 w-full mb-2"
+                        placeholder="Enter New Payment Method">
+                    @error('new_payment_method')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-end mt-4">
+                        <button type="button" @click="showNewPayment = false; $wire.set('payment_method', null)"
+                            class="bg-gray-500 text-white px-3 py-1 rounded mr-2">
+                            Cancel
+                        </button>
+                        <button type="button" wire:click="saveNewPaymentMethod"
+                            class="bg-blue-500 text-white px-3 py-1 rounded">
+                            Save Method
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div>
                 <label class="block font-bold">Deposit To</label>
-                <select wire:model="deposit_to" class="border-2 rounded p-2 w-full">
-                    <option value="">{{ __('Select Deposite Method') }}</option>
+                <select wire:model="deposit_to" class="border-2 rounded p-2 w-full"
+                    wire:change="checkNewDepositMethod($event.target.value)">
+                    <option value="">{{ __('Select Deposit Method') }}</option>
+                    <option value="create_new" class="bg-green-500 text-white">+ Create New</option>
                     @foreach ($depositetos as $deposite)
-                        <option value="{{ $deposite->id }}"
-                            {{ old('member_id') == $deposite->id || (isset($invoice) && $invoice->deposit_to == $deposite->id) ? 'selected' : '' }}>
+                        <option value="{{ $deposite->id }}">
                             {{ $deposite->name }}
                         </option>
                     @endforeach
@@ -177,6 +208,36 @@
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
+
+            <!-- Modal for Creating New Deposit Method -->
+            <div x-data="{ showNewDeposit: @entangle('showNewDeposit') }" x-show="showNewDeposit"
+                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                style="display: none;">
+                <!-- Modal Box -->
+                <div class="bg-white p-6 rounded-lg w-1/3 shadow-lg">
+                    <h2 class="text-lg font-bold mb-4">Create New Deposit Method</h2>
+
+                    <!-- Input Field -->
+                    <input type="text" wire:model="new_deposit_method" class="border-2 rounded p-2 w-full mb-2"
+                        placeholder="Enter New Deposit Method">
+                    @error('new_deposit_method')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-end mt-4">
+                        <button type="button" @click="showNewDeposit = false; $wire.set('deposit_to', null)"
+                            class="bg-gray-500 text-white px-3 py-1 rounded mr-2">
+                            Cancel
+                        </button>
+                        <button type="button" wire:click="saveNewDepositMethod"
+                            class="bg-blue-500 text-white px-3 py-1 rounded">
+                            Save Method
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         {{-- <div>
@@ -205,17 +266,44 @@
                             <td class="border p-2">{{ $index + 1 }}</td>
                             <td class="border p-2">
                                 <select wire:model="items.{{ $index }}.product_id"
-                                    class="border-2 rounded p-1 w-full">
+                                    class="border-2 rounded p-1 w-full"
+                                    wire:change="checkNewProduct($event.target.value)">
                                     <option value="">Select Product</option>
+                                    <option value="create_new" class="bg-green-500 text-white">+ Create New</option>
                                     @foreach ($products as $product)
                                         <option value="{{ $product->id }}">{{ $product->name }}</option>
                                     @endforeach
+
                                 </select>
                                 @if ($errors->has("items.$index.product_id"))
                                     <span
                                         class="text-red-500 text-xs">{{ $errors->first("items.$index.product_id") }}</span>
                                 @endif
                             </td>
+
+                            <!-- Modal for Creating New Product -->
+                            <div x-data="{ showNewProduct: @entangle('showNewProduct') }" x-show="showNewProduct"
+                                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                                    <h2 class="text-lg font-bold mb-4">Create New Product</h2>
+                                    <input type="text" wire:model="new_product"
+                                        class="border-2 rounded p-2 w-full mb-3" placeholder="Enter New Product Name">
+                                    @error('new_product')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                    <div class="flex justify-end">
+                                        <button type="button"
+                                            @click="showNewProduct = false; $wire.set('items.{{ $index }}.product_id', null)"
+                                            class="bg-gray-500 text-white px-3 py-1 rounded mr-2">
+                                            Cancel
+                                        </button>
+                                        <button type="button" wire:click="saveNewProduct({{ $index }})"
+                                            class="bg-blue-500 text-white px-3 py-1 rounded">
+                                            Save Product
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                             <td class="border p-2">
                                 <input type="text" wire:model="items.{{ $index }}.description"
                                     placeholder="Enter Description" class="border-2 rounded p-1 w-full">
@@ -231,12 +319,16 @@
                                     class="border-2 rounded p-1 w-full">
                             </td>
                             <td class="border p-2">
-                                <input type="text" wire:model="items.{{ $index }}.amount"
-                                    class="border-2 rounded p-1 w-full" readonly>
+                                <input type="number" wire:model="items.{{ $index }}.amount"
+                                    wire:input="updateTotal({{ $index }})" class="border-2 rounded p-1 w-full"
+                                    min="0">
                             </td>
+
                             <td class="border p-2 text-center">
-                                <button type="button" wire:click="removeItem({{ $index }})"
-                                    class="text-red-500"><i class="ri-delete-bin-2-line"></i></button>
+                                @if ($index > 0)
+                                    <button type="button" wire:click="removeItem({{ $index }})"
+                                        class="text-red-500"><i class="ri-delete-bin-2-line"></i></button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
