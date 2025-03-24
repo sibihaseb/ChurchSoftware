@@ -10,16 +10,18 @@
 
         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
             <div>
-                <p class="fw-semibold fs-18 mb-0">Welcome back, Json Taylor !</p>
+                <p class="fw-semibold fs-18 mb-0">Welcome back,
+                    {{ Auth::user()->name }} !
+                </p>
                 <span class="fs-semibold text-muted">Track your sales activity, leads and deals here.</span>
             </div>
             <div class="btn-list mt-md-0 mt-2">
-                <button type="button" class="btn btn-primary btn-wave">
+                {{-- <button type="button" class="btn btn-primary btn-wave">
                     <i class="ri-filter-3-fill me-2 align-middle d-inline-block"></i>Filters
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-wave">
                     <i class="ri-upload-cloud-line me-2 align-middle d-inline-block"></i>Export
-                </button>
+                </button> --}}
             </div>
         </div>
 
@@ -31,7 +33,7 @@
                 <div class="row">
                     <div class="col-xl-4">
                         <div class="row">
-                            <div class="col-xl-12">
+                            {{-- <div class="col-xl-12">
                                 <div class="card custom-card crm-highlight-card">
                                     <div class="card-body">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -51,104 +53,24 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="col-xl-12">
                             <div class="card custom-card">
-                                <div class="card-header  justify-content-between">
-                                    <div class="card-title">
-                                        Top Deals
-                                    </div>
+                                <div class="card-header justify-content-between">
+                                    <div class="card-title">Top Deals</div>
                                     <div class="dropdown">
-                                        <a aria-label="anchor" href="javascript:void(0);"
-                                            class="btn btn-icon btn-sm btn-light" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="javascript:void(0);">Week</a></li>
-                                            <li><a class="dropdown-item" href="javascript:void(0);">Month</a></li>
-                                            <li><a class="dropdown-item" href="javascript:void(0);">Year</a></li>
-                                        </ul>
+                                        <select class="form-select" id="churchSelect">
+                                            <option selected disabled>Select a Church</option>
+                                            @foreach ($churches as $church)
+                                                <option value="{{ $church->id }}">{{ $church->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <ul class="list-unstyled crm-top-deals mb-0">
-                                        <li>
-                                            <div class="d-flex align-items-top flex-wrap">
-                                                <div class="me-2">
-                                                    <span class="avatar avatar-sm avatar-rounded">
-                                                        <img src="{{ asset('build/assets/images/faces/10.jpg') }}"
-                                                            alt="">
-                                                    </span>
-                                                </div>
-                                                <div class="flex-fill">
-                                                    <p class="fw-semibold mb-0">Michael Jordan</p>
-                                                    <span class="text-muted fs-12">michael.jordan@example.com</span>
-                                                </div>
-                                                <div class="fw-semibold fs-15">$2,893</div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex align-items-top flex-wrap">
-                                                <div class="me-2">
-                                                    <span
-                                                        class="avatar avatar-sm avatar-rounded bg-warning-transparent fw-semibold">
-                                                        EK
-                                                    </span>
-                                                </div>
-                                                <div class="flex-fill">
-                                                    <p class="fw-semibold mb-0">Emigo Kiaren</p>
-                                                    <span class="text-muted fs-12">emigo.kiaren@gmail.com</span>
-                                                </div>
-                                                <div class="fw-semibold fs-15">$4,289</div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex align-items-top flex-wrap">
-                                                <div class="me-2">
-                                                    <span class="avatar avatar-sm avatar-rounded">
-                                                        <img src="{{ asset('build/assets/images/faces/12.jpg') }}"
-                                                            alt="">
-                                                    </span>
-                                                </div>
-                                                <div class="flex-fill">
-                                                    <p class="fw-semibold mb-0">Randy Origoan</p>
-                                                    <span class="text-muted fs-12">randy.origoan@gmail.com</span>
-                                                </div>
-                                                <div class="fw-semibold fs-15">$6,347</div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex align-items-top flex-wrap">
-                                                <div class="me-2">
-                                                    <span
-                                                        class="avatar avatar-sm avatar-rounded bg-success-transparent fw-semibold">
-                                                        GP
-                                                    </span>
-                                                </div>
-                                                <div class="flex-fill">
-                                                    <p class="fw-semibold mb-0">George Pieterson</p>
-                                                    <span class="text-muted fs-12">george.pieterson@gmail.com</span>
-                                                </div>
-                                                <div class="fw-semibold fs-15">$3,894</div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex align-items-top flex-wrap">
-                                                <div class="me-2">
-                                                    <span
-                                                        class="avatar avatar-sm avatar-rounded bg-primary-transparent fw-semibold">
-                                                        KA
-                                                    </span>
-                                                </div>
-                                                <div class="flex-fill">
-                                                    <p class="fw-semibold mb-0">Kiara Advain</p>
-                                                    <span class="text-muted fs-12">kiaraadvain214@gmail.com</span>
-                                                </div>
-                                                <div class="fw-semibold fs-15">$2,679</div>
-                                            </div>
-                                        </li>
+                                    <ul class="list-unstyled crm-top-deals mb-0" id="donorsList">
+                                        <!-- Top Donors will appear here -->
                                     </ul>
                                 </div>
                             </div>
@@ -883,6 +805,7 @@
 
     <!-- CHARTJS CHART JS -->
     <script src="{{ asset('build/assets/libs/chart.js/chart.min.js') }}"></script>
+    <script src="{{ asset('assets/js/anaylitics.js') }}"></script>
 
     <!-- CRM-Dashboard -->
     @vite('resources/assets/js/crm-dashboard.js')

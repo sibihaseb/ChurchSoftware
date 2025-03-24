@@ -635,7 +635,7 @@
                 <!-- End::header-link|dropdown-toggle -->
                 <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
                     aria-labelledby="mainHeaderProfile" id="mainHeaderProfileul">
-                    <li><a class="dropdown-item d-flex" href="{{ url('userprofile') }}"><i
+                    <li><a class="dropdown-item d-flex" href="{{ url('admin/userprofile') }}"><i
                                 class="ti ti-user-circle fs-18 me-2 op-7"></i>{{ __('Profile') }}</a></li>
                     {{-- <li><a class="dropdown-item d-flex" href="{{ url('mail') }}"><i
                                 class="ti ti-inbox fs-18 me-2 op-7"></i>Inbox <span

@@ -28,12 +28,16 @@ use App\Http\Controllers\Dashboard\DashboardLanguageController;
 |
 */
 
+
 Route::get('/', [IndexController::class, 'index']);
-Route::get('/landing', [IndexController::class, 'landing']);
 Route::prefix('admin')->middleware(['auth'])->group(function () {
-    Route::get('/home', function () {
-        return view('pages.welcome');
-    });
+
+    Route::get('/home', [IndexController::class, 'home']);
+    Route::get('/fetch-top-donors', [IndexController::class, 'topDonors'])->name('top-donors');
+
+    Route::get('/userprofile', [IndexController::class, 'profile']);
+    Route::post('/profileupdate', [IndexController::class, 'UpdateProfile']);
+
     Route::group(['middleware' => 'permission:Role Management'], function () {
         Route::get('roletable', [RolePermissionController::class, 'roletable'])->name('roletable');
         Route::get('createrole', [RolePermissionController::class, 'createrole'])->name('createrole');

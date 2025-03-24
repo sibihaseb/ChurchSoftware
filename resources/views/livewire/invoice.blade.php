@@ -84,7 +84,7 @@
                         @enderror
                     </div>
                     <!-- Church ID -->
-                    <div>
+                    {{-- <div>
                         <label class="block font-bold">Church</label>
                         <select wire:model="church_id" class="border-2 rounded p-2 w-full">
                             <option value="">{{ __('Select Church') }}</option>
@@ -97,7 +97,7 @@
                         @error('church_id')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </div> --}}
                 </div>
 
                 <!-- Div 2: Visible when checkbox is unchecked -->

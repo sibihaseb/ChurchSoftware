@@ -127,6 +127,8 @@ class Invoice extends Component
     {
         $validatedData = $this->validate();
         $member_id = null;
+        $currentApp = TemporaryAppCode::where('user_id', auth()->user()->id)
+            ->first();
         if ($validatedData['member_type_id']) {
             $memberdata = Member::create([
                 'member_type_id' => $validatedData['member_type_id'],
@@ -135,7 +137,7 @@ class Invoice extends Component
                 'address' => $validatedData['address'],
                 'email' => $validatedData['memberemail'],
                 'phone' => $validatedData['phone'],
-                'church_id' => $validatedData['church_id'],
+                'church_id' => $currentApp->church_id,
             ]);
             $member_id = $memberdata->id;
         } else {
@@ -150,6 +152,7 @@ class Invoice extends Component
             'tags' => $validatedData['tags'],
             'payment_method' => $validatedData['payment_method'],
             'deposit_to' => $validatedData['deposit_to'],
+            'church_id' => $currentApp->church_id,
         ]);
 
         if ($invoiceCreated) {
