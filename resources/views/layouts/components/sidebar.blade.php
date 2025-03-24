@@ -47,6 +47,15 @@
                     </a>
                 </li>
                 <!-- End::slide -->
+                <!-- Start::slide -->
+                <li class="slide">
+                    <a href="{{ route('invoice.index') }}" class="side-menu__item">
+                        <i class="bx bx-donate-heart side-menu__icon"></i>
+                        <span class="side-menu__label">{{ __('Donors') }}<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                    </a>
+                </li>
+                <!-- End::slide -->
                 <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-fingerprint side-menu__icon"></i>
@@ -176,16 +185,6 @@
                 </li>
 
             </ul>
-            </li>
-            <!-- End::slide -->
-
-            <!-- Start::slide -->
-            <li class="slide">
-                <a href="{{ route('invoice.index') }}" class="side-menu__item">
-                    <i class="bx bx-donate-heart side-menu__icon"></i>
-                    <span class="side-menu__label">{{ __('Donor') }}<span
-                            class="badge bg-warning-transparent ms-2"></span></span>
-                </a>
             </li>
             <!-- End::slide -->
 
