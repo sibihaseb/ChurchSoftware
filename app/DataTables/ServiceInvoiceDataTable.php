@@ -49,6 +49,12 @@ class ServiceInvoiceDataTable extends DataTable
                 }
                 return $text;
             })
+            ->addColumn('name', function ($data) {
+                $text = null;
+                $member = Member::find($data->member_id);
+                $text = $member->last_name . " " . $member->first_name;
+                return $text;
+            })
             ->addColumn('payment_method', function ($data) {
                 $paymentmethod = PaymentMethod::findOrFail($data->payment_method);
                 return $paymentmethod->name;
@@ -95,6 +101,7 @@ class ServiceInvoiceDataTable extends DataTable
     {
         return [
             Column::make('id'),
+            Column::make('name'),
             Column::make('email'),
             Column::make('sales_receipt_date'),
             Column::make('amount'),

@@ -319,9 +319,12 @@
                                     class="border-2 rounded p-1 w-full">
                             </td>
                             <td class="border p-2">
-                                <input type="number" wire:model="items.{{ $index }}.amount"
-                                    wire:input="updateTotal({{ $index }})" class="border-2 rounded p-1 w-full"
-                                    min="0">
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">$</span>
+                                    <input type="number" wire:model="items.{{ $index }}.amount"
+                                        wire:input="updateTotal({{ $index }})"
+                                        class="border-2 rounded p-1 w-full pl-6" min="0">
+                                </div>
                             </td>
 
                             <td class="border p-2 text-center">
@@ -337,7 +340,9 @@
                 <tfoot>
                     <tr class="bg-gray-100">
                         <td colspan="5" class="border p-2 text-right font-semibold">Total Amount:</td>
-                        <td class="border p-2">{{ $this->totalAmount }}</td>
+                        <td class="border p-2">
+                            <span class="font-semibold">$</span> {{ $this->totalAmount }}
+                        </td>
                         <td class="border p-2"></td>
                     </tr>
                 </tfoot>
