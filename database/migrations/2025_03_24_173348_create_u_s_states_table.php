@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('churches', function (Blueprint $table) {
+        Schema::create('u_s_states', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('logo')->nullable();
-            $table->string('country_id')->nullable();
-            $table->string('us_status_id')->nullable();
-            $table->string('address')->nullable();
+            $table->string('code', 2)->unique();
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('churches');
+        Schema::dropIfExists('u_s_states');
     }
 };

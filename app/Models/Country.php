@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Church extends Model
+class Country extends Model
 {
     use HasFactory;
+    protected $table = 'countries'; 
     protected $fillable = [
-        'name',
-        'logo',
-        'address',
-        'us_status_id',
-        'country_id',
+        'code',
+        'title',
     ];
 }

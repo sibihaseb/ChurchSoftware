@@ -87,14 +87,46 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="control-label col-md-4 mt-3"
+                                        id="plan_period_label">{{ __('Countries') }}<span
+                                            style="color: red;">*</span></label>
+                                    <select name="country_id[]"
+                                        class="app_code_select @error('app_code') is-invalid @enderror"
+                                        multiple="multiple" id="country_id">
+                                        <option disabled>{{ __('Select') }}</option>
+                                        @foreach ($countries as $data)
+                                        <option value="{!! $data->id !!}">{{ $data->title }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="control-label col-md-4 mt-3"
+                                        id="plan_period_label">{{ __('States') }}<span
+                                            style="color: red;">*</span></label>
+                                    <select name="us_status_id[]"
+                                        class="app_code_select @error('app_code') is-invalid @enderror"
+                                        multiple="multiple" id="us_status_id">
+                                        <option disabled>{{ __('Select') }}</option>
+                                        @foreach ($states as $data)
+                                        <option value="{!! $data->id !!}">{{ $data->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                               
+                            </div>
+                        </div>
                         <div class="col-lg-12 mt-8">
                             <div class="row">
-                               
                                 <div class="col-lg-12 mt-4">
                                     <label id="labelpass1" class="control-label col-md-4">
-                                        {{ __('Location') }} <span style="color: red;">*</span>
+                                        {{ __('Address') }} <span style="color: red;">*</span>
                                     </label>
-                                    <textarea name="location" id="location" class="form-control" placeholder="Location" rows="3"></textarea>
+                                    <textarea name="address" id="address" class="form-control" placeholder="address" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +164,14 @@
         var select2type = $('.app_code_select').select2({
             dropdownParent: $("#formModal"),
             placeholder: "Select",
+            tags: false,
+            maximumSelectionLength: 1,
         });
+        // $(".rating-select2-multiple").select2({
+        //     tags: false,
+        //     placeholder: "Select",
+        //     maximumSelectionLength: 1,
+        // });
         $(document).ready(function() {
 
             function removeColorInlineCSS($element) {
@@ -147,7 +186,10 @@
                 $('#action').val('Add');
                 $('#form_result').html('');
                 $('#name').val("");
-                $('#location').val("");
+                $('#address').val("");
+                $('#us_status_id').val("");
+                $('#country_id').val("");
+                $('#us_status_id').val("");
                 $('.select2-selection__choice').remove();
                 $('#oldimage').val("");
                 $('#logo').val("");
@@ -265,9 +307,19 @@
                     dataType: "json",
                     success: function(data) {
                         $('#name').val(data.name);
-                        $('#location').val(data.location);
+                        $('#address').val(data.address);
                         $('#oldimage').val(data.logo);
                         $('#hidden_id').val(id);
+                        $('#country_id').val(data.country_id);
+                        if (data.country_id) {
+                            var typearry = data.country_id.split(',');
+                        }
+                        select2type.val(typearry).trigger("change");
+                        $('#us_status_id').val(data.us_status_id);
+                        if (data.us_status_id) {
+                            var typearry1 = data.us_status_id.split(',');
+                        }
+                        select2type.val(typearry1).trigger("change");
                         $('.modal-title').text('{{ __('Update Record') }}');
                         $('#action_button').val('{{ __('Update') }}');
                         $('#action').val('Edit');

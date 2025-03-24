@@ -6,6 +6,8 @@ use App\DataTables\ChurchDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChurchRequest;
 use App\Models\Church;
+use App\Models\Country;
+use App\Models\USStates;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +17,9 @@ class ChurchController extends Controller
 {
     public function index(ChurchDataTable $dataTable)
     {
-        return $dataTable->render(' dashboard.church.index');
+        $countries = Country::get();
+        $states = USStates::get();
+        return $dataTable->render('dashboard.church.index', compact('countries', 'states'));
     }
     /**
      * Store a newly created resource in storage.
@@ -32,6 +36,16 @@ class ChurchController extends Controller
             // Store in public disk
             $imagepath = $request->file('logo')->storeAs('church', $filename, 'public');
             $validatedData['logo'] = $imagepath;
+        }
+        if (isset($validatedData['country_id'])) {
+            $validatedData['country_id'] = implode(',', $validatedData['country_id']);
+        } else {
+            $validatedData['country_id'] = null;
+        }
+        if (isset($validatedData['us_status_id'])) {
+            $validatedData['us_status_id'] = implode(',', $validatedData['us_status_id']);
+        } else {
+            $validatedData['us_status_id'] = null;
         }
 
         $data = Church::create($validatedData);
@@ -73,6 +87,16 @@ class ChurchController extends Controller
             $validatedData['logo'] = $imagepath;
         } else {
             $validatedData['logo'] = $validatedData['oldimage'];
+        }
+        if (isset($validatedData['country_id'])) {
+            $validatedData['country_id'] = implode(',', $validatedData['country_id']);
+        } else {
+            $validatedData['country_id'] = null;
+        }
+        if (isset($validatedData['us_status_id'])) {
+            $validatedData['us_status_id'] = implode(',', $validatedData['us_status_id']);
+        } else {
+            $validatedData['us_status_id'] = null;
         }
 
         DB::transaction(function () use ($validatedData, $data, $request) {

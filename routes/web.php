@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\CountryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\Dashboard\TagController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Dashboard\ServiceInvoiceController;
 use App\Http\Controllers\Dashboard\DepositeAccountController;
 use App\Http\Controllers\Dashboard\FamilyMemberTypeController;
 use App\Http\Controllers\Dashboard\DashboardLanguageController;
+use App\Http\Controllers\Dashboard\USStatesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,4 +78,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     //payments
     Route::get('/members/{member}/payment/{amount}', [BillingController::class, 'showPaymentForm'])->name('show.payment');
     Route::post('/members/{member}/pay', [BillingController::class, 'processPayment']);
+
+     //country table
+     Route::get('country', [CountryController::class, 'index']);
+     //country table
+     Route::get('us-states', [USStatesController::class, 'index']);
 });

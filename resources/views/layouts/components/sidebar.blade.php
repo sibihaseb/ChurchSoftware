@@ -98,9 +98,11 @@
                                 class="side-menu__item {{ request()->is('dashboard/languages*', 'dashboard/languages/create') ? 'active' : '' }}">{{ __('Dashboard Languages') }}</a>
                         </li>
                         <li class="slide">
-
+                            <a href="{{ url('admin/country') }}" class="side-menu__item {{ request()->is('country*') ? 'active' : '' }}">{{ __('Countries') }}</a>
                         </li>
-
+                        <li class="slide">
+                            <a href="{{ url('admin/us-states') }}" class="side-menu__item {{ request()->is('country*') ? 'active' : '' }}">{{ __('US States') }}</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="slide has-sub">
