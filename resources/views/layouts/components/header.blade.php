@@ -56,7 +56,7 @@
                         $currentAppData = DB::table('churches')->where('id', $currentApp->church_id)->first();
                     }
                 @endphp
-                <div class="mt-2" style="width: 200px">
+                <div class="mt-2" style="width: 400px">
                     @if (auth()->user()->account_type === 'A')
                         @if (is_array($appCodeArray) && count($appCodeArray) > 1)
                             <select class="form-control" data-trigger name="appChange" id="appChange">

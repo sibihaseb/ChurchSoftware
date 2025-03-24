@@ -13,7 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
 
-<body class="bg-gray-100 p-6">
+<body class="bg-gray-300 p-6">
     <livewire:invoice :invoiceEditId="$id"></livewire:invoice>
     <script>
         document.addEventListener('livewire:init', function() {

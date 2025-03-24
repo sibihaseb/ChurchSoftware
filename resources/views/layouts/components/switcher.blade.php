@@ -1,6 +1,6 @@
 
             <div class="offcanvas offcanvas-end" tabindex="-1" id="switcher-canvas" aria-labelledby="offcanvasRightLabel">
-                
+
                 <div class="offcanvas-header border-bottom">
                     <h5 class="offcanvas-title text-default" id="offcanvasRightLabel">Switcher</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="">
+                            {{-- <div class="">
                                 <p class="switcher-style-head">Directions:</p>
                                 <div class="row switcher-style gx-0">
                                     <div class="col-4">
@@ -59,7 +59,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="">
                                 <p class="switcher-style-head">Navigation Styles:</p>
                                 <div class="row switcher-style gx-0">
@@ -453,8 +453,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-grid canvas-footer"> 
-                            <a href="javascript:void(0);" id="reset-all" class="btn btn-danger m-1">Reset</a> 
+                        <div class="d-grid canvas-footer">
+                            <a href="javascript:void(0);" id="reset-all" class="btn btn-danger m-1">Reset</a>
                         </div>
                     </div>
                 </div>

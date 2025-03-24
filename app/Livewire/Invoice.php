@@ -11,6 +11,7 @@ use App\Models\DepositeAccount;
 use App\Models\MemberType;
 use App\Models\ServiceInvoice;
 use App\Models\ServiceInvoiceItem;
+use App\Models\TemporaryAppCode;
 use Illuminate\Validation\Rule;
 
 class Invoice extends Component
@@ -32,15 +33,28 @@ class Invoice extends Component
     public $deposit_to;
     public $items = [];
     public $edit_mode = false;
+    public $totalAmount;
+    public $new_payment_method;
+    public $showNewPayment = false;
+    public $paymentmethods;
+    public $depositetos;
+    public $new_deposit_method;
+    public $showNewDeposit = false;
+    public $new_product;
+    public $showNewProduct = false;
+    public $products;
 
     public function mount($invoiceEditId = null)
     {
         $this->invoiceEditId = $invoiceEditId;
+        $this->paymentmethods = PaymentMethod::all();
+        $this->depositetos = DepositeAccount::all();
+        $this->products = Product::all();
+
         if ($invoiceEditId) {
             $this->edit_mode = true;
             $invoiceData = ServiceInvoice::findOrFail($invoiceEditId);
-            $itemsInvoice = $invoiceData->items()->get()->toArray();
-            $this->items = $itemsInvoice;
+            $this->items = $invoiceData->items()->get()->toArray();
             $this->member_id = $invoiceData->member_id;
             $this->email = $invoiceData->email;
             $this->billing_address = $invoiceData->billing_address;
@@ -48,7 +62,9 @@ class Invoice extends Component
             $this->tags = $invoiceData->tags;
             $this->payment_method = $invoiceData->payment_method;
             $this->deposit_to = $invoiceData->deposit_to;
+            $this->totalAmount = array_sum(array_column($this->items, 'amount'));
         } else {
+
             $this->items = [
                 ['product_id' => '', 'description' => '', 'qty' => 1, 'rate' => 0, 'amount' => 0]
             ];
@@ -97,7 +113,14 @@ class Invoice extends Component
     {
         $qty = $this->items[$index]['qty'] ?? 1;
         $rate = $this->items[$index]['rate'] ?? 0;
-        $this->items[$index]['amount'] = $qty * $rate;
+        // Automatically calculate amount if both qty and rate are present
+        // Validate inputs: Ensure numeric values greater than or equal to 0
+        if (is_numeric($qty) && $qty >= 0 && is_numeric($rate) && $rate >= 0) {
+            $this->items[$index]['amount'] = $qty * $rate;
+        } else {
+            $this->items[$index]['amount'] = 0; // Reset amount if invalid input
+        }
+        $this->updateTotal();
     }
 
     public function save($action)
@@ -166,12 +189,33 @@ class Invoice extends Component
     public function render()
     {
         $members = Member::all();
-        $paymentmethods = PaymentMethod::all();
-        $depositetos = DepositeAccount::all();
-        $products = Product::all();
+        // $paymentmethods = PaymentMethod::all();
+        // $depositetos = DepositeAccount::all();
+        // $products = Product::all();
         $churchs = Church::all();
         $allmembertype = MemberType::all();
-        return view('livewire.invoice', compact('members', 'paymentmethods', 'depositetos', 'products', 'churchs', 'allmembertype'));
+        return view('livewire.invoice', compact('members', 'churchs', 'allmembertype'));
+    }
+
+    public function updateTotal($index = null)
+    {
+        // If the amount is manually updated
+        if (!is_null($index)) {
+            $qty = $this->items[$index]['qty'] ?? 0;
+            $rate = $this->items[$index]['rate'] ?? 0;
+            $amount = $this->items[$index]['amount'] ?? 0;
+
+            // Check if the manually entered amount differs from the calculated value
+            if ($qty == "") {
+                $this->items[$index]['amount'] = $amount;
+            } elseif ($rate == "") {
+                $this->items[$index]['amount'] = $amount;
+            } elseif ($qty * $rate !== $amount) {
+                $this->items[$index]['amount'] = $amount;
+            }
+        }
+
+        $this->totalAmount = array_sum(array_column($this->items, 'amount'));
     }
 
     public function messages()
@@ -200,5 +244,75 @@ class Invoice extends Component
             'items.*.amount.numeric' => 'The amount must be a valid number.',
             'items.*.amount.min' => 'The amount cannot be negative.',
         ];
+    }
+
+    public function checkNewPaymentMethod($value)
+    {
+        if ($value === 'create_new') {
+            $this->showNewPayment = true;
+        } else {
+            $this->showNewPayment = false;
+        }
+    }
+
+    public function checkNewDepositMethod($value)
+    {
+        $this->showNewDeposit = ($value === 'create_new');
+    }
+
+    public function saveNewPaymentMethod()
+    {
+        $this->validate([
+            'new_payment_method' => 'required|string',
+        ]);
+        $currentApp = TemporaryAppCode::where('user_id', auth()->user()->id)
+            ->first();
+        $newMethod = PaymentMethod::create(['name' => $this->new_payment_method, 'church_id' => $currentApp->church_id]);
+        $this->paymentmethods = PaymentMethod::all(); // Refresh the list
+        $this->payment_method = $newMethod->id;
+        $this->new_payment_method = '';
+        $this->showNewPayment = false;
+    }
+
+    public function saveNewDepositMethod()
+    {
+        $this->validate([
+            'new_deposit_method' => 'required|string',
+        ]);
+        $currentApp = TemporaryAppCode::where('user_id', auth()->user()->id)
+            ->first();
+        // Create new deposit method
+        $newMethod = DepositeAccount::create(['name' => $this->new_deposit_method, 'church_id' => $currentApp->church_id]);
+
+        // Refresh the list and select the new method
+        $this->depositetos = DepositeAccount::all();
+        $this->deposit_to = $newMethod->id;
+
+        // Reset input field and modal visibility
+        $this->new_deposit_method = '';
+        $this->showNewDeposit = false;
+    }
+
+    public function checkNewProduct($value)
+    {
+        if ($value === 'create_new') {
+            $this->showNewProduct = true;
+        } else {
+            $this->showNewProduct = false;
+        }
+    }
+
+    public function saveNewProduct($index)
+    {
+        $this->validate([
+            'new_product' => 'required|string|unique:products,name',
+        ]);
+        $currentApp = TemporaryAppCode::where('user_id', auth()->user()->id)
+            ->first();
+        $newProduct = Product::create(['name' => $this->new_product, 'church_id' => $currentApp->church_id]);
+        $this->products = Product::all(); // Refresh the product list
+        $this->items[$index]['product_id'] = $newProduct->id; // Set the newly created product
+        $this->new_product = '';
+        $this->showNewProduct = false;
     }
 }
