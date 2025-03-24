@@ -2,7 +2,7 @@
 
     <!-- Start::main-sidebar-header -->
     <div class="main-sidebar-header">
-        <a href="{{ url('index') }}" class="header-logo text-white" style="font-size: 1rem">
+        <a href="{{ url('/') }}" class="header-logo text-white" style="font-size: 1rem">
             {{-- <img src="{{ asset('images/chruchlogo.png') }}" alt="logo" class="desktop-logo">
             <img src="{{ asset('images/chruchlogo.png') }}" alt="logo" class="toggle-logo">
             <img src="{{ asset('images/chruchlogo.png') }}" alt="logo" class="desktop-dark">
@@ -40,9 +40,9 @@
                 </li> --}}
                 <!-- Start::slide -->
                 <li class="slide">
-                    <a href="{{ url('home') }}" class="side-menu__item">
+                    <a href="{{ url('admin/home') }}" class="side-menu__item">
                         <i class="bx bx-layer side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('Analytics') }}<span
+                        <span class="side-menu__label">{{ __('Dashboard') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                     </a>
                 </li>
