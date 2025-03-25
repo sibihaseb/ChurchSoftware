@@ -2,17 +2,18 @@
 
 namespace App\DataTables;
 
+use App\Models\User;
 use App\Models\Member;
 use App\Models\PaymentMethod;
 use App\Models\ServiceInvoice;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class ServiceInvoiceDataTable extends DataTable
 {
@@ -45,14 +46,14 @@ class ServiceInvoiceDataTable extends DataTable
                 if ($data->email) {
                     $text = $data->email;
                 } else {
-                    $text = Member::find($data->member_id)->email;
+                    $text = User::find($data->user_id)->email;
                 }
                 return $text;
             })
             ->addColumn('name', function ($data) {
                 $text = null;
-                $member = Member::find($data->member_id);
-                $text = $member->last_name . " " . $member->first_name;
+                $member = User::find($data->user_id);
+                $text = $member->name;
                 return $text;
             })
             ->addColumn('payment_method', function ($data) {

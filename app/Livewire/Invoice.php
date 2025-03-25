@@ -12,6 +12,8 @@ use App\Models\MemberType;
 use App\Models\ServiceInvoice;
 use App\Models\ServiceInvoiceItem;
 use App\Models\TemporaryAppCode;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class Invoice extends Component
@@ -55,7 +57,7 @@ class Invoice extends Component
             $this->edit_mode = true;
             $invoiceData = ServiceInvoice::findOrFail($invoiceEditId);
             $this->items = $invoiceData->items()->get()->toArray();
-            $this->member_id = $invoiceData->member_id;
+            $this->member_id = $invoiceData->user_id;
             $this->email = $invoiceData->email;
             $this->billing_address = $invoiceData->billing_address;
             $this->sales_receipt_date = $invoiceData->sales_receipt_date;
@@ -74,12 +76,17 @@ class Invoice extends Component
     public function rules()
     {
         $rules = [
-            'member_id' => ['nullable', Rule::exists('members', 'id'), 'required_without:member_type_id'],
+            // 'member_id' => ['nullable', Rule::exists('members', 'id'), 'required_without:member_type_id'],
+            'member_id' => ['nullable', Rule::exists('users', 'id')],
             'member_type_id' => 'nullable|integer',
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'address' => 'nullable|string',
-            'memberemail' => 'nullable|email',
+            'memberemail' => [
+                'nullable',
+                'email',
+                Rule::unique('users', 'email')
+            ],
             'phone' => 'nullable|string|min:10',
             'church_id' => 'nullable|integer',
             'email' => 'nullable|email',
@@ -130,10 +137,11 @@ class Invoice extends Component
         $currentApp = TemporaryAppCode::where('user_id', auth()->user()->id)
             ->first();
         if ($validatedData['member_type_id']) {
-            $memberdata = Member::create([
-                'member_type_id' => $validatedData['member_type_id'],
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
+            $password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
+            $memberdata = User::create([
+                'account_type' => "d",
+                'name' => $validatedData['first_name'] . " " . $validatedData['last_name'],
+                'password' => Hash::make($password),
                 'address' => $validatedData['address'],
                 'email' => $validatedData['memberemail'],
                 'phone' => $validatedData['phone'],
@@ -143,19 +151,28 @@ class Invoice extends Component
         } else {
             $member_id = $validatedData['member_id'];
         }
+        $invoiceCreated = ServiceInvoice::updateOrCreate(
+            ['id' => $this->invoiceEditId], // Check if an invoice exists with this ID
+            [
+                'user_id' => $member_id,
+                'email' => $validatedData['email'],
+                'billing_address' => $validatedData['billing_address'],
+                'sales_receipt_date' => $validatedData['sales_receipt_date'],
+                'tags' => $validatedData['tags'],
+                'payment_method' => $validatedData['payment_method'],
+                'deposit_to' => $validatedData['deposit_to'],
+                'church_id' => $currentApp->church_id,
+            ]
+        );
 
-        $invoiceCreated = ServiceInvoice::create([
-            'member_id' => $member_id,
-            'email' => $validatedData['email'],
-            'billing_address' => $validatedData['billing_address'],
-            'sales_receipt_date' => $validatedData['sales_receipt_date'],
-            'tags' => $validatedData['tags'],
-            'payment_method' => $validatedData['payment_method'],
-            'deposit_to' => $validatedData['deposit_to'],
-            'church_id' => $currentApp->church_id,
-        ]);
-
+        // If the invoice is successfully created or updated
         if ($invoiceCreated) {
+            // First, delete existing items if updating
+            if ($this->invoiceEditId) {
+                ServiceInvoiceItem::where('service_invoice_id', $invoiceCreated->id)->delete();
+            }
+
+            // Add new items
             foreach ($validatedData['items'] as $item) {
                 ServiceInvoiceItem::create([
                     'service_invoice_id' => $invoiceCreated->id,
@@ -191,10 +208,12 @@ class Invoice extends Component
 
     public function render()
     {
-        $members = Member::all();
-        // $paymentmethods = PaymentMethod::all();
-        // $depositetos = DepositeAccount::all();
-        // $products = Product::all();
+        $currentApp = TemporaryAppCode::where('user_id', auth()->user()->id)
+            ->first();
+        $members = User::where('account_type', 'd')
+            ->whereRaw("FIND_IN_SET(?, church_id)", [$currentApp->church_id])
+            ->get();
+
         $churchs = Church::all();
         $allmembertype = MemberType::all();
         return view('livewire.invoice', compact('members', 'churchs', 'allmembertype'));

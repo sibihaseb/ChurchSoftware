@@ -10,7 +10,7 @@ class ServiceInvoice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'member_id',
+        'user_id',
         'email',
         'billing_address',
         'sales_receipt_date',
@@ -25,8 +25,8 @@ class ServiceInvoice extends Model
         return $this->hasMany(ServiceInvoiceItem::class);
     }
 
-    public function member()
+    public function user()
     {
-        return $this->belongsTo(Member::class, 'id');
+        return $this->belongsTo(User::class, 'id');
     }
 }

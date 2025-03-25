@@ -66,7 +66,7 @@
                     </div>
                     <!-- Email -->
                     <div>
-                        <label class="block font-bold">Email</label>
+                        <label class="block font-bold">Email User</label>
                         <input type="email" wire:model="memberemail" class="border-2 rounded p-2 w-full"
                             placeholder="Enter Email">
                         @error('memberemail')
@@ -109,7 +109,7 @@
                             <option value="">{{ __('Select Donor') }}</option>
                             @foreach ($members as $member)
                                 <option value="{{ $member->id }}">
-                                    {{ $member->first_name . ' ' . $member->last_name }}
+                                    {{ $member->name }}
                                 </option>
                             @endforeach
                         </select>

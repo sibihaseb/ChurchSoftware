@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\User;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,7 +11,7 @@ class BillingController extends Controller
 {
     public function showPaymentForm($memberId, $amount)
     {
-        $member = Member::findOrFail($memberId);
+        $member = User::findOrFail($memberId);
         return view('dashboard.payment', [
             'member' => $member,
             'stripeKey' => env('STRIPE_KEY'),
@@ -20,7 +21,7 @@ class BillingController extends Controller
 
     public function processPayment(Request $request, $memberId)
     {
-        $member = Member::findOrFail($memberId);
+        $member = User::findOrFail($memberId);
 
         $paymentMethod = $request->input('payment_method');
         $amount = $request->input('amount') * 100; // Convert dollars to cents
