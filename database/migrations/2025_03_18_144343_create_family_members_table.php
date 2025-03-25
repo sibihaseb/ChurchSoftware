@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('family_members', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('member_type_id');
-            $table->foreign('member_type_id')->references('id')->on('member_types');
             $table->unsignedBigInteger('family_type_id');
             $table->foreign('family_type_id')->references('id')->on('family_member_types');
             $table->unsignedBigInteger('parent_id');
-            $table->foreign('parent_id')->references('id')->on('members');
+            $table->foreign('parent_id')->references('id')->on('users');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('address')->nullable();
