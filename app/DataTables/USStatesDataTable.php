@@ -2,9 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Models\Church;
+use App\Models\USState;
+use App\Models\USStates;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ChurchDataTable extends DataTable
+class USStatesDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,33 +22,14 @@ class ChurchDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return datatables()
-            ->eloquent($query)
-            ->addColumn('action', function ($data) {
-                $button = null;
-                // if (auth()->user()->hasPermissionTo('Edit Content')) {
-                    $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
-                // }
-                // if (auth()->user()->hasPermissionTo('Delete Content')) {
-                    $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
-                // }
-                return $button;
-            })
-            ->addColumn('logo', function ($data) {
-                if ($data->logo) {
-                    $url = asset('storage/' . $data->logo); // Correct URL for public storage
-                } else {
-                    $url = asset('images/actor/dummy.png');
-                }
-                return '<img src="' . $url . '" border="0" width="40" class="img-rounded" align="center" />';
-            })
-            ->escapeColumns([]);
+        return (new EloquentDataTable($query))
+            ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Church $model): QueryBuilder
+    public function query(USStates $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -59,11 +40,11 @@ class ChurchDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('church-table')
+                    ->setTableId('usstates-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -82,13 +63,7 @@ class ChurchDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
-            Column::make('logo'),
-            Column::make('address'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+            Column::make('code')
         ];
     }
 
@@ -97,6 +72,6 @@ class ChurchDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Church_' . date('YmdHis');
+        return 'USStates_' . date('YmdHis');
     }
 }

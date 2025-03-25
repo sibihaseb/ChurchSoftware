@@ -23,9 +23,11 @@ class ChurchRequest extends FormRequest
     {
         $rules = [
             'name'    =>  'required|string',
-            'location'    =>  'nullable|string',
+            'address'    =>  'nullable|string',
             'logo' => File::image(),
             'oldimage' => 'nullable',
+            'us_status_id'      => 'nullable',
+            'country_id'      => 'nullable',
         ];
 
         return $rules;
