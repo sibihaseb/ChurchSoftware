@@ -26,11 +26,12 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
             'role' => 'Superadmin',
             'account_type' => 'S',
+            'status' => 1,
         ]);
 
         // Retrieve or create the Superadmin role
         $roleSuperadmin = Role::firstOrCreate(['name' => 'Superadmin']);
-
+        $roleDoner= Role::firstOrCreate(['name' => 'Doner']);
         // Define required permissions
         $permissions = ['User Management', 'Role Management'];
 

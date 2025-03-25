@@ -17,7 +17,9 @@ use App\Http\Controllers\Dashboard\ServiceInvoiceController;
 use App\Http\Controllers\Dashboard\DepositeAccountController;
 use App\Http\Controllers\Dashboard\FamilyMemberTypeController;
 use App\Http\Controllers\Dashboard\DashboardLanguageController;
+use App\Http\Controllers\Dashboard\MemberController;
 use App\Http\Controllers\Dashboard\USStatesController;
+use App\Models\Member;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,4 +89,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
      Route::get('country', [CountryController::class, 'index']);
      //country table
      Route::get('us-states', [USStatesController::class, 'index']);
+    //Doners
+     Route::resource('doners', MemberController::class);
 });

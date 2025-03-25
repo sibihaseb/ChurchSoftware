@@ -3,6 +3,8 @@
 namespace App\DataTables;
 
 use App\Models\Member;
+use App\Models\TemporaryAppCode;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -21,17 +23,33 @@ class MemberDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', 'member.action')
-            ->setRowId('id');
+        return datatables()
+            ->eloquent($query)
+            ->addColumn('action', function ($data) {
+                $button = null;
+                // if (auth()->user()->hasPermissionTo('Edit Content')) {
+                $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
+                // }
+                // if (auth()->user()->hasPermissionTo('Edit Content')) {
+                $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
+                // }
+                return $button;
+            })
+            ->addColumn('checkbox', function ($data) {
+                return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
+            })
+
+            ->escapeColumns([]);
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Member $model): QueryBuilder
+    public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
+        $query = $model::where('church_id', $currentAppCode)->select();
+        return $this->applyScopes($query);
     }
 
     /**
@@ -40,20 +58,41 @@ class MemberDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('member-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                      
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('member-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->parameters([
+                'drawCallback' => 'function() {
+                    var table = this.api(); // Store the DataTable API instance
+                    let checkedCount = 0;
+                    $(".row-select").each(function() {
+                        // Check if the checkbox should be checked based on selectedIds
+                        if (selectedIds.has($(this).val())) {
+                        console.log($(this).val())
+                            $(this).prop("checked", true);
+                            checkedCount++;
+                        } else {
+                            $(this).prop("checked", false); // Optionally reset unchecked
+                        }
+                    });
+
+                    if ($(".row-select").length === checkedCount) {
+                        $("#checkall").prop("checked", true);
+                    } else {
+                        $("#checkall").prop("checked", false);
+                    }
+                }',
+            ])
+            //->dom('Bfrtip')
+            ->orderBy(1, 'desc')
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -62,15 +101,22 @@ class MemberDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+            Column::computed('checkbox')
+                ->title('<input type="checkbox" id="checkall">')  // "Select All" checkbox in the header
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('name'),
+            Column::make('email'),
+            Column::make('phone'),
+            Column::make('status'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
