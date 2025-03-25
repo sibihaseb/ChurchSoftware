@@ -20,10 +20,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('phone')->nullable();
-            $table->string('country')->nullable();
+            $table->string('country_id')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
-            $table->string('state')->nullable();
+            $table->string('state_id')->nullable();
+            $table->boolean('status')->default(false);
             $table->string('postal_code')->nullable();
             $table->dateTime('check_in')->nullable();
             $table->dateTime('check_out')->nullable();

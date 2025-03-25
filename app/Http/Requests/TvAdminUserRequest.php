@@ -27,6 +27,7 @@ class TvAdminUserRequest extends FormRequest
             'account_type'  => 'required',
             'church_id'      => 'nullable',
             'role'          => 'required',
+            'status'          => 'required',
         ];
 
         if ($this->route()->getName() === 'adminuser.update') {

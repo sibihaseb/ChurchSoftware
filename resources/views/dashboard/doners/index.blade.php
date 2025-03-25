@@ -15,7 +15,7 @@
         <nav class="py-4">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">{{ __('Home') }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('Admin User') }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ __('Doners') }}</li>
             </ol>
         </nav>
         <div class="row">
@@ -33,12 +33,12 @@
                     @endif
                     <div class="card-header justify-content-between">
                         <div class="card-title">
-                            {{ __('Admin User') }}
+                            {{ __('Doners') }}
                         </div>
 
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <button type="button" name="create_record" id="create_record"
-                                class="btn btn-success btn-sm">{{ __('Create Admin User') }}</button>
+                                class="btn btn-success btn-sm">{{ __('Create Doners') }}</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -122,15 +122,10 @@
                                     </select>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="control-label col-md-4 mt-3">{{ __('Account Type') }}</label>
-                                    <select name="account_type" id="account_type" class="form-control">
-                                        <option disabled selected> {{ __('Select Type') }}</option>
-                                        {{-- @if (auth()->user()->account_type == 'S')
-                                            <option value="S">{{ __('Super Admin') }}</option>
-                                            <option value="A">{{ __('Admin') }}</option>
-                                        @endif --}}
-                                        <option value="S">{{ __('Super Admin') }}</option>
-                                        <option value="A">{{ __('Admin') }}</option>
+                                    <label class="control-label col-md-4 mt-3">{{ __('Status') }}</label>
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="1" selected>{{ __('Approved') }}</option>
+                                        <option value="0">{{ __('Deny') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -138,30 +133,57 @@
                         <div class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <label for="role"
-                                        class="control-label col-md-4 mt-3">{{ __('Role') }}</label>
-                                    <select name="role" id="role" class="form-control">
-                                        <option disabled selected>{{ __('Select role') }}</option>
-                                        @foreach ($role as $roles)
-                                            {{-- @if (auth()->user()->account_type === 'S' || ($roles->name !== 'Superadmin' && $roles->name !== 'Admin'))
-                                                @if ($roles->name === 'Content Partner')
-                                                    @can('Content Partner')
-                                                        <option value="{{ $roles->name }}">{{ $roles->name }}</option>
-                                                    @endcan
-                                                @else
-                                                    <option value="{{ $roles->name }}">{{ $roles->name }}</option>
-                                                @endif
-                                            @endif --}}
-                                            <option value="{{ $roles->name }}">{{ $roles->name }}</option>
+                                    <label class="control-label col-md-4 mt-3"
+                                        id="plan_period_label">{{ __('Countries') }}<span
+                                            style="color: red;">*</span></label>
+                                    <select name="country_id[]"
+                                        class="app_code_select @error('app_code') is-invalid @enderror"
+                                        multiple="multiple" id="country_id">
+                                        <option disabled>{{ __('Select') }}</option>
+                                        @foreach ($countries as $data)
+                                        <option value="{!! $data->id !!}">{{ $data->title }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="control-label col-md-4 mt-3">{{ __('Status') }}</label>
-                                    <select name="status" id="status" class="form-control">
-                                        <option value="1" selected>{{ __('Active') }}</option>
-                                        <option value="0">{{ __('Inactive') }}</option>
+                                    <label class="control-label col-md-4 mt-3"
+                                        id="plan_period_label">{{ __('States') }}<span
+                                            style="color: red;">*</span></label>
+                                    <select name="us_status_id[]"
+                                        class="app_code_select @error('app_code') is-invalid @enderror"
+                                        multiple="multiple" id="us_status_id">
+                                        <option disabled>{{ __('Select') }}</option>
+                                        @foreach ($states as $data)
+                                        <option value="{!! $data->id !!}">{{ $data->name }}
+                                        </option>
+                                        @endforeach
                                     </select>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-3">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="control-label col-md-4">{{ __('City') }}:
+                                    </label>
+                                    <input type="text" name="city" id="city" class="form-control" />
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="control-label col-md-4">{{ __('Zip/Code') }} :
+                                    </label>
+                                    <input type="text" name="postal_code" id="postal_code" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-8">
+                            <div class="row">
+                                <div class="col-lg-12 mt-4">
+                                    <label id="labelpass1" class="control-label col-md-4">
+                                        {{ __('Address') }} <span style="color: red;">*</span>
+                                    </label>
+                                    <textarea name="address" id="address" class="form-control" placeholder="address" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -201,6 +223,127 @@
     <!-- INTERNAL SELECT2 JS -->
     @vite('resources/assets/js/select2.js')
     <script>
+        let selectedIds = new Set();
+
+        // Handle individual row selection
+        $('#member-table').on('change', '.row-select', function() {
+            let id = $(this).val();
+            if (this.checked) {
+                selectedIds.add(id);
+            } else {
+                selectedIds.delete(id);
+            }
+            console.log(selectedIds);
+        });
+
+        $('#checkall').on('click', function() {
+            // Get the checked status of the "Select All" checkbox
+            const isChecked = $(this).prop('checked');
+
+            $('.row-select').each(function() {
+                let id = $(this).val();
+
+                // Check or uncheck each checkbox based on "Select All" checkbox state
+                $(this).prop('checked', isChecked);
+
+                // Update the selected IDs set
+                if (isChecked) {
+                    selectedIds.add(id);
+                } else {
+                    selectedIds.delete(id); // Remove the ID if unchecked
+                }
+            });
+            console.log(selectedIds); // Log the current selected IDs
+        });
+
+        $(document).ready(function() {
+            $(document).on('click', '#delete_selected', function() {
+                if (selectedIds.size === 0) {
+                    // Show a toast notification when no records are selected
+                    showToast('No records selected for deletion.', 'danger');
+                } else {
+                    // Show the confirmation modal if IDs are selected
+                    $('#confirmMultipleDelete').modal('show');
+                }
+            });
+
+            // When the user clicks "OK" in the modal
+            $('#ok_btn').on('click', function() {
+                var currentPage = window.LaravelDataTables["member-table"].page.info().page + 1;
+                // Set the hidden field with the selected IDs as a comma-separated string
+                $('#delete_ids').val(Array.from(selectedIds).join(','));
+                $('#page_id1').val(currentPage);
+
+                // Submit the form after confirmation
+                $('#delete_form').submit();
+            });
+
+            // Handle the Change Status button click
+            $(document).on('click', '#change_status', function() {
+                if (selectedIds.size === 0) {
+                    // Show a toast notification when no records are selected
+                    showToast('No records selected for status change.', 'danger');
+                } else {
+                    // Show the confirmation modal if IDs are selected
+                    $('#multiplestatusmodal').modal('show');
+                }
+            });
+
+            // When the user clicks "OK" in the modal to confirm the status change
+            $('#ok_status').on('click', function() {
+                var currentPage = window.LaravelDataTables["member-table"].page.info().page + 1;
+                // Set the hidden field with the selected IDs as a comma-separated string
+                $('#status_ids').val(Array.from(selectedIds).join(','));
+                $('#page_id').val(currentPage);
+
+                // Submit the status change form
+                $('#status_form').submit();
+            });
+            // Ensure the DataTable is initialized
+            var currentPage1 = new URLSearchParams(window.location.search).get('page') || 1;
+            // Wait for the DataTable to be fully initialized
+            $('#member-table').on('init.dt', function() {
+                // Get the DataTable instance once initialized
+                var table = window.LaravelDataTables["member-table"];
+
+                // Ensure the table is available
+                if (table) {
+                    // Reload the table and set to the specified page
+                    table.ajax.reload(function(json) {
+                        console.log("Page: " + currentPage1);
+                        table.page(currentPage1 - 1).draw(false); // Adjust for 0-based indexing
+                    }, false);
+                } else {
+                    console.error("DataTable 'member-table' is not initialized.");
+                }
+            });
+        });
+
+        function showToast(message, type) {
+            // Create a toast element
+            const toastHtml = `
+                <div class="toast align-items-center text-bg-${type} border-0 fade show mb-4" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+
+            // Append the toast to the toast container
+            $('#toast-container').append(toastHtml);
+
+            // Automatically remove the toast after a few seconds
+            setTimeout(() => {
+                $('#toast-container .toast').last().fadeOut(300, function() {
+                    $(this).remove();
+                }); // Remove after fading out
+            }, 3000);
+        }
+    </script>
+    <script>
         function showToast(message, type) {
             // Create a toast element
             const toastHtml = `
@@ -236,12 +379,15 @@
 
             $('#create_record').click(function() {
 
-                $('.modal-title').text('{{ __('Add New Admin User') }}');
+                $('.modal-title').text('{{ __('Add New Doners') }}');
                 $('#action_button').val('{{ __('Add') }}');
                 $('#action').val('Add');
                 $('#form_result').html('');
                 $('#name').val("");
                 $('#email').val("");
+                $('#address').val("");
+                $('#postal_code').val("");
+                $('#city').val("");
                 // $('#phone').val("");
                 $('#password').val("");
                 $('#password_confirmation').val("");
@@ -249,6 +395,8 @@
                 $('#status').val("1");
                 $('#account_type').val("");
                  $('#church_id').val("");
+                 $('#country_id').val("");
+                 $('#us_status_id').val("");
                 // $('#day').val("");
                 // $('.select2-selection__choice').remove();
                 $('#hidden_id').val("");
@@ -263,7 +411,7 @@
                 var action_url = '';
                 var formdata = new FormData(this);
                 if ($('#action').val() == 'Add') {
-                    action_url = "{{ route('adminuser.store') }}";
+                    action_url = "{{ route('doners.store') }}";
                     $.ajax({
                         url: action_url,
                         method: "POST",
@@ -280,7 +428,7 @@
                                 html = '<div class="alert alert-success">' + data.message +
                                     '</div>';
                                 $('#sample_form')[0].reset();
-                                window.LaravelDataTables["tvadminuser-table"].ajax.reload();
+                                window.LaravelDataTables["member-table"].ajax.reload();
                                 setTimeout(function() {
                                     $('#formModal').modal('hide'); // Hide the modal
                                 }, 1000);
@@ -306,7 +454,7 @@
 
                 if ($('#action').val() == 'Edit') {
                     var dataId = $('#hidden_id').val();
-                    action_url = "{{ url('admin/adminuser') }}" + "/" + dataId;
+                    action_url = "{{ url('admin/doners') }}" + "/" + dataId;
                     formdata.append("_method", "PATCH");
                     $.ajax({
                         url: action_url,
@@ -325,16 +473,16 @@
                                     '</div>';
                                 $('#sample_form')[0].reset();
                                 // Get the current page number of the DataTable
-                                var currentPage = window.LaravelDataTables["tvadminuser-table"]
+                                var currentPage = window.LaravelDataTables["member-table"]
                                     .page.info()
                                     .page;
                                 setTimeout(function() {
                                     $('#formModal').modal('hide'); // Hide the modal
                                 }, 1000);
                             }
-                            window.LaravelDataTables["tvadminuser-table"].ajax.reload(function(
+                            window.LaravelDataTables["member-table"].ajax.reload(function(
                                 json) {
-                                window.LaravelDataTables["tvadminuser-table"].page(
+                                window.LaravelDataTables["member-table"].page(
                                         currentPage)
                                     .draw(false);
                             }, false);
@@ -361,12 +509,15 @@
                 var id = $(this).attr('id');
                 $('#form_result').html('');
                 $.ajax({
-                    url: "adminuser/" + id,
+                    url: "doners/" + id,
                     dataType: "json",
                     success: function(data) {
                         $('#name').val(data.name);
                         $('#email').val(data.email);
+                        $('#postal_code').val(data.postal_code);
+                        $('#city').val(data.city);
                         // $('#phone').val(data.phone);
+                        $('#address').val(data.address);
                         $('#oldpassword').val(data.password);
                         $('#status').val(data.status);
                          $('#role').val(data.role);
@@ -374,9 +525,19 @@
                          $('#account_type').val(data.account_type);
                         $('#church_id').val(data.church_id);
                         if (data.church_id) {
-                            var typearry = data.church_id.split(',');
+                            var typearry0 = data.church_id.split(',');
+                        }
+                        select2type.val(typearry0).trigger("change");
+                        $('#country_id').val(data.country_id);
+                        if (data.country_id) {
+                            var typearry = data.country_id.split(',');
                         }
                         select2type.val(typearry).trigger("change");
+                        $('#us_status_id').val(data.us_status_id);
+                        if (data.us_status_id) {
+                            var typearry1 = data.us_status_id.split(',');
+                        }
+                        select2type.val(typearry1).trigger("change");
                         // $('#code').val(data.code);
                         $('#hidden_id').val(id);
                         $('.modal-title').text('{{ __('Update Record') }}');
@@ -401,22 +562,22 @@
 
             $('#ok_button').click(function() {
                 $.ajax({
-                    url: "admin/adminuser/" + user_id,
+                    url: "/admin/doners/" + user_id,
                     type: "DELETE",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                     },
                     success: function(data) {
                         // Get the current page number of the DataTable
-                        var currentPage = window.LaravelDataTables["tvadminuser-table"].page
+                        var currentPage = window.LaravelDataTables["member-table"].page
                             .info()
                             .page;
                         setTimeout(function() {
                             $('#confirmModal').modal('hide');
                         }, 2000);
-                        window.LaravelDataTables["tvadminuser-table"].ajax.reload(function(
+                        window.LaravelDataTables["member-table"].ajax.reload(function(
                             json) {
-                            window.LaravelDataTables["tvadminuser-table"].page(
+                            window.LaravelDataTables["member-table"].page(
                                     currentPage)
                                 .draw(false);
                         }, false);

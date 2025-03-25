@@ -178,11 +178,15 @@
                                 class="side-menu__item">{{ __('Family Donor Type') }}</a>
                         </li>
                         <li class="slide">
+                            <a href="{{ url('admin/family-doners') }}"
+                                class="side-menu__item">{{ __('Family Donor') }}</a>
+                        </li>
+                        {{-- <li class="slide">
                             <a href="{{ url('admin/member-type') }}"
                                 class="side-menu__item">{{ __('Donor Type') }}</a>
-                        </li>
+                        </li> --}}
                         <li class="slide">
-                            <a href="#" class="side-menu__item">{{ __('Donors') }}</a>
+                            <a href="{{ url('admin/doners') }}" class="side-menu__item">{{ __('Donors') }}</a>
                         </li>
                 </li>
 

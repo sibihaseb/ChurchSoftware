@@ -109,7 +109,7 @@ class TvAdminUserDataTable extends DataTable
             Column::make('name'),
             Column::make('email'),
             // Column::make('phone'),
-            // Column::make('status'),
+            Column::make('status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

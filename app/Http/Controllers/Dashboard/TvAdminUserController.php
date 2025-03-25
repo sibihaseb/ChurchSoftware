@@ -120,7 +120,7 @@ class TvAdminUserController extends Controller
             $adminuser->delete();
         }, 2);
 
-        return response()->json(['success' => __('Tv App User Deleted Successfully')]);
+        return response()->json(['success' => __('Deleted Successfully')]);
     }
 
     public function appCodeSet(Request $request)
