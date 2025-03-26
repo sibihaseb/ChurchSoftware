@@ -51,7 +51,7 @@
                 <li class="slide">
                     <a href="{{ route('invoice.index') }}" class="side-menu__item">
                         <i class="bx bx-donate-heart side-menu__icon"></i>
-                        <span class="side-menu__label">{{ __('Donors') }}<span
+                        <span class="side-menu__label">{{ __('All Donations') }}<span
                                 class="badge bg-warning-transparent ms-2"></span></span>
                     </a>
                 </li>
@@ -104,10 +104,12 @@
                                 class="side-menu__item {{ request()->is('dashboard/languages*', 'dashboard/languages/create') ? 'active' : '' }}">{{ __('Dashboard Languages') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ url('admin/country') }}" class="side-menu__item {{ request()->is('country*') ? 'active' : '' }}">{{ __('Countries') }}</a>
+                            <a href="{{ url('admin/country') }}"
+                                class="side-menu__item {{ request()->is('country*') ? 'active' : '' }}">{{ __('Countries') }}</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ url('admin/us-states') }}" class="side-menu__item {{ request()->is('country*') ? 'active' : '' }}">{{ __('US States') }}</a>
+                            <a href="{{ url('admin/us-states') }}"
+                                class="side-menu__item {{ request()->is('country*') ? 'active' : '' }}">{{ __('US States') }}</a>
                         </li>
                     </ul>
                 </li>
@@ -150,7 +152,8 @@
                         </li>
 
                         <li class="slide">
-                            <a href="{{ url('admin/product') }}" class="side-menu__item">{{ __('All Products') }}</a>
+                            <a href="{{ url('admin/product') }}"
+                                class="side-menu__item">{{ __('All Products') }}</a>
                         </li>
                         <li class="slide">
                             <a href="{{ url('admin/tag') }}" class="side-menu__item">{{ __('All Tags') }}</a>
@@ -186,7 +189,7 @@
                                 class="side-menu__item">{{ __('Donor Type') }}</a>
                         </li> --}}
                         <li class="slide">
-                            <a href="{{ url('admin/doners') }}" class="side-menu__item">{{ __('Donors') }}</a>
+                            <a href="{{ url('admin/doners') }}" class="side-menu__item">{{ __('All Donors') }}</a>
                         </li>
                 </li>
 

@@ -21,7 +21,7 @@
 
             <div class="grid grid-cols-1 gap-4 mb-4 mt-4">
                 <!-- Div 1: Visible when checkbox is checked -->
-                <div class="grid grid-cols-2 gap-4 mb-4 mt-4" x-show="showDiv">
+                <div class="grid grid-cols-4 gap-4 mb-4 mt-4" x-show="showDiv">
                     <div>
                         <label class="block font-bold">First Name</label>
                         <input type="text" wire:model="first_name" class="border-2 rounded p-2 w-full"
@@ -37,20 +37,6 @@
                         <input type="text" wire:model="last_name" class="border-2 rounded p-2 w-full"
                             placeholder="Enter Last Name">
                         @error('last_name')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div>
-                        <label class="block font-bold">Member Type</label>
-                        <select wire:model="member_type_id" class="border-2 rounded p-2 w-full">
-                            <option value="">{{ __('Select Member Type') }}</option>
-                            @foreach ($allmembertype as $membertype)
-                                <option value="{{ $membertype->id }}">
-                                    {{ $membertype->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('member_type_id')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -74,34 +60,56 @@
                         @enderror
                     </div>
 
-                    <!-- Phone -->
                     <div>
                         <label class="block font-bold">Phone</label>
                         <input type="text" wire:model="phone" class="border-2 rounded p-2 w-full"
-                            placeholder="Enter Phone Number">
+                            placeholder="Enter phone">
                         @error('phone')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
-                    <!-- Church ID -->
-                    {{-- <div>
-                        <label class="block font-bold">Church</label>
-                        <select wire:model="church_id" class="border-2 rounded p-2 w-full">
-                            <option value="">{{ __('Select Church') }}</option>
-                            @foreach ($churchs as $church)
-                                <option value="{{ $church->id }}">
-                                    {{ $church->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('church_id')
+
+                    <!-- Last Name -->
+                    <div>
+                        <label class="block font-bold">City</label>
+                        <input type="text" wire:model="city" class="border-2 rounded p-2 w-full"
+                            placeholder="Enter city">
+                        @error('city')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
-                    </div> --}}
-                </div>
+                    </div>
 
+                    <!-- Address -->
+                    <div>
+                        <label class="block font-bold">State</label>
+                        <input type="text" wire:model="state_id" class="border-2 rounded p-2 w-full"
+                            placeholder="Enter State">
+                        @error('state_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <!-- Email -->
+                    <div>
+                        <label class="block font-bold">Postal Code</label>
+                        <input type="text" wire:model="postal_code" class="border-2 rounded p-2 w-full"
+                            placeholder="Enter Postal Code">
+                        @error('postal_code')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block font-bold">Country</label>
+                        <input type="text" wire:model="country_id" class="border-2 rounded p-2 w-full"
+                            placeholder="Enter Postal Code">
+                        @error('country_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4 mt-4">
                 <!-- Div 2: Visible when checkbox is unchecked -->
-                <div class="grid grid-cols-2 gap-4 mb-4 mt-4" style="max-width: 50%" x-show="!showDiv" wire:ignore.self>
+                <div class="grid grid-cols-2 gap-4 mb-4 mt-4" x-show="!showDiv" wire:ignore.self>
 
                     <div>
                         <label class="block font-bold">Donor</label>

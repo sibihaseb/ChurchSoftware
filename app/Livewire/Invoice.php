@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Church;
-use App\Models\Member;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\PaymentMethod;
@@ -23,6 +22,10 @@ class Invoice extends Component
     public $member_type_id;
     public $first_name;
     public $last_name;
+    public $city;
+    public $state_id;
+    public $postal_code;
+    public $country_id;
     public $address;
     public $email;
     public $memberemail;
@@ -77,8 +80,8 @@ class Invoice extends Component
     {
         $rules = [
             // 'member_id' => ['nullable', Rule::exists('members', 'id'), 'required_without:member_type_id'],
-            'member_id' => ['nullable', Rule::exists('users', 'id')],
-            'member_type_id' => 'nullable|integer',
+            'member_id' => ['nullable', Rule::exists('users', 'id'), 'required_without:first_name'],
+            // 'member_type_id' => 'nullable|integer',
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'address' => 'nullable|string',
@@ -88,7 +91,10 @@ class Invoice extends Component
                 Rule::unique('users', 'email')
             ],
             'phone' => 'nullable|string|min:10',
-            'church_id' => 'nullable|integer',
+            'country_id' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state_id' => 'nullable|string',
+            'postal_code' => 'nullable|string',
             'email' => 'nullable|email',
             'billing_address' => 'nullable|string',
             'sales_receipt_date' => 'required|date',
@@ -136,7 +142,7 @@ class Invoice extends Component
         $member_id = null;
         $currentApp = TemporaryAppCode::where('user_id', auth()->user()->id)
             ->first();
-        if ($validatedData['member_type_id']) {
+        if ($validatedData['first_name'] && $validatedData['last_name'] && $validatedData['memberemail']) {
             $password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
             $memberdata = User::create([
                 'account_type' => "d",
@@ -145,12 +151,17 @@ class Invoice extends Component
                 'address' => $validatedData['address'],
                 'email' => $validatedData['memberemail'],
                 'phone' => $validatedData['phone'],
+                'country_id' => $validatedData['country_id'],
+                'city' => $validatedData['city'],
+                'state_id' => $validatedData['state_id'],
+                'postal_code' => $validatedData['postal_code'],
                 'church_id' => $currentApp->church_id,
             ]);
             $member_id = $memberdata->id;
         } else {
             $member_id = $validatedData['member_id'];
         }
+
         $invoiceCreated = ServiceInvoice::updateOrCreate(
             ['id' => $this->invoiceEditId], // Check if an invoice exists with this ID
             [
