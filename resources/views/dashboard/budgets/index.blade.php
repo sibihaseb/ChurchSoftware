@@ -17,7 +17,7 @@
         <nav class="py-4">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">{{ __('Home') }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('Departments') }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ __('Budgets') }}</li>
             </ol>
         </nav>
         <div class="row">
@@ -35,11 +35,11 @@
                     @endif
                     <div class="card-header justify-content-between">
                         <div class="card-title">
-                            {{ __('Departments') }}
+                            {{ __('Budgets') }}
                         </div>
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <button type="button" name="create_record" id="create_record" class="btn btn-success btn-sm">
-                                {{ __('Create Departments') }}</button>
+                                {{ __('Create Budgets') }}</button>
                         </div>
 
                     </div>
@@ -108,7 +108,7 @@
         
         $(document).ready(function() {
             $('#create_record').click(function() {
-                $('.modal-title').text('{{ __('Add New Departments') }}');
+                $('.modal-title').text('{{ __('Add New Budgets') }}');
                 $('#action_button').val('{{ __('Add') }}');
                 $('#action').val('Add');
                 $('#form_result').html('');
@@ -124,7 +124,7 @@
                 var action_url = '';
                 var formdata = new FormData(this);
                 if ($('#action').val() == 'Add') {
-                    action_url = "{{ route('departments.store') }}";
+                    action_url = "{{ route('budgets.store') }}";
                     $.ajax({
                         url: action_url,
                         method: "POST",
@@ -141,7 +141,7 @@
                                 html = '<div class="alert alert-success">' + data.message +
                                     '</div>';
                                 $('#sample_form')[0].reset();
-                                window.LaravelDataTables["departments-table"].ajax.reload();
+                                window.LaravelDataTables["budgets-table"].ajax.reload();
                                 setTimeout(function() {
                                     $('#formModal').modal('hide'); // Hide the modal
                                 }, 1000);
@@ -167,7 +167,7 @@
 
                 if ($('#action').val() == 'Edit') {
                     var dataId = $('#hidden_id').val();
-                    action_url = "{{ url('admin/departments') }}" + "/" + dataId;
+                    action_url = "{{ url('admin/budgets') }}" + "/" + dataId;
                     formdata.append("_method", "PATCH");
                     $.ajax({
                         url: action_url,
@@ -186,15 +186,15 @@
                                     '</div>';
                                 $('#sample_form')[0].reset();
                                 // Get the current page number of the DataTable
-                                var currentPage = window.LaravelDataTables["departments-table"]
+                                var currentPage = window.LaravelDataTables["budgets-table"]
                                     .page.info()
                                     .page;
                                 setTimeout(function() {
                                     $('#formModal').modal('hide'); // Hide the modal
                                 }, 1000);
-                                window.LaravelDataTables["departments-table"].ajax.reload(function(
+                                window.LaravelDataTables["budgets-table"].ajax.reload(function(
                                     json) {
-                                    window.LaravelDataTables["departments-table"].page(
+                                    window.LaravelDataTables["budgets-table"].page(
                                             currentPage)
                                         .draw(false);
                                 }, false);
@@ -223,7 +223,7 @@
                 var id = $(this).attr('id');
                 $('#form_result').html('');
                 $.ajax({
-                    url: "departments/" + id,
+                    url: "budgets/" + id,
                     dataType: "json",
                     success: function(data) {
                         $('#name').val(data.name);
@@ -252,20 +252,20 @@
 
             $('#ok_button').click(function() {
                 $.ajax({
-                    url: "departments/" + user_id,
+                    url: "budgets/" + user_id,
                     type: "DELETE",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                     },
                     success: function(data) {
                         // Get the current page number of the DataTable
-                        var currentPage = window.LaravelDataTables["departments-table"].page.info()
+                        var currentPage = window.LaravelDataTables["budgets-table"].page.info()
                             .page;
                         setTimeout(function() {
                             $('#confirmModal').modal('hide');
                         }, 2000);
-                        window.LaravelDataTables["departments-table"].ajax.reload(function(json) {
-                            window.LaravelDataTables["departments-table"].page(currentPage)
+                        window.LaravelDataTables["budgets-table"].ajax.reload(function(json) {
+                            window.LaravelDataTables["budgets-table"].page(currentPage)
                                 .draw(false);
                         }, false);
                     }

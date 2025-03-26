@@ -141,7 +141,7 @@
                                 html = '<div class="alert alert-success">' + data.message +
                                     '</div>';
                                 $('#sample_form')[0].reset();
-                                window.LaravelDataTables["BudgetTypes-table"].ajax.reload();
+                                window.LaravelDataTables["budgettypes-table"].ajax.reload();
                                 setTimeout(function() {
                                     $('#formModal').modal('hide'); // Hide the modal
                                 }, 1000);
@@ -186,15 +186,15 @@
                                     '</div>';
                                 $('#sample_form')[0].reset();
                                 // Get the current page number of the DataTable
-                                var currentPage = window.LaravelDataTables["BudgetTypes-table"]
+                                var currentPage = window.LaravelDataTables["budgettypes-table"]
                                     .page.info()
                                     .page;
                                 setTimeout(function() {
                                     $('#formModal').modal('hide'); // Hide the modal
                                 }, 1000);
-                                window.LaravelDataTables["BudgetTypes-table"].ajax.reload(function(
+                                window.LaravelDataTables["budgettypes-table"].ajax.reload(function(
                                     json) {
-                                    window.LaravelDataTables["BudgetTypes-table"].page(
+                                    window.LaravelDataTables["budgettypes-table"].page(
                                             currentPage)
                                         .draw(false);
                                 }, false);
@@ -259,13 +259,13 @@
                     },
                     success: function(data) {
                         // Get the current page number of the DataTable
-                        var currentPage = window.LaravelDataTables["BudgetTypes-table"].page.info()
+                        var currentPage = window.LaravelDataTables["budgettypes-table"].page.info()
                             .page;
                         setTimeout(function() {
                             $('#confirmModal').modal('hide');
                         }, 2000);
-                        window.LaravelDataTables["BudgetTypes-table"].ajax.reload(function(json) {
-                            window.LaravelDataTables["BudgetTypes-table"].page(currentPage)
+                        window.LaravelDataTables["budgettypes-table"].ajax.reload(function(json) {
+                            window.LaravelDataTables["budgettypes-table"].page(currentPage)
                                 .draw(false);
                         }, false);
                     }
