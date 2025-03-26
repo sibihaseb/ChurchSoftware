@@ -257,7 +257,7 @@
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div> --}}
-        <div>
+        <div style="margin-top: 50px;">
             <table class="table-auto w-full border-collapse border border-gray-300">
                 <thead>
                     <tr class="bg-gray-100">
@@ -357,7 +357,7 @@
                     </tr>
                 </tfoot>
             </table>
-            <div class="grid grid-cols-2 gap-4 mb-4 mt-4">
+            <div class="grid grid-cols-2 gap-4" style="margin-top: 20px;">
                 <div>
                     <button type="button" wire:click="addItem" class="bg-green-500 text-white px-3 py-1 rounded">Add
                         Line</button>
