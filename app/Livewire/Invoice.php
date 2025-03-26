@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Church;
+use App\Models\Country;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\PaymentMethod;
@@ -12,6 +13,7 @@ use App\Models\ServiceInvoice;
 use App\Models\ServiceInvoiceItem;
 use App\Models\TemporaryAppCode;
 use App\Models\User;
+use App\Models\USStates;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -224,10 +226,13 @@ class Invoice extends Component
         $members = User::where('account_type', 'd')
             ->whereRaw("FIND_IN_SET(?, church_id)", [$currentApp->church_id])
             ->get();
-
         $churchs = Church::all();
         $allmembertype = MemberType::all();
-        return view('livewire.invoice', compact('members', 'churchs', 'allmembertype'));
+
+        $countries = Country::all();
+        $states = USStates::all();
+
+        return view('livewire.invoice', compact('members', 'churchs', 'allmembertype', 'countries', 'states'));
     }
 
     public function updateTotal($index = null)

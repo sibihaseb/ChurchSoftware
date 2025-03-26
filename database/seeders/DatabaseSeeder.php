@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
 
         // Retrieve or create the Superadmin role
         $roleSuperadmin = Role::firstOrCreate(['name' => 'Superadmin']);
-        $roleDoner= Role::firstOrCreate(['name' => 'Doner']);
+        $roleDoner = Role::firstOrCreate(['name' => 'Doner']);
         // Define required permissions
         $permissions = ['User Management', 'Role Management'];
 
@@ -67,6 +67,14 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('deposite_accounts')->insert([
             'name' => 'Family'
+        ]);
+        DB::table('churches')->insert([
+            'name' => 'Church'
+        ]);
+
+        $this->call([
+            CountrySeeder::class,
+            USStatesSeeder::class,
         ]);
     }
 }

@@ -30,8 +30,6 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <!-- Last Name -->
                     <div>
                         <label class="block font-bold">Last Name</label>
                         <input type="text" wire:model="last_name" class="border-2 rounded p-2 w-full"
@@ -40,8 +38,6 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <!-- Address -->
                     <div>
                         <label class="block font-bold">Address</label>
                         <input type="text" wire:model="address" class="border-2 rounded p-2 w-full"
@@ -50,7 +46,6 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
-                    <!-- Email -->
                     <div>
                         <label class="block font-bold">Email User</label>
                         <input type="email" wire:model="memberemail" class="border-2 rounded p-2 w-full"
@@ -68,8 +63,34 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <!-- Last Name -->
+                    <div>
+                        <label class="block font-bold">Country</label>
+                        <select wire:model="country_id" class="border-2 rounded p-2 w-full">
+                            <option value="">{{ __('Select Country') }}</option>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->id }}">
+                                    {{ $country->title }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('country_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block font-bold">State</label>
+                        <select wire:model="state_id" class="border-2 rounded p-2 w-full">
+                            <option value="">{{ __('Select State') }}</option>
+                            @foreach ($states as $state)
+                                <option value="{{ $state->id }}">
+                                    {{ $state->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('state_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
                     <div>
                         <label class="block font-bold">City</label>
                         <input type="text" wire:model="city" class="border-2 rounded p-2 w-full"
@@ -78,30 +99,11 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <!-- Address -->
-                    <div>
-                        <label class="block font-bold">State</label>
-                        <input type="text" wire:model="state_id" class="border-2 rounded p-2 w-full"
-                            placeholder="Enter State">
-                        @error('state_id')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <!-- Email -->
                     <div>
                         <label class="block font-bold">Postal Code</label>
                         <input type="text" wire:model="postal_code" class="border-2 rounded p-2 w-full"
                             placeholder="Enter Postal Code">
                         @error('postal_code')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div>
-                        <label class="block font-bold">Country</label>
-                        <input type="text" wire:model="country_id" class="border-2 rounded p-2 w-full"
-                            placeholder="Enter Postal Code">
-                        @error('country_id')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
