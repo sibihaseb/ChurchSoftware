@@ -61,14 +61,15 @@
                                             </span>
                                         </div>
                                     @enderror
-                                    <div class="mt-2">
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value=""
                                                 id="defaultCheck1">
                                             <label class="form-check-label text-muted fw-normal" for="defaultCheck1">
-                                                Remember password ?
+                                                Remember password?
                                             </label>
                                         </div>
+                                        <a href="{{ url('register') }}" class="text-primary">Sign Up</a>
                                     </div>
                                 </div>
                                 <div class="col-xl-12 d-grid mt-2">
@@ -92,14 +93,16 @@
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
                                         <div class="mb-5">
-                                            <img src="{{ asset('build/assets/images/authentication/2.png') }}"
-                                                class="authentication-image" alt="">
+                                            <img src="{{ asset('images/54465.png') }}" class="authentication-image"
+                                                alt="">
                                         </div>
-                                        <h6 class="fw-semibold text-fixed-white">Sign In</h6>
-                                        <p class="fw-normal fs-14 op-7"> Lorem ipsum dolor sit amet, consectetur
-                                            adipisicing elit. Ipsa eligendi expedita aliquam quaerat nulla voluptas
-                                            facilis. Porro rem voluptates possimus, ad, autem quae culpa architecto,
-                                            quam labore blanditiis at ratione.</p>
+                                        <h6 class="fw-semibold text-fixed-white">The Power of Donation</h6>
+                                        <p class="fw-normal fs-14 op-7">Donations have the incredible ability to create
+                                            meaningful change in the lives of individuals and communities. Whether it's
+                                            providing essential resources like food, shelter, or medical care, donations
+                                            help bridge the gap between scarcity and sufficiency. A simple act of giving
+                                            can uplift those in need, providing hope and a chance for a better future.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -108,14 +111,17 @@
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
                                         <div class="mb-5">
-                                            <img src="{{ asset('build/assets/images/authentication/3.png') }}"
-                                                class="authentication-image" alt="">
+                                            <img src="{{ asset('images/10252702.png') }}" class="authentication-image"
+                                                alt="">
                                         </div>
-                                        <h6 class="fw-semibold text-fixed-white">Sign In</h6>
-                                        <p class="fw-normal fs-14 op-7"> Lorem ipsum dolor sit amet, consectetur
-                                            adipisicing elit. Ipsa eligendi expedita aliquam quaerat nulla voluptas
-                                            facilis. Porro rem voluptates possimus, ad, autem quae culpa architecto,
-                                            quam labore blanditiis at ratione.</p>
+                                        <h6 class="fw-semibold text-fixed-white">Building Stronger Communities Through
+                                            Giving</h6>
+                                        <p class="fw-normal fs-14 op-7">When people come together to support a common
+                                            cause, communities grow stronger and more united. Donations not only address
+                                            immediate needs but also contribute to long-term solutions, such as
+                                            educational programs and sustainable development projects. By donating,
+                                            individuals become part of a collective effort to create a positive impact,
+                                            making their communities more resilient and self-sustaining.</p>
                                     </div>
                                 </div>
                             </div>
@@ -124,14 +130,16 @@
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
                                         <div class="mb-5">
-                                            <img src="{{ asset('build/assets/images/authentication/2.png') }}"
-                                                class="authentication-image" alt="">
+                                            <img src="{{ asset('images/4125377.png') }}" class="authentication-image"
+                                                alt="">
                                         </div>
-                                        <h6 class="fw-semibold text-fixed-white">Sign In</h6>
-                                        <p class="fw-normal fs-14 op-7"> Lorem ipsum dolor sit amet, consectetur
-                                            adipisicing elit. Ipsa eligendi expedita aliquam quaerat nulla voluptas
-                                            facilis. Porro rem voluptates possimus, ad, autem quae culpa architecto,
-                                            quam labore blanditiis at ratione.</p>
+                                        <h6 class="fw-semibold text-fixed-white">The Personal Rewards of Donating</h6>
+                                        <p class="fw-normal fs-14 op-7">Beyond the tangible benefits to recipients,
+                                            donating has a profound impact on the giver as well. It fosters a sense of
+                                            empathy, purpose, and fulfillment. Knowing that one's contribution has the
+                                            power to change lives can be deeply rewarding and motivating. Additionally,
+                                            donating promotes a culture of kindness and generosity, inspiring others to
+                                            give back and support meaningful causes.</p>
                                     </div>
                                 </div>
                             </div>

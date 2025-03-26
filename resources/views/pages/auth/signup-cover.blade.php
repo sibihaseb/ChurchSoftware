@@ -3,6 +3,8 @@
 @section('styles')
     <!-- SWIPER CSS -->
     <link rel="stylesheet" href="{{ asset('build/assets/libs/swiper/swiper-bundle.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @endsection
 
 @section('content')
@@ -18,16 +20,13 @@
                 <div class="col-xxl-6 col-xl-7 col-lg-7 col-md-7 col-sm-8 col-12">
                     <div class="p-5">
                         <div class="mb-3">
-                            <a href="{{ url('index') }}">
-                                <img src="{{ asset('build/assets/images/brand-logos/desktop-logo.png') }}"
-                                    alt="" class="authentication-brand desktop-logo">
-                                <img src="{{ asset('build/assets/images/brand-logos/desktop-dark.png') }}"
-                                    alt="" class="authentication-brand desktop-dark">
+                            <a class="fs-1 fw-bold" href="{{ url('') }}">
+                                {{ env('APP_NAME') }}
                             </a>
                         </div>
                         <p class="h5 fw-semibold mb-2">Sign Up</p>
                         <p class="mb-3 text-muted op-7 fw-normal">Welcome & Join us by creating a free account !</p>
-                        <div class="btn-list">
+                        {{-- <div class="btn-list">
                             <button class="btn btn-light"><svg class="google-svg" xmlns="http://www.w3.org/2000/svg"
                                     width="2443" height="2500" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
                                     <path fill="#4285F4"
@@ -44,83 +43,131 @@
                         </div>
                         <div class="text-center my-5 authentication-barrier">
                             <span>OR</span>
-                        </div>
+                        </div> --}}
                         <div class="row gy-3">
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
-                                <div class="col-xl-12 mt-0">
-                                    <label for="signup-name" class="form-label text-default">Name</label>
-                                    <input type="text" class="form-control form-control-lg" id="signup-name"
-                                        placeholder="Enter your name" name="name">
-                                    @error('name')
-                                        <div class="mt-4 mb-4">
-                                            <span class="alert-danger" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="col-xl-12 mt-0">
-                                    <label for="signup-email" class="form-label text-default">Email</label>
-                                    <input type="text" class="form-control form-control-lg" id="signup-email"
-                                        placeholder="email" name="email">
-                                    @error('email')
-                                        <div class="mt-4 mb-4">
-                                            <span class="alert-danger" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="col-xl-12">
-                                    <label for="signup-password" class="form-label text-default">Password</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control form-control-lg" id="signup-password"
-                                            placeholder="password" name="password">
-                                        <button class="btn btn-light" onclick="createpassword('signup-password',this)"
-                                            type="button" id="button-addon2"><i
-                                                class="ri-eye-off-line align-middle"></i></button>
+                                <div class="row gy-3">
+                                    <!-- Existing Fields -->
+                                    <div class="col-md-6">
+                                        <label for="signup-name" class="form-label">First & Last Name</label>
+                                        <input type="text" class="form-control" id="signup-name" name="name"
+                                            placeholder="Enter your name">
+                                        @error('name')
+                                            <div class="mt-4 mb-4">
+                                                <span class="alert-danger" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            </div>
+                                        @enderror
                                     </div>
-                                    @error('password')
-                                        <div class="mt-4 mb-4">
-                                            <span class="alert-danger" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="col-xl-12 mb-3">
-                                    <label for="signup-confirmpassword" class="form-label text-default">Confirm
-                                        Password</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control form-control-lg"
-                                            id="signup-confirmpassword" placeholder="confirm password"
-                                            name="password_confirmation">
-                                        <button class="btn btn-light"
-                                            onclick="createpassword('signup-confirmpassword',this)" type="button"
-                                            id="button-addon21"><i class="ri-eye-off-line align-middle"></i></button>
+                                    <div class="col-md-6">
+                                        <label for="signup-email" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="signup-email" name="email"
+                                            placeholder="Email">
+                                        @error('email')
+                                            <div class="mt-4 mb-4">
+                                                <span class="alert-danger" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            </div>
+                                        @enderror
                                     </div>
-                                    <div class="form-check mt-3">
+                                    <div class="col-xl-12">
+                                        <label for="signup-password" class="form-label text-default">Password</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control form-control-lg"
+                                                id="signup-password" placeholder="password" name="password">
+                                            <button class="btn btn-light"
+                                                onclick="createpassword('signup-password',this)" type="button"
+                                                id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
+                                        </div>
+                                        @error('password')
+                                            <div class="mt-4 mb-4">
+                                                <span class="alert-danger" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-xl-12 mb-3">
+                                        <label for="signup-confirmpassword" class="form-label text-default">Confirm
+                                            Password</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control form-control-lg"
+                                                id="signup-confirmpassword" placeholder="confirm password"
+                                                name="password_confirmation">
+                                            <button class="btn btn-light"
+                                                onclick="createpassword('signup-confirmpassword',this)" type="button"
+                                                id="button-addon21"><i
+                                                    class="ri-eye-off-line align-middle"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone-number" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone-number" name="phone"
+                                            placeholder="Phone Number">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="country" class="form-label">Country</label>
+                                        <select class="form-control" id="country" name="country_id">
+                                            <option value="">{{ __('Select Country') }}</option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">
+                                                    {{ $country->title }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6" id="state-div" style="display: none;">
+                                        <label for="state_id" class="form-label">State</label>
+                                        <select class="form-control" id="state" name="state_id">
+                                            <option value="">{{ __('Select State') }}</option>
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->id }}">
+                                                    {{ $state->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="city" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="city" name="city"
+                                            placeholder="City">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="zip" class="form-label">Postal Code</label>
+                                        <input type="text" class="form-control" id="postal_code"
+                                            name="postal_code" placeholder="Postal Code">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="address" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="address" name="address"
+                                            placeholder="Street Address">
+                                    </div>
+                                    {{-- <div class="form-check mt-3">
                                         <input class="form-check-input" type="checkbox" value=""
                                             id="defaultCheck1">
                                         <label class="form-check-label text-muted fw-normal" for="defaultCheck1">
                                             By creating a account you agree to our <a
-                                                href="{{ url('terms-conditions') }}" class="text-success"><u>Terms &
+                                                href="{{ url('terms-conditions') }}" class="text-success"><u>Terms
+                                                    &
                                                     Conditions</u></a> and <a class="text-success"><u>Privacy
                                                     Policy</u></a>
                                         </label>
+                                    </div> --}}
+                                    <!-- Submission Button -->
+                                    <div class="col-xl-12 d-grid mt-4">
+                                        <button type="submit" class="btn btn-lg btn-primary">
+                                            {{ __('Register') }}
+                                        </button>
                                     </div>
-                                </div>
-                                <div class="col-xl-12 d-grid mt-2">
-                                    <button type="submit" class="btn btn-lg btn-primary">
-                                        {{ __('Register') }}
-                                    </button>
                                 </div>
                             </form>
                         </div>
                         <div class="text-center">
-                            <p class="fs-12 text-muted mt-4">Already have an account? <a
-                                    href="{{route('login')}}" class="text-primary">Sign In</a></p>
+                            <p class="fs-12 text-muted mt-4">Already have an account? <a href="{{ route('login') }}"
+                                    class="text-primary">Sign In</a></p>
                         </div>
                     </div>
                 </div>
@@ -136,14 +183,16 @@
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
                                         <div class="mb-5">
-                                            <img src="{{ asset('build/assets/images/authentication/image1.jpg') }}"
-                                                class="authentication-image" alt="">
+                                            <img src="{{ asset('images/54465.png') }}" class="authentication-image"
+                                                alt="">
                                         </div>
-                                        <h6 class="fw-semibold text-fixed-white">Sign Up</h6>
-                                        <p class="fw-normal fs-14 op-7"> Lorem ipsum dolor sit amet, consectetur
-                                            adipisicing elit. Ipsa eligendi expedita aliquam quaerat nulla voluptas
-                                            facilis. Porro rem voluptates possimus, ad, autem quae culpa architecto,
-                                            quam labore blanditiis at ratione.</p>
+                                        <h6 class="fw-semibold text-fixed-white">The Power of Donation</h6>
+                                        <p class="fw-normal fs-14 op-7">Donations have the incredible ability to create
+                                            meaningful change in the lives of individuals and communities. Whether it's
+                                            providing essential resources like food, shelter, or medical care, donations
+                                            help bridge the gap between scarcity and sufficiency. A simple act of giving
+                                            can uplift those in need, providing hope and a chance for a better future.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -152,14 +201,17 @@
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
                                         <div class="mb-5">
-                                            <img src="{{ asset('build/assets/images/authentication/image2.jpg') }}"
+                                            <img src="{{ asset('images/10252702.png') }}"
                                                 class="authentication-image" alt="">
                                         </div>
-                                        <h6 class="fw-semibold text-fixed-white">Sign Up</h6>
-                                        <p class="fw-normal fs-14 op-7"> Lorem ipsum dolor sit amet, consectetur
-                                            adipisicing elit. Ipsa eligendi expedita aliquam quaerat nulla voluptas
-                                            facilis. Porro rem voluptates possimus, ad, autem quae culpa architecto,
-                                            quam labore blanditiis at ratione.</p>
+                                        <h6 class="fw-semibold text-fixed-white">Building Stronger Communities Through
+                                            Giving</h6>
+                                        <p class="fw-normal fs-14 op-7">When people come together to support a common
+                                            cause, communities grow stronger and more united. Donations not only address
+                                            immediate needs but also contribute to long-term solutions, such as
+                                            educational programs and sustainable development projects. By donating,
+                                            individuals become part of a collective effort to create a positive impact,
+                                            making their communities more resilient and self-sustaining.</p>
                                     </div>
                                 </div>
                             </div>
@@ -168,14 +220,16 @@
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
                                         <div class="mb-5">
-                                            <img src="{{ asset('build/assets/images/authentication/image3.jpg') }}"
-                                                class="authentication-image" alt="">
+                                            <img src="{{ asset('images/4125377.png') }}" class="authentication-image"
+                                                alt="">
                                         </div>
-                                        <h6 class="fw-semibold text-fixed-white">Sign Up</h6>
-                                        <p class="fw-normal fs-14 op-7"> Lorem ipsum dolor sit amet, consectetur
-                                            adipisicing elit. Ipsa eligendi expedita aliquam quaerat nulla voluptas
-                                            facilis. Porro rem voluptates possimus, ad, autem quae culpa architecto,
-                                            quam labore blanditiis at ratione.</p>
+                                        <h6 class="fw-semibold text-fixed-white">The Personal Rewards of Donating</h6>
+                                        <p class="fw-normal fs-14 op-7">Beyond the tangible benefits to recipients,
+                                            donating has a profound impact on the giver as well. It fosters a sense of
+                                            empathy, purpose, and fulfillment. Knowing that one's contribution has the
+                                            power to change lives can be deeply rewarding and motivating. Additionally,
+                                            donating promotes a culture of kindness and generosity, inspiring others to
+                                            give back and support meaningful causes.</p>
                                     </div>
                                 </div>
                             </div>
@@ -201,4 +255,21 @@
 
     <!-- SHOW PASSWORD JS -->
     <script src="{{ asset('build/assets/show-password.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('#country').select2({});
+        $('#country').on('change', function() {
+            var country_id = $(this).val();
+
+            if (country_id == '1') {
+                $('#state').select2({});
+                $('#state-div').show();
+            } else {
+                if ($('#state').data('select2')) {
+                    $('#state').select2('destroy'); // Destroy Select2 if initialized
+                }
+                $('#state-div').hide();
+            }
+        });
+    </script>
 @endsection

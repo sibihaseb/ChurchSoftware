@@ -46,5 +46,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::loginView(function () {
             return view('pages.auth.signin-cover');
         });
+
+        Fortify::registerView(function () {
+            $countries = \App\Models\Country::all();
+            $states = \App\Models\USStates::all();
+            return view('pages.auth.signup-cover', compact('countries', 'states'));
+        });
     }
 }
