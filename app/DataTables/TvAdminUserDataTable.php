@@ -46,7 +46,7 @@ class TvAdminUserDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        $data = $model::select();
+        $data = $model::where('account_type', '!=', 'D')->select();
         return $this->applyScopes($data);
     }
 

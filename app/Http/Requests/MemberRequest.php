@@ -30,6 +30,7 @@ class MemberRequest extends FormRequest
             'postal_code'      => 'nullable',
             'country_id'      => 'nullable',
             'role'          => 'nullable',
+            'city'          => 'nullable',
             'status'          => 'required',
         ];
 

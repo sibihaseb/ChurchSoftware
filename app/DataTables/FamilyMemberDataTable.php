@@ -21,9 +21,23 @@ class FamilyMemberDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', 'familymember.action')
-            ->setRowId('id');
+        return datatables()
+            ->eloquent($query)
+            ->addColumn('action', function ($data) {
+                $button = null;
+                // if (auth()->user()->hasPermissionTo('Edit Content')) {
+                $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
+                // }
+                // if (auth()->user()->hasPermissionTo('Edit Content')) {
+                $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
+                // }
+                return $button;
+            })
+            // ->addColumn('checkbox', function ($data) {
+            //     return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
+            // })
+
+            ->escapeColumns([]);
     }
 
     /**
@@ -31,9 +45,11 @@ class FamilyMemberDataTable extends DataTable
      */
     public function query(FamilyMember $model): QueryBuilder
     {
-        return $model->newQuery();
+        $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
+        $query = $model::where('church_id', $currentAppCode)->select();
+        return $this->applyScopes($query);
     }
-
+   
     /**
      * Optional method if you want to use the html builder.
      */
