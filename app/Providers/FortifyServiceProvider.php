@@ -52,5 +52,13 @@ class FortifyServiceProvider extends ServiceProvider
             $states = \App\Models\USStates::all();
             return view('pages.auth.signup-cover', compact('countries', 'states'));
         });
+
+        Fortify::requestPasswordResetLinkView(function () {
+            return view('pages.auth.forgot-password');
+        });
+
+        Fortify::resetPasswordView(function ($request) {
+            return view('pages.auth.reset-password', ['request' => $request]);
+        });
     }
 }

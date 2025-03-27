@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+@section('title', 'Register')
 @section('error-body')
 
     <body class="bg-white">

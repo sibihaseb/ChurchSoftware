@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-@section('title', 'Login')
+@section('title', 'Reset Password')
 @section('error-body')
 
     <body class="bg-white">
@@ -26,15 +26,18 @@
                             </a>
                         </div>
                         <div class="mb-4">
-                            <p class="h5 fw-semibold">Sign In</p>
+                            <p class="h5 fw-semibold">{{ __('Reset Password') }}</p>
                         </div>
                         <div class="row gy-3">
-                            <form method="POST" action="{{ route('login') }}">
+                            <form method="POST" action="{{ route('password.update') }}">
                                 @csrf
+                                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+
                                 <div class="col-xl-12 mt-0">
-                                    <label for="signin-email" class="form-label text-default">User Name</label>
-                                    <input type="text" class="form-control form-control-lg" id="signin-email"
-                                        placeholder="Enter Your email" name="email">
+                                    <label for="email" class="form-label text-default">Email Address</label>
+                                    <input type="email" class="form-control form-control-lg" id="email"
+                                        name="email" required value="{{ old('email') }}"
+                                        placeholder="Enter Your Email">
                                     @error('email')
                                         <div class="mt-4 mb-4">
                                             <span class="alert-danger" role="alert">
@@ -43,17 +46,11 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="col-xl-12 mb-3 mt-3">
-                                    <label for="signin-password" class="form-label text-default d-block">Password<a
-                                            href="{{ route('password.request') }}" class="float-end text-danger">Forget
-                                            password ?</a></label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control form-control-lg" id="signin-password"
-                                            placeholder="password" name="password">
-                                        <button class="btn btn-light" type="button"
-                                            onclick="createpassword('signin-password',this)" id="button-addon2"><i
-                                                class="ri-eye-off-line align-middle"></i></button>
-                                    </div>
+
+                                <div class="col-xl-12 mt-3">
+                                    <label for="password" class="form-label text-default">New Password</label>
+                                    <input type="password" class="form-control form-control-lg" id="password"
+                                        name="password" required placeholder="Enter New Password">
                                     @error('password')
                                         <div class="mt-4 mb-4">
                                             <span class="alert-danger" role="alert">
@@ -61,21 +58,18 @@
                                             </span>
                                         </div>
                                     @enderror
-                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="defaultCheck1">
-                                            <label class="form-check-label text-muted fw-normal" for="defaultCheck1">
-                                                Remember password?
-                                            </label>
-                                        </div>
-                                        <a href="{{ url('register') }}" class="text-primary">Sign Up</a>
-                                    </div>
                                 </div>
-                                <div class="col-xl-12 d-grid mt-2">
-                                    <button type="submit" class="btn btn-lg btn-primary">
-                                        {{ __('Login') }}
-                                    </button>
+
+                                <div class="col-xl-12 mt-3">
+                                    <label for="password_confirmation" class="form-label text-default">Confirm
+                                        Password</label>
+                                    <input type="password" class="form-control form-control-lg"
+                                        id="password_confirmation" name="password_confirmation" required
+                                        placeholder="Confirm New Password">
+                                </div>
+
+                                <div class="col-xl-12 mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">Reset Password</button>
                                 </div>
                             </form>
                         </div>

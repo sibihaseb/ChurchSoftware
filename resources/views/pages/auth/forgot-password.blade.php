@@ -8,7 +8,12 @@
 @endsection
 
 @section('content')
-@section('title', 'Login')
+@section('title', 'Forgot Password')
+
+@section('error-header')
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ asset('build/assets/css/authentication.css') }}">
+@endsection
 @section('error-body')
 
     <body class="bg-white">
@@ -26,56 +31,33 @@
                             </a>
                         </div>
                         <div class="mb-4">
-                            <p class="h5 fw-semibold">Sign In</p>
-                        </div>
-                        <div class="row gy-3">
-                            <form method="POST" action="{{ route('login') }}">
+                            <p class="h5 fw-semibold">Forgot Password</p>
+                            <form method="POST" action="{{ route('password.email') }}">
                                 @csrf
-                                <div class="col-xl-12 mt-0">
-                                    <label for="signin-email" class="form-label text-default">User Name</label>
-                                    <input type="text" class="form-control form-control-lg" id="signin-email"
-                                        placeholder="Enter Your email" name="email">
+
+                                <label class="form-label text-default d-block" for="email">Email Address</label>
+                                <div class="input-group">
+                                    <input type="email" placeholder="Enter Your Email"
+                                        class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                        name="email" required>
+
                                     @error('email')
-                                        <div class="mt-4 mb-4">
-                                            <span class="alert-danger" role="alert">
+                                        <div class="mt-2">
+                                            <span class="text-danger" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         </div>
                                     @enderror
                                 </div>
-                                <div class="col-xl-12 mb-3 mt-3">
-                                    <label for="signin-password" class="form-label text-default d-block">Password<a
-                                            href="{{ route('password.request') }}" class="float-end text-danger">Forget
-                                            password ?</a></label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control form-control-lg" id="signin-password"
-                                            placeholder="password" name="password">
-                                        <button class="btn btn-light" type="button"
-                                            onclick="createpassword('signin-password',this)" id="button-addon2"><i
-                                                class="ri-eye-off-line align-middle"></i></button>
-                                    </div>
-                                    @error('password')
-                                        <div class="mt-4 mb-4">
-                                            <span class="alert-danger" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        </div>
-                                    @enderror
-                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="defaultCheck1">
-                                            <label class="form-check-label text-muted fw-normal" for="defaultCheck1">
-                                                Remember password?
-                                            </label>
-                                        </div>
-                                        <a href="{{ url('register') }}" class="text-primary">Sign Up</a>
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 d-grid mt-2">
-                                    <button type="submit" class="btn btn-lg btn-primary">
-                                        {{ __('Login') }}
+
+                                <div class="col-xl-12 d-grid mt-3">
+                                    <button type="submit" class="btn btn-lg btn-primary w-100">
+                                        {{ __('Reset Password') }}
                                     </button>
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    <a href="{{ route('login') }}" class="text-primary">← Back to Login</a>
                                 </div>
                             </form>
                         </div>
