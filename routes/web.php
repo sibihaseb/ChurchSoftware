@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\Dashboard\CountryController;
+use App\Http\Controllers\Dashboard\DepartmentsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\IndexController;
 use App\Http\Controllers\Dashboard\ChurchController;
 use App\Http\Controllers\Dashboard\BillingController;
+use App\Http\Controllers\Dashboard\BudgetsController;
+use App\Http\Controllers\Dashboard\BudgetTypesController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProjectController;
 use App\Http\Controllers\Dashboard\MemberTypeController;
@@ -17,6 +20,9 @@ use App\Http\Controllers\Dashboard\ServiceInvoiceController;
 use App\Http\Controllers\Dashboard\DepositeAccountController;
 use App\Http\Controllers\Dashboard\FamilyMemberTypeController;
 use App\Http\Controllers\Dashboard\DashboardLanguageController;
+use App\Http\Controllers\Dashboard\ExpensesController;
+use App\Http\Controllers\Dashboard\ExpensesTypesController;
+use App\Http\Controllers\Dashboard\FamilyMemberController;
 use App\Http\Controllers\Dashboard\MemberController;
 use App\Http\Controllers\Dashboard\USStatesController;
 use App\Models\Member;
@@ -91,4 +97,17 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
      Route::get('us-states', [USStatesController::class, 'index']);
     //Doners
      Route::resource('doners', MemberController::class);
+      //Family Doners
+      Route::resource('family-doners', FamilyMemberController::class);
+
+    // Departments
+    Route::resource('departments', DepartmentsController::class);
+    // Expenses
+    Route::resource('expenses', ExpensesController::class);
+    // Budgets
+    Route::resource('budgets', BudgetsController::class);
+    // ExpensesTypes
+    Route::resource('expenses_types', ExpensesTypesController::class);
+    // BudgetTypes
+    Route::resource('budget_types', BudgetTypesController::class);
 });

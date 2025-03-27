@@ -48,7 +48,7 @@ class MemberDataTable extends DataTable
     public function query(User $model): QueryBuilder
     {
         $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
-        $query = $model::where('church_id', $currentAppCode)->select();
+        $query = $model::where('church_id', $currentAppCode)->where('account_type',"D")->select();
         return $this->applyScopes($query);
     }
 

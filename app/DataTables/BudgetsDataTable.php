@@ -2,7 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Models\FamilyMember;
+use App\Models\Budget;
+use App\Models\Budgets;
+use App\Models\TemporaryAppCode;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +14,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class FamilyMemberDataTable extends DataTable
+class BudgetsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -26,37 +28,33 @@ class FamilyMemberDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $button = null;
                 // if (auth()->user()->hasPermissionTo('Edit Content')) {
-                $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
+                    $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
                 // }
-                // if (auth()->user()->hasPermissionTo('Edit Content')) {
-                $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
+                // if (auth()->user()->hasPermissionTo('Delete Content')) {
+                    $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
                 // }
                 return $button;
             })
-            // ->addColumn('checkbox', function ($data) {
-            //     return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
-            // })
-
             ->escapeColumns([]);
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(FamilyMember $model): QueryBuilder
+    public function query(Budgets $model): QueryBuilder
     {
         $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
         $query = $model::where('church_id', $currentAppCode)->select();
         return $this->applyScopes($query);
     }
-   
+
     /**
      * Optional method if you want to use the html builder.
      */
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('familymember-table')
+                    ->setTableId('budgets-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -65,7 +63,7 @@ class FamilyMemberDataTable extends DataTable
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
-                      
+                        Button::make('pdf'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
@@ -78,15 +76,13 @@ class FamilyMemberDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('name'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
@@ -95,6 +91,6 @@ class FamilyMemberDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'FamilyMember_' . date('YmdHis');
+        return 'Budgets_' . date('YmdHis');
     }
 }

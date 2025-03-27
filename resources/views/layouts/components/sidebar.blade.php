@@ -180,10 +180,10 @@
                             <a href="{{ url('admin/family-member-type') }}"
                                 class="side-menu__item">{{ __('Family Donor Type') }}</a>
                         </li>
-                        <li class="slide">
+                        {{-- <li class="slide">
                             <a href="{{ url('admin/family-doners') }}"
                                 class="side-menu__item">{{ __('Family Donor') }}</a>
-                        </li>
+                        </li> --}}
                         {{-- <li class="slide">
                             <a href="{{ url('admin/member-type') }}"
                                 class="side-menu__item">{{ __('Donor Type') }}</a>
@@ -192,8 +192,39 @@
                             <a href="{{ url('admin/doners') }}" class="side-menu__item">{{ __('All Donors') }}</a>
                         </li>
                 </li>
-
             </ul>
+            </li>
+            <li class="slide has-sub">
+                <a href="javascript:void(0);" class="side-menu__item">
+                    <i class="bx bx-group side-menu__icon"></i>
+                    <span class="side-menu__label">{{ __('Department Setting') }}<span
+                            class="badge bg-warning-transparent ms-2"></span></span>
+                    <i class="fe fe-chevron-right side-menu__angle"></i>
+                </a>
+                <ul class="slide-menu child1">
+                    <li class="slide side-menu__label1">
+                        <a href="javascript:void(0);">{{ __('Dashboards') }}</a>
+                    </li>
+
+                    <li class="slide">
+                        <a href="{{ url('admin/departments') }}"
+                            class="side-menu__item">{{ __('All Department') }}</a>
+                    </li>
+                    <li class="slide">
+                        <a href="{{ url('admin/expenses') }}"
+                            class="side-menu__item">{{ __('Expenses') }}</a>
+                    </li>
+                    <li class="slide">
+                        <a href="{{ url('admin/expenses_types') }}"
+                            class="side-menu__item">{{ __('Expenses Type') }}</a>
+                    </li>
+                    <li class="slide">
+                        <a href="{{ url('admin/budgets') }}" class="side-menu__item">{{ __('Budgets') }}</a>
+                    </li>
+                    <li class="slide">
+                        <a href="{{ url('admin/budget_types') }}" class="side-menu__item">{{ __('Budget Types') }}</a>
+                    </li>
+                </ul>
             </li>
             <!-- End::slide -->
 
