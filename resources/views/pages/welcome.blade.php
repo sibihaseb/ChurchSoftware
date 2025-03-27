@@ -58,7 +58,7 @@
                         <div class="col-xl-12">
                             <div class="card custom-card">
                                 <div class="card-header justify-content-between">
-                                    <div class="card-title">Top Deals</div>
+                                    <div class="card-title">Top Donors</div>
                                     <div class="dropdown">
                                         <select class="form-select" id="churchSelect">
                                             <option selected disabled>Select a Church</option>

@@ -33,12 +33,12 @@ class IndexController extends Controller
     {
         $churchId = $request->input('church_id');
 
-        $topDonors = User::select('users.first_name', 'users.last_name', 'users.email')
+        $topDonors = User::select('users.name', 'users.email')
             ->selectRaw('SUM(service_invoice_items.amount) as total_donations')
             ->join('service_invoices', 'users.id', '=', 'service_invoices.user_id')
             ->join('service_invoice_items', 'service_invoices.id', '=', 'service_invoice_items.service_invoice_id')
             ->where('service_invoices.church_id', $churchId)
-            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'users.email')
+            ->groupBy('users.id', 'users.name', 'users.email')
             ->orderByDesc('total_donations')
             ->limit(5)
             ->get();

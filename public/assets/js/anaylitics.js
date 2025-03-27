@@ -28,15 +28,13 @@ $(document).ready(function () {
                                 <div class="d-flex align-items-top flex-wrap">
                                     <div class="me-2">
                                         <span class="avatar avatar-sm avatar-rounded bg-primary-transparent fw-semibold">
-                                            ${donor.first_name.charAt(
-                                                0
-                                            )}${donor.last_name.charAt(0)}
+                                            ${donor.name.charAt(0)}
                                         </span>
                                     </div>
                                     <div class="flex-fill">
                                         <p class="fw-semibold mb-0">${
-                                            donor.first_name
-                                        } ${donor.last_name}</p>
+                                            donor.name
+                                        }</p>
                                         <span class="text-muted fs-12">${
                                             donor.email
                                         }</span>
@@ -56,7 +54,7 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 console.error("An error occurred: ", xhr);
-                alert("Failed to fetch donors. Please try again.");
+                // alert("Failed to fetch donors. Please try again.");
             },
         });
     }
