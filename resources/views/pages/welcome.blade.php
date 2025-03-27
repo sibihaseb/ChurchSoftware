@@ -1,6 +1,14 @@
 @extends('layouts.master')
 
 @section('styles')
+    <style>
+        #donorChart .apexcharts-grid line,
+        #crm-total-customers .apexcharts-xaxis line,
+        #crm-total-customers .apexcharts-yaxis line,
+        #crm-total-customers .apexcharts-grid-borders line {
+            display: none !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -111,20 +119,35 @@
                                             <div class="flex-fill ms-3">
                                                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                                                     <div>
-                                                        <p class="text-muted mb-0">Total Customers</p>
-                                                        <h4 class="fw-semibold mt-1">1,02,890</h4>
+                                                        <p class="text-muted mb-0">{{ __('Total Donors') }}</p>
+                                                        <h4 class="fw-semibold">{{ $alldonars['this_month'] }}
+                                                        </h4>
                                                     </div>
-                                                    <div id="crm-total-customers"></div>
+                                                    <div id="donorChart"></div>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-1">
                                                     <div>
-                                                        <a class="text-primary" href="javascript:void(0);">View All<i
+                                                        <a class="text-primary"
+                                                            href="{{ route('doners.index') }}">{{ __('View                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               All') }}<i
                                                                 class="ti ti-arrow-narrow-right ms-2 fw-semibold d-inline-block"></i></a>
                                                     </div>
                                                     <div class="text-end">
-                                                        <p class="mb-0 text-success fw-semibold">+40%</p>
-                                                        <span class="text-muted op-7 fs-11">this month</span>
+                                                        @if (str_starts_with($alldonars['percentage_change'], '+'))
+                                                            <p class="mb-0 fw-semibold text-success">
+                                                                {{ $alldonars['percentage_change'] }}
+                                                            </p>
+                                                        @elseif(str_starts_with($alldonars['percentage_change'], '-'))
+                                                            <p class="mb-0 fw-semibold text-danger">
+                                                                {{ $alldonars['percentage_change'] }}
+                                                            </p>
+                                                        @else
+                                                            <p class="mb-0 fw-semibold text-muted">
+                                                                {{ $alldonars['percentage_change'] }}
+                                                            </p>
+                                                        @endif
+                                                        <p class="text-muted op-7 fs-11">this month</p>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -809,4 +832,59 @@
 
     <!-- CRM-Dashboard -->
     @vite('resources/assets/js/crm-dashboard.js')
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var chartOptions = {
+                chart: {
+                    type: "line",
+                    height: 30,
+                    width: 100,
+                    sparkline: {
+                        enabled: !0
+                    }, // Enable sparkline mode (no axis)
+                },
+
+                stroke: {
+                    show: !0,
+                    curve: "smooth",
+                    lineCap: "butt",
+                    colors: void 0,
+                    width: 1.5,
+                    dashArray: 0,
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        opacityFrom: 0.9,
+                        opacityTo: 0.9,
+                        stops: [0, 98]
+                    },
+                },
+                series: [{
+                    name: "Donors",
+                    data: [{{ $alldonars['last_month'] }}, {{ $alldonars['this_month'] }}]
+                }],
+                yaxis: {
+                    min: 0,
+                    show: !0,
+                    axisBorder: {
+                        show: !0
+                    }
+                },
+                xaxis: {
+                    show: !0,
+                    axisBorder: {
+                        show: !0
+                    }
+                },
+                tooltip: {
+                    enabled: !1
+                },
+                colors: ["rgb(35, 183, 229)"],
+            };
+
+            new ApexCharts(document.querySelector("#donorChart"), chartOptions).render();
+        });
+    </script>
 @endsection
