@@ -69,13 +69,61 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <label class="control-label col-md-4" for="name">{{ __('Name') }}<span
                                             style="color: red;">*</span></label>
                                     <input type="text" name="name" id="name" class="form-control"
                                         placeholder="enter name" />
                                 </div>
-                               
+                                <div class="col-lg-6">
+                                    <label class="control-label col-md-4" for="amount">{{ __('Amount') }}<span
+                                            style="color: red;">*</span></label>
+                                    <input type="text" name="amount" id="amount" class="form-control"
+                                        placeholder="enter name" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="control-label col-md-4 mt-3"
+                                        id="plan_period_label">{{ __('Departments') }}<span
+                                            style="color: red;">*</span></label>
+                                    <select name="department_id[]"
+                                        class="app_code_select @error('app_code') is-invalid @enderror"
+                                        multiple="multiple" id="department_id">
+                                        <option disabled>{{ __('Select') }}</option>
+                                        @foreach ($departments as $data)
+                                            <option value="{!! $data->id !!}">{{ $data->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="control-label col-md-4 mt-3"
+                                        id="plan_period_label">{{ __('Expenses Types') }}<span
+                                            style="color: red;">*</span></label>
+                                    <select name="type_id[]"
+                                        class="app_code_select @error('app_code') is-invalid @enderror"
+                                        multiple="multiple" id="type_id">
+                                        <option disabled>{{ __('Select') }}</option>
+                                        @foreach ($types as $data)
+                                            <option value="{!! $data->id !!}">{{ $data->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-8">
+                            <div class="row">
+                                <div class="col-lg-12 mt-4">
+                                    <label id="labelpass1" class="control-label col-md-4">
+                                        {{ __('Purpose') }} <span style="color: red;">*</span>
+                                    </label>
+                                    <textarea name="purpose" id="purpose" class="form-control" placeholder="purpose" rows="3"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,8 +151,17 @@
     <!-- PRISM JS -->
     <script src="{{ asset('build/assets/libs/prismjs/prism.js') }}"></script>
     @vite('resources/assets/js/prism-custom.js')
- 
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- INTERNAL SELECT2 JS -->
+    @vite('resources/assets/js/select2.js')
+
     <script>
+        var select2type = $('.app_code_select').select2({
+            dropdownParent: $("#formModal"),
+            placeholder: "Select",
+            tags: true,
+        });
         
         $(document).ready(function() {
             $('#create_record').click(function() {
@@ -113,6 +170,10 @@
                 $('#action').val('Add');
                 $('#form_result').html('');
                 $('#name').val("");
+                $('#purpose').val("");
+                $('#amount').val("");
+                $('#department_id').val("");
+                $('#type_id').val("");
                 $('#hidden_id').val("");
                 $('#formModal').modal('show');
             });
@@ -227,8 +288,18 @@
                     dataType: "json",
                     success: function(data) {
                         $('#name').val(data.name);
-                        $('#location').val(data.location);
-                        $('#oldimage').val(data.logo);
+                        $('#purpose').val(data.purpose);
+                        $('#amount').val(data.amount);
+                        $('#department_id').val(data.department_id);
+                        if (data.department_id) {
+                            var typearry = data.department_id.split(',');
+                        }
+                        select2type.val(typearry).trigger("change");
+                        $('#type_id').val(data.type_id);
+                        if (data.type_id) {
+                            var typearry1 = data.type_id.split(',');
+                        }
+                        select2type.val(typearry1).trigger("change");
                         $('#hidden_id').val(id);
                         $('.modal-title').text('{{ __('Update Record') }}');
                         $('#action_button').val('{{ __('Update') }}');
