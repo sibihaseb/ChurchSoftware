@@ -123,9 +123,9 @@ class MemberController extends Controller
         $adminuser->update($validatedData);
 
         if ($adminuser) {
-            return $this->successMessageResponse("Admin User Updated", 201);
+            return $this->successMessageResponse("Record Updated", 201);
         } else {
-            return $this->errorResponse(__('Admin User not Updated'), 422);
+            return $this->errorResponse(__('Record not Updated'), 422);
         }
     }
 
