@@ -44,6 +44,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::get('/home', [IndexController::class, 'home']);
     Route::get('/fetch-top-donors', [IndexController::class, 'topDonors'])->name('top-donors');
+    Route::get('/analytics', [IndexController::class, 'getAnalytics']);
 
     Route::get('/userprofile', [IndexController::class, 'profile']);
     Route::post('/profileupdate', [IndexController::class, 'UpdateProfile']);

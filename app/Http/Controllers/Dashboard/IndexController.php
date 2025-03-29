@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Church;
 use App\Models\Member;
+use App\Models\Budgets;
 use App\Models\Project;
+use App\Models\Expenses;
 use Illuminate\Http\Request;
 use App\Models\ServiceInvoice;
 use App\Models\TemporaryAppCode;
@@ -45,13 +47,13 @@ class IndexController extends Controller
 
     public function home()
     {
+        ini_set('max_execution_time', '1000');
         $churches = Church::all();
         $alldonars = $this->allDonors();
         $totalRevenue = $this->totalRevenue();
         $totalDonations = $this->totalDonations();
         $allUsers = $this->allUsers();
         $topProducts = $this->getTopProducts();
-        // dd($topProducts);
         return view('pages.welcome', compact('churches', 'alldonars', 'totalRevenue', 'totalDonations', 'allUsers', 'topProducts'));
     }
 
@@ -187,6 +189,54 @@ class IndexController extends Controller
             'this_month' => $thisMonthRevenue,
             'percentage_change' => $percentageChange
         ];
+    }
+
+    public function getAnalytics(Request $request)
+    {
+        $churchId = $request->query('church_id');
+
+        if (!$churchId) {
+            return response()->json(['error' => 'church_id is required'], 400);
+        }
+
+        $months = [
+            1 => 'Jan',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Apr',
+            5 => 'May',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'Aug',
+            9 => 'Sep',
+            10 => 'Oct',
+            11 => 'Nov',
+            12 => 'Dec'
+        ];
+
+        $expenses = Expenses::where('church_id', $churchId)
+            ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total', 'month');
+        $budgets = Budgets::where('church_id', $churchId)
+            ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total', 'month');
+
+        $expenseData = [];
+        $budgetData = [];
+
+        foreach ($months as $num => $name) {
+            $expenseData[] = ['x' => $name, 'y' => $expenses[$num] ?? 0];
+            $budgetData[] = ['x' => $name, 'y' => $budgets[$num] ?? 0];
+        }
+
+        return response()->json([
+            'expenseData' => $expenseData,
+            'budgetData' => $budgetData
+        ]);
     }
 
 

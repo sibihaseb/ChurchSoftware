@@ -58,4 +58,74 @@ $(document).ready(function () {
             },
         });
     }
+    let chart;
+
+    function fetchAnalytics(churchId) {
+        fetch(`/admin/analytics?church_id=${churchId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                updateChart(data.expenseData, data.budgetData);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    }
+
+    function updateChart(expenseData, budgetData) {
+        var options = {
+            series: [
+                { type: "line", name: "Expenses", data: expenseData },
+                { type: "line", name: "Budgets", data: budgetData },
+            ],
+            chart: {
+                height: 350,
+                animations: { speed: 500 },
+                dropShadow: {
+                    enabled: true,
+                    top: 8,
+                    blur: 3,
+                    color: "#000",
+                    opacity: 0.1,
+                },
+            },
+            colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
+            dataLabels: { enabled: false },
+            grid: { borderColor: "#f1f1f1", strokeDashArray: 3 },
+            stroke: { curve: "smooth", width: [2, 2] },
+            xaxis: { axisTicks: { show: false } },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return "$" + value;
+                    },
+                },
+            },
+            tooltip: {
+                y: [
+                    { formatter: (e) => "$" + e.toFixed(0) },
+                    { formatter: (e) => "$" + e.toFixed(0) },
+                ],
+            },
+            markers: { hover: { sizeOffset: 5 } },
+        };
+
+        if (chart) {
+            chart.updateOptions(options);
+        } else {
+            chart = new ApexCharts(
+                document.querySelector("#crm-expense-analytics"),
+                options
+            );
+            chart.render();
+        }
+    }
+
+    // Initialize chart with default church_id (Church 1)
+    let defaultChurchId = document.getElementById("church_id").value;
+    fetchAnalytics(defaultChurchId);
+
+    // Update chart on dropdown change
+    document
+        .getElementById("church_id")
+        .addEventListener("change", function () {
+            fetchAnalytics(this.value);
+        });
 });

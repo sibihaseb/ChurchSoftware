@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('church_id')->nullable();
             $table->string('department_id')->nullable();
             $table->string('type_id')->nullable();
+            $table->decimal('amount', 10, 2)->default(0);
             $table->longText('purpose')->nullable();
             $table->timestamps();
         });

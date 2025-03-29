@@ -314,35 +314,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-12">
-                                <div class="card custom-card">
-                                    <div class="card-header justify-content-between">
-                                        <div class="card-title">
-                                            Revenue Analytics
-                                        </div>
-                                        <div class="dropdown">
-                                            <a href="javascript:void(0);" class="p-2 fs-12 text-muted"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                View All<i
-                                                    class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a class="dropdown-item" href="javascript:void(0);">Today</a></li>
-                                                <li><a class="dropdown-item" href="javascript:void(0);">This Week</a></li>
-                                                <li><a class="dropdown-item" href="javascript:void(0);">Last Week</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="content-wrapper">
-                                            <div id="crm-revenue-analytics"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
-                    <div class="col-xl-12">
+                    {{-- <div class="col-xl-12">
                         <div class="card custom-card">
                             <div class="card-header justify-content-between">
                                 <div class="card-title">
@@ -561,7 +536,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="col-xxl-3 col-xl-12">
@@ -648,74 +623,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xxl-12 col-xl-6">
-                                <div class="card custom-card">
-                                    <div class="card-header justify-content-between">
-                                        <div class="card-title">
-                                            Deals Status
-                                        </div>
-                                        <div class="dropdown">
-                                            <a href="javascript:void(0);" class="p-2 fs-12 text-muted"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                View All<i
-                                                    class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a class="dropdown-item" href="javascript:void(0);">Today</a></li>
-                                                <li><a class="dropdown-item" href="javascript:void(0);">This Week</a></li>
-                                                <li><a class="dropdown-item" href="javascript:void(0);">Last Week</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <h4 class="fw-bold mb-0">4,289</h4>
-                                            <div class="ms-2">
-                                                <span class="badge bg-success-transparent">1.02<i
-                                                        class="ri-arrow-up-s-fill align-mmiddle ms-1"></i></span>
-                                                <span class="text-muted ms-1">compared to last week</span>
-                                            </div>
-                                        </div>
-                                        <div class="progress-stacked progress-animate progress-xs mb-4">
-                                            <div class="progress-bar" role="progressbar" style="width: 21%"
-                                                aria-valuenow="21" aria-valuemin="0" aria-valuemax="100"></div>
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 26%"
-                                                aria-valuenow="26" aria-valuemin="0" aria-valuemax="100"></div>
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 35%"
-                                                aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 18%"
-                                                aria-valuenow="18" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <ul class="list-unstyled mb-0 pt-2 crm-deals-status">
-                                            <li class="primary">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div>Successful Deals</div>
-                                                    <div class="fs-12 text-muted">987 deals</div>
-                                                </div>
-                                            </li>
-                                            <li class="info">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div>Pending Deals</div>
-                                                    <div class="fs-12 text-muted">1,073 deals</div>
-                                                </div>
-                                            </li>
-                                            <li class="warning">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div>Rejected Deals</div>
-                                                    <div class="fs-12 text-muted">1,674 deals</div>
-                                                </div>
-                                            </li>
-                                            <li class="success">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div>Upcoming Deals</div>
-                                                    <div class="fs-12 text-muted">921 deals</div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-12 col-xl-6">
+                            {{-- <div class="col-xxl-12 col-xl-6">
                                 <div class="card custom-card">
                                     <div class="card-header justify-content-between">
                                         <div class="card-title">
@@ -885,8 +793,100 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-9">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">
+                            {{ __('Expense Vs Budget') }}
+                        </div>
+                        <div>
+                            <select class="form-select" id="church_id">
+                                <option selected disabled>Select a Church</option>
+                                @foreach ($churches as $index => $church)
+                                    <option value="{{ $church->id }}" {{ $index === 0 ? 'selected' : '' }}>
+                                        {{ $church->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="content-wrapper">
+                            <div id="crm-expense-analytics"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="card custom-card">
+                    <div class="card-header justify-content-between">
+                        <div class="card-title">
+                            Deals Status
+                        </div>
+                        <div class="dropdown">
+                            <a href="javascript:void(0);" class="p-2 fs-12 text-muted" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                View All<i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a class="dropdown-item" href="javascript:void(0);">Today</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);">This Week</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);">Last Week</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <h4 class="fw-bold mb-0">4,289</h4>
+                            <div class="ms-2">
+                                <span class="badge bg-success-transparent">1.02<i
+                                        class="ri-arrow-up-s-fill align-mmiddle ms-1"></i></span>
+                                <span class="text-muted ms-1">compared to last week</span>
                             </div>
                         </div>
+                        <div class="progress-stacked progress-animate progress-xs mb-4">
+                            <div class="progress-bar" role="progressbar" style="width: 21%" aria-valuenow="21"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 26%" aria-valuenow="26"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 35%"
+                                aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 18%"
+                                aria-valuenow="18" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <ul class="list-unstyled mb-0 pt-2 crm-deals-status">
+                            <li class="primary">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>Successful Deals</div>
+                                    <div class="fs-12 text-muted">987 deals</div>
+                                </div>
+                            </li>
+                            <li class="info">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>Pending Deals</div>
+                                    <div class="fs-12 text-muted">1,073 deals</div>
+                                </div>
+                            </li>
+                            <li class="warning">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>Rejected Deals</div>
+                                    <div class="fs-12 text-muted">1,674 deals</div>
+                                </div>
+                            </li>
+                            <li class="success">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>Upcoming Deals</div>
+                                    <div class="fs-12 text-muted">921 deals</div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -1190,7 +1190,6 @@
                     }
                 }]
             });
-
         });
     </script>
 @endsection

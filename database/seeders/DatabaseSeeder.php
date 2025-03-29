@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             'role' => 'Superadmin',
             'account_type' => 'S',
             'status' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         // Retrieve or create the Superadmin role
@@ -70,6 +72,20 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('churches')->insert([
             'name' => 'Church'
+        ]);
+        DB::table('expenses')->insert([
+            'name' => 'Tax',
+            'amount' => 200,
+            'church_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('budgets')->insert([
+            'name' => 'Cleaning',
+            'amount' => 100,
+            'church_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         $this->call([
