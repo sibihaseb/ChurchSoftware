@@ -39,7 +39,27 @@
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <button type="button" name="create_record" id="create_record"
                                 class="btn btn-success btn-sm">{{ __('Create Doners') }}</button>
+                                 <!-- Form for deleting selected rows -->
+                         <form id="delete_form" action="{{ route('common.deleteSelected', 'User') }}"
+                         class="mb-0" method="POST">
+                         @csrf
+                         <input type="hidden" name="ids" id="delete_ids">
+                         <input type="hidden" name="page" id="page_id1">
+                         <button type="button" id="delete_selected"
+                             class="btn btn-danger btn-sm">{{ __('Delete Selected Items') }}</button>
+                     </form>
+
+                     <!-- Form for changing status of selected rows -->
+                     <form id="status_form" action="{{ route('common.changeStatusSelected', 'User') }} "
+                         class="mb-0" method="POST">
+                         @csrf
+                         <input type="hidden" name="ids" id="status_ids">
+                         <input type="hidden" name="page" id="page_id">
+                         <button type="button" id="change_status"
+                             class="btn btn-warning btn-sm">{{ __('Change Status of Selected Items') }}</button>
+                     </form>
                         </div>
+                        
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -141,8 +161,8 @@
                                         multiple="multiple" id="country_id">
                                         <option disabled>{{ __('Select') }}</option>
                                         @foreach ($countries as $data)
-                                        <option value="{!! $data->id !!}">{{ $data->title }}
-                                        </option>
+                                            <option value="{!! $data->id !!}">{{ $data->title }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -155,12 +175,12 @@
                                         multiple="multiple" id="state_id">
                                         <option disabled>{{ __('Select') }}</option>
                                         @foreach ($states as $data)
-                                        <option value="{!! $data->id !!}">{{ $data->name }}
-                                        </option>
+                                            <option value="{!! $data->id !!}">{{ $data->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
-                               
+
                             </div>
                         </div>
                         <div class="col-lg-12 mt-3">
@@ -173,7 +193,8 @@
                                 <div class="col-lg-6">
                                     <label class="control-label col-md-4">{{ __('Zip/Code') }} :
                                     </label>
-                                    <input type="text" name="postal_code" id="postal_code" class="form-control" />
+                                    <input type="text" name="postal_code" id="postal_code"
+                                        class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -206,9 +227,9 @@
 </div>
 
 @include('pages.modal.delete_modal')
-{{-- @include('pages.modal.multiple_delete_modal')
+@include('pages.modal.multiple_delete_modal')
 @include('pages.modal.status_modal')
-@include('pages.modal.multiple_status_modal') --}}
+@include('pages.modal.multiple_status_modal')
 @section('scripts')
     <!-- PRISM JS -->
     <script src="{{ asset('build/assets/libs/prismjs/prism.js') }}"></script>
@@ -400,9 +421,9 @@
                 $('#oldpassword').val("");
                 $('#status').val("1");
                 $('#account_type').val("");
-                 $('#church_id').val("");
-                 $('#country_id').val("");
-                 $('#state_id').val("");
+                $('#church_id').val("");
+                $('#country_id').val("");
+                $('#state_id').val("");
                 // $('#day').val("");
                 // $('.select2-selection__choice').remove();
                 $('#hidden_id').val("");
@@ -526,9 +547,9 @@
                         $('#address').val(data.address);
                         $('#oldpassword').val(data.password);
                         $('#status').val(data.status);
-                         $('#role').val(data.role);
+                        $('#role').val(data.role);
                         // $('#day').val(data.day);
-                         $('#account_type').val(data.account_type);
+                        $('#account_type').val(data.account_type);
                         $('#church_id').val(data.church_id);
                         if (data.church_id) {
                             var typearry0 = data.church_id.split(',');
@@ -591,6 +612,37 @@
                 })
             });
         });
+
+         //status
+         let status_id = '';
+            let status_type = '';
+            $(document).on('click', '.status_active', function() {
+                status_id = $(this).attr('id');
+                status_type = $(this).data('status');
+                $('#statusModal').modal('show');
+
+            });
+            $('#confirm_status').click(function() {
+                $.ajax({
+                    url: "/admin/doners/" + status_id + "/" + status_type,
+                    type: "GET",
+                    success: function(data) {
+                        // Get the current page number of the DataTable
+                        var currentPage = window.LaravelDataTables["member-table"].page
+                            .info()
+                            .page;
+                        setTimeout(function() {
+                            $('#statusModal').modal('hide');
+                        }, 2000);
+                        window.LaravelDataTables["member-table"].ajax.reload(function(
+                            json) {
+                            window.LaravelDataTables["member-table"].page(
+                                    currentPage)
+                                .draw(false);
+                        }, false);
+                    }
+                })
+            });
         $("#closemybt").click(function() {
             $('#sample_form').trigger('reset');
         });

@@ -6,6 +6,9 @@ use App\DataTables\BudgetsDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BudgetsRequest;
 use App\Models\Budgets;
+use App\Models\BudgetTypes;
+use App\Models\Department;
+use App\Models\ExpensesTypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +17,9 @@ class BudgetsController extends Controller
  
     public function index(BudgetsDataTable $dataTable)
     {
-        return $dataTable->render(' dashboard.budgets.index');
+        $departments = Department::where('church_id',$this->currentApp()->church_id)->get();
+        $types = BudgetTypes::where('church_id',$this->currentApp()->church_id)->get();
+        return $dataTable->render(' dashboard.budgets.index' ,compact('departments','types'));
     }
     /**
      * Store a newly created resource in storage.
@@ -23,6 +28,16 @@ class BudgetsController extends Controller
     {
         $validatedData = $request->validated();
         $validatedData['church_id'] = $this->currentApp()->church_id ?? null;
+        if (isset($validatedData['department_id']) && $validatedData['department_id']) {
+            $validatedData['department_id'] = $this->processDepartments($validatedData['department_id'], $validatedData['church_id']);
+        } else {
+            $validatedData['department_id'] = null;
+        }
+        if (isset($validatedData['type_id']) && $validatedData['type_id']) {
+            $validatedData['type_id'] = $this->processBudgetTypes($validatedData['type_id'], $validatedData['church_id']);
+        } else {
+            $validatedData['type_id'] = null;
+        }
         $data = Budgets::create($validatedData);
         if ($data) {
             return $this->successMessageResponse(__('Budgets Created Successfully'), 201);
@@ -51,6 +66,16 @@ class BudgetsController extends Controller
         $data = Budgets::findOrFail($id);
         $validatedData = $request->validated();
         $validatedData['church_id'] = $this->currentApp()->church_id ?? null;
+        if (isset($validatedData['department_id']) && $validatedData['department_id']) {
+            $validatedData['department_id'] = $this->processDepartments($validatedData['department_id'], $validatedData['church_id']);
+        } else {
+            $validatedData['department_id'] = null;
+        }
+        if (isset($validatedData['type_id']) && $validatedData['type_id']) {
+            $validatedData['type_id'] = $this->processBudgetTypes($validatedData['type_id'], $validatedData['church_id']);
+        } else {
+            $validatedData['type_id'] = null;
+        }
         DB::transaction(function () use ($validatedData, $data, $request) {
             $data->update($validatedData);
         });

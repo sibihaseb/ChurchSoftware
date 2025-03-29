@@ -23,6 +23,11 @@ class BudgetsRequest extends FormRequest
     {
         $rules = [
             'name'    =>  'required|string',
+            'department_id'  =>  'nullable',
+            'type_id'=>  'nullable',
+            'amount'=>  'nullable',
+            'purpose'=>  'nullable',
+
         ];
         return $rules;
     }

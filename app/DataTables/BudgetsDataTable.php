@@ -78,6 +78,8 @@ class BudgetsDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
+            Column::make('amount'),
+            Column::make('purpose'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

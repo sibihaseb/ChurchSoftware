@@ -98,6 +98,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('us-states', [USStatesController::class, 'index']);
     //Doners
     Route::resource('doners', MemberController::class);
+    Route::get('doners/{tvcategory}/{status}', [MemberController::class, 'status']);
     //Family Doners
     Route::resource('family-doners', FamilyMemberController::class);
 
@@ -111,4 +112,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('expenses_types', ExpensesTypesController::class);
     // BudgetTypes
     Route::resource('budget_types', BudgetTypesController::class);
+
+    //multiple actions
+    //common routes for multiple select routes delete or chnage status
+    Route::post('/model/delete-selected/{model}', [MemberController::class, 'deleteSelected'])->name('common.deleteSelected');
+    Route::post('/model/change-status-selected/{model}', [MemberController::class, 'changeStatusSelected'])->name('common.changeStatusSelected');
 });

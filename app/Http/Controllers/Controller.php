@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BudgetTypes;
+use App\Models\Department;
+use App\Models\ExpensesTypes;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -82,4 +85,80 @@ class Controller extends BaseController
         $currentApp = DB::table('temporary_app_codes')->where('user_id', auth()->user()?->id)->first();
         return $currentApp;
     }
+
+    public function processDepartments($names, $church_id)
+    {
+        if (!$names) {
+            return null;
+        }
+
+        $codes = [];
+        foreach ($names as $nameOrId) {
+            // Check if it's a numeric ID
+            if (is_numeric($nameOrId)) {
+                // If it's an existing ID, add it to the codes array
+                $codes[] = (int)$nameOrId;
+            } else {
+                // Otherwise, treat it as a department name and create or find it
+                $data = Department::firstOrCreate(
+                    ['name' => $nameOrId, 'church_id' => $church_id]
+                );
+                $codes[] = $data->id; // Add the newly created or existing department ID
+            }
+        }
+
+        // Return the IDs as a comma-separated string
+        return implode(',', $codes);
+    }
+
+    public function processExpensesTypes($names, $church_id)
+    {
+        if (!$names) {
+            return null;
+        }
+
+        $codes = [];
+        foreach ($names as $nameOrId) {
+            // Check if it's a numeric ID
+            if (is_numeric($nameOrId)) {
+                // If it's an existing ID, add it to the codes array
+                $codes[] = (int)$nameOrId;
+            } else {
+                // Otherwise, treat it as a department name and create or find it
+                $data = ExpensesTypes::firstOrCreate(
+                    ['name' => $nameOrId, 'church_id' => $church_id]
+                );
+                $codes[] = $data->id; // Add the newly created or existing department ID
+            }
+        }
+
+        // Return the IDs as a comma-separated string
+        return implode(',', $codes);
+    }
+    public function processBudgetTypes($names, $church_id)
+    {
+        if (!$names) {
+            return null;
+        }
+
+        $codes = [];
+        foreach ($names as $nameOrId) {
+            // Check if it's a numeric ID
+            if (is_numeric($nameOrId)) {
+                // If it's an existing ID, add it to the codes array
+                $codes[] = (int)$nameOrId;
+            } else {
+                // Otherwise, treat it as a department name and create or find it
+                $data = BudgetTypes::firstOrCreate(
+                    ['name' => $nameOrId, 'church_id' => $church_id]
+                );
+                $codes[] = $data->id; // Add the newly created or existing department ID
+            }
+        }
+
+        // Return the IDs as a comma-separated string
+        return implode(',', $codes);
+    }
+  
+   
 }

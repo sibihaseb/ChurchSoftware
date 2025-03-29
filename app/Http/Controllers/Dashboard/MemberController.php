@@ -60,7 +60,7 @@ class MemberController extends Controller
         } else {
             $validatedData['state_id'] = null;
         }
-        
+
         $adminuser = User::create($validatedData);
 
         if ($adminuser) {
@@ -123,9 +123,9 @@ class MemberController extends Controller
         $adminuser->update($validatedData);
 
         if ($adminuser) {
-            return $this->successMessageResponse("Admin User Updated", 201);
+            return $this->successMessageResponse("Record Updated", 201);
         } else {
-            return $this->errorResponse(__('Admin User not Updated'), 422);
+            return $this->errorResponse(__('Record not Updated'), 422);
         }
     }
 
@@ -140,5 +140,80 @@ class MemberController extends Controller
         }, 2);
 
         return response()->json(['success' => __(' Deleted Successfully')]);
+    }
+    public function deleteSelected(Request $request, $model)
+    {
+        $ids = explode(',', $request->input('ids'));
+        if (empty($ids) || empty($model)) {
+            return redirect()->back()->with(['error' => 'No records selected.']);
+        }
+
+        try {
+            DB::transaction(function () use ($ids, $model) {
+                foreach ($ids as $id) {
+                    $modelClass = "App\\Models\\$model";
+                    $data = $modelClass::findOrFail($id);
+    
+                    if ($data) {
+                        $data->delete();
+                    }
+                }
+            });
+            $baseUrl = explode('?', redirect()->back()->getTargetUrl())[0];
+            $queryParams = ['page' => $request->input('page')];
+
+            return redirect()->back()
+                ->setTargetUrl($baseUrl . '?' . http_build_query($queryParams))
+                ->with(['success' => 'Selected records have been deleted.']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
+    }
+
+
+    /**
+     * Change the status of selected rows dynamically for any model.
+     */
+    public function changeStatusSelected(Request $request, $model)
+    {
+        $ids = explode(',', $request->input('ids'));
+
+        // Check if no records or model are selected
+        if (empty($ids) || empty($model)) {
+            return redirect()->back()->with(['error' => 'No records selected.']);
+        }
+
+        // Wrap the status change logic in a DB transaction
+        DB::transaction(function () use ($ids, $model) {
+            foreach ($ids as $id) {
+                // Dynamically resolve the model class
+                $modelClass = "App\\Models\\$model";
+                // Find the record by ID, or fail if not found
+                $data = $modelClass::findOrFail($id);
+                // Toggle the status
+                    $data->status = ($data->status == 1) ? 0 : 1;
+                // Save the record and log the action
+                $data->save();
+            }
+        });
+        // Return success message
+        //dd($request->input('page'));
+
+        $baseUrl = explode('?', redirect()->back()->getTargetUrl())[0];
+        $queryParams = ['page' => $request->input('page')];
+        return redirect()->back()
+            ->setTargetUrl($baseUrl . '?' . http_build_query($queryParams))
+            ->with(['success' => 'Status updated successfully.']);
+    }
+
+    public function status($id, $status)
+    {
+        $category = User::findorFail($id);
+        $category->status = $status;
+        if ($category->save()) {
+            return $this->successMessageResponse("Status changed", 201);
+        } else {
+            return $this->errorResponse('Status not Updated', 204);
+        }
     }
 }
