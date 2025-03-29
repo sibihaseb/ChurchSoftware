@@ -49,6 +49,13 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/userprofile', [IndexController::class, 'profile']);
     Route::post('/profileupdate', [IndexController::class, 'UpdateProfile']);
 
+    Route::post('setappconfig', [TvAdminUserController::class, 'appCodeSet'])->name('currentapp');
+
+    //payments
+    Route::get('/members/{member}/payment/{amount}', [BillingController::class, 'showPaymentForm'])->name('show.payment');
+    Route::post('/members/{member}/pay', [BillingController::class, 'processPayment']);
+
+    //permission management
     Route::group(['middleware' => 'permission:Role Management'], function () {
         Route::get('roletable', [RolePermissionController::class, 'roletable'])->name('roletable');
         Route::get('createrole', [RolePermissionController::class, 'createrole'])->name('createrole');
@@ -58,60 +65,87 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('role/editpage/{id}', [RolePermissionController::class, 'editafter']);
         Route::get('role/destroy/{id}', [RolePermissionController::class, 'destroy']);
     });
-    Route::resource('adminuser', TvAdminUserController::class);
-    Route::post('setappconfig', [TvAdminUserController::class, 'appCodeSet'])->name('currentapp');
-    Route::resource('projects', ProjectController::class);
-    Route::post('projectfile/{id}', [ProjectController::class, 'uploadfile']);
 
-    Route::resource('invoice', ServiceInvoiceController::class);
+    //user management
+    Route::group(['middleware' => 'permission:User Management'], function () {
+        Route::resource('adminuser', TvAdminUserController::class);
+    });
 
-    //All churches
-    Route::resource('church', ChurchController::class);
-    //dashbaord Lnaguage
-    // Route::group(['middleware' => 'permission:Dashboard Language'], function () {
-    Route::get('dashboard/languages', [DashboardLanguageController::class, 'index'])->name('dash.language');
-    Route::get('dashboard/languages/create', [DashboardLanguageController::class, 'create'])->name('dash.lang.create');
-    Route::post('dashboard/lang', [DashboardLanguageController::class, 'store'])->name('dash.lang');
-    Route::post('change/lang', [DashboardLanguageController::class, 'change'])->name('user.lang');
-    Route::delete('dash/languages/{id}', [DashboardLanguageController::class, 'destroy'])->name('dashboardlanguage.destroy');
-    // });
+
+    //donation management
+    Route::group(['middleware' => 'permission:Donation Management'], function () {
+        Route::resource('invoice', ServiceInvoiceController::class);
+    });
+
+
+    //church management
+    Route::group(['middleware' => 'permission:Church Management'], function () {
+        Route::resource('church', ChurchController::class);
+    });
+
+    //language management
+    Route::group(['middleware' => 'permission:Language Management'], function () {
+        Route::get('dashboard/languages', [DashboardLanguageController::class, 'index'])->name('dash.language');
+        Route::get('dashboard/languages/create', [DashboardLanguageController::class, 'create'])->name('dash.lang.create');
+        Route::post('dashboard/lang', [DashboardLanguageController::class, 'store'])->name('dash.lang');
+        Route::post('change/lang', [DashboardLanguageController::class, 'change'])->name('user.lang');
+        Route::delete('dash/languages/{id}', [DashboardLanguageController::class, 'destroy'])->name('dashboardlanguage.destroy');
+    });
 
     //DepositeAccount
-    Route::resource('deposite-account', DepositeAccountController::class);
+    Route::group(['middleware' => 'permission:Deposit Account Management'], function () {
+        Route::resource('deposite-account', DepositeAccountController::class);
+    });
+
     // PaymentMethod
-    Route::resource('payment-method', PaymentMethodController::class);
+    Route::group(['middleware' => 'permission:Payment Method Management'], function () {
+        Route::resource('payment-method', PaymentMethodController::class);
+    });
+
     // Product
-    Route::resource('product', ProductController::class);
+    Route::group(['middleware' => 'permission:Product Management'], function () {
+        Route::resource('product', ProductController::class);
+    });
+
     // Tag
-    Route::resource('tag', TagController::class);
+    Route::group(['middleware' => 'permission:Tag Management'], function () {
+        Route::resource('tag', TagController::class);
+    });
+
     // FamilyMemberType
-    Route::resource('family-member-type', FamilyMemberTypeController::class);
-    // MemberType
-    Route::resource('member-type', MemberTypeController::class);
-    //payments
-    Route::get('/members/{member}/payment/{amount}', [BillingController::class, 'showPaymentForm'])->name('show.payment');
-    Route::post('/members/{member}/pay', [BillingController::class, 'processPayment']);
+    Route::group(['middleware' => 'permission:Donor Management'], function () {
+        Route::resource('family-member-type', FamilyMemberTypeController::class);
+        Route::resource('doners', MemberController::class);
+        Route::get('doners/{tvcategory}/{status}', [MemberController::class, 'status']);
+    });
+
 
     //country table
-    Route::get('country', [CountryController::class, 'index']);
-    //country table
-    Route::get('us-states', [USStatesController::class, 'index']);
-    //Doners
-    Route::resource('doners', MemberController::class);
-    Route::get('doners/{tvcategory}/{status}', [MemberController::class, 'status']);
+    Route::group(['middleware' => 'permission:Country Management'], function () {
+        Route::get('country', [CountryController::class, 'index']);
+    });
+
+    //state table
+    Route::group(['middleware' => 'permission:State Management'], function () {
+        Route::get('us-states', [USStatesController::class, 'index']);
+    });
+
     //Family Doners
     Route::resource('family-doners', FamilyMemberController::class);
 
     // Departments
-    Route::resource('departments', DepartmentsController::class);
-    // Expenses
-    Route::resource('expenses', ExpensesController::class);
-    // Budgets
-    Route::resource('budgets', BudgetsController::class);
-    // ExpensesTypes
-    Route::resource('expenses_types', ExpensesTypesController::class);
-    // BudgetTypes
-    Route::resource('budget_types', BudgetTypesController::class);
+    Route::group(['middleware' => 'permission:Department Management'], function () {
+        Route::resource('departments', DepartmentsController::class);
+        // Expenses
+        Route::resource('expenses', ExpensesController::class);
+        // Budgets
+        Route::resource('budgets', BudgetsController::class);
+        // ExpensesTypes
+        Route::resource('expenses_types', ExpensesTypesController::class);
+        // BudgetTypes
+        Route::resource('budget_types', BudgetTypesController::class);
+    });
+
 
     //multiple actions
     //common routes for multiple select routes delete or chnage status

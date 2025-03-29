@@ -43,9 +43,8 @@
                                 <div class="form-group">
                                     <hr />
                                     <div class="row">
-                                        <div class="col-lg-4">
-                                            @if ($allPermission['User Management'] == 'User Management' ||
-                                                    $allPermission['Role Management'] == 'Role Management')
+                                        <div class="col-lg-4 border-end border-2">
+                                            @if ($allPermission['User Management'] == 'User Management' || $allPermission['Role Management'] == 'Role Management')
                                                 <h5 class="text-primary">{{ __('User Management') }} <input type="checkbox"
                                                         id="check-all-user-management"></h5>
 
@@ -56,8 +55,107 @@
                                                 <label class="m-2">
                                                     <input class="m-2 all-user-management all" type="checkbox"
                                                         name="permission[]"
-                                                  value="{{ $allPermission['Role Management'] }}">{{ $allPermission['Role Management'] }}</label>
-        
+                                                        value="{{ $allPermission['Role Management'] }}">{{ $allPermission['Role Management'] }}</label>
+                                            @endif
+                                        </div>
+                                        <div class="col-lg-4 border-end border-2">
+                                            @if ($allPermission['Church Management'] == 'Church Management')
+                                                <h5 class="text-primary">{{ __('Church Management') }} <input
+                                                        type="checkbox" id="check-all-church-management"></h5>
+
+                                                <label class="m-2">
+                                                    <input class="m-2 all-church-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Church Management'] }}">{{ $allPermission['Church Management'] }}</label>
+                                                <label class="m-2">
+                                                    <input class="m-2 all-church-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Language Management'] }}">{{ $allPermission['Language Management'] }}</label>
+                                                <label class="m-2">
+                                                    <input class="m-2 all-church-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Country Management'] }}">{{ $allPermission['Country Management'] }}</label>
+                                                <label class="m-2">
+                                                    <input class="m-2 all-church-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['State Management'] }}">{{ $allPermission['State Management'] }}</label>
+                                            @endif
+                                        </div>
+                                        <div class="col-lg-4 border-end border-2">
+                                            @if ($allPermission['Account Management'] == 'Account Management')
+                                                <h5 class="text-primary">{{ __('Account Management') }} <input
+                                                        type="checkbox" id="check-all-account-management"></h5>
+
+                                                <label class="m-2">
+                                                    <input class="m-2 all-account-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Account Management'] }}">{{ $allPermission['Account Management'] }}</label>
+                                                <label class="m-2">
+                                                    <input class="m-2 all-account-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Deposit Account Management'] }}">{{ $allPermission['Deposit Account Management'] }}</label>
+                                                <label class="m-2">
+                                                    <input class="m-2 all-account-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Payment Method Management'] }}">{{ $allPermission['Payment Method Management'] }}</label>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-lg-4 border-end border-2">
+                                            @if ($allPermission['Product Management'] == 'Product Management')
+                                                <h5 class="text-primary">{{ __('Product Management') }} <input
+                                                        type="checkbox" id="check-all-product-management"></h5>
+
+                                                <label class="m-2">
+                                                    <input class="m-2 all-product-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Product Management'] }}">{{ $allPermission['Product Management'] }}</label>
+                                            @endif
+                                        </div>
+                                        <div class="col-lg-4 border-end border-2">
+                                            @if ($allPermission['Donor Management'] == 'Donor Management')
+                                                <h5 class="text-primary">{{ __('Donor Management') }} <input
+                                                        type="checkbox" id="check-all-donar-management"></h5>
+
+                                                <label class="m-2">
+                                                    <input class="m-2 all-donor-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Donor Management'] }}">{{ $allPermission['Donor Management'] }}</label>
+                                            @endif
+                                        </div>
+                                        <div class="col-lg-4 border-end border-2">
+                                            @if ($allPermission['Department Management'] == 'Department Management')
+                                                <h5 class="text-primary">{{ __('Department Management') }} <input
+                                                        type="checkbox" id="check-all-department-management"></h5>
+
+                                                <label class="m-2">
+                                                    <input class="m-2 all-department-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Department Management'] }}">{{ $allPermission['Department Management'] }}</label>
+                                                <label class="m-2">
+                                                    <input class="m-2 all-department-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Expense Management'] }}">{{ $allPermission['Expense Management'] }}</label>
+                                                <label class="m-2">
+                                                    <input class="m-2 all-department-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Budget Management'] }}">{{ $allPermission['Budget Management'] }}</label>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-lg-4 border-end border-2">
+                                            @if ($allPermission['Donation Management'] == 'Donation Management')
+                                                <h5 class="text-primary">{{ __('Donation Management') }} <input
+                                                        type="checkbox" id="check-all-donation-management"></h5>
+
+                                                <label class="m-2">
+                                                    <input class="m-2 all-donation-management all" type="checkbox"
+                                                        name="permission[]"
+                                                        value="{{ $allPermission['Donation Management'] }}">{{ $allPermission['Donation Management'] }}</label>
                                             @endif
                                         </div>
                                     </div>
@@ -89,13 +187,34 @@
                 $('.all:checked').each(function() {
                     selectedValues.push($(this).val());
                 });
-                // print all values
-                console.log(selectedValues);
-
             });
             // for all user management
             $('#check-all-user-management').change(function() {
                 $('.all-user-management').prop('checked', this.checked);
+            });
+            // for all Church Management
+            $('#check-all-church-management').change(function() {
+                $('.all-church-management').prop('checked', this.checked);
+            });
+            // for all Account Management
+            $('#check-all-account-management').change(function() {
+                $('.all-account-management').prop('checked', this.checked);
+            });
+            // for all Product Management
+            $('#check-all-product-management').change(function() {
+                $('.all-product-management').prop('checked', this.checked);
+            });
+            // for all Donor Management
+            $('#check-all-donar-management').change(function() {
+                $('.all-donor-management').prop('checked', this.checked);
+            });
+            // for all Department Management
+            $('#check-all-department-management').change(function() {
+                $('.all-department-management').prop('checked', this.checked);
+            });
+            // for all donation Management
+            $('#check-all-donation-management').change(function() {
+                $('.all-donation-management').prop('checked', this.checked);
             });
         });
     </script>

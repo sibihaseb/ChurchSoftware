@@ -35,7 +35,23 @@ class DatabaseSeeder extends Seeder
         $roleSuperadmin = Role::firstOrCreate(['name' => 'Superadmin']);
         $roleDoner = Role::firstOrCreate(['name' => 'Doner']);
         // Define required permissions
-        $permissions = ['User Management', 'Role Management'];
+        $permissions = [
+            'User Management',
+            'Role Management',
+            'Church Management',
+            'Language Management',
+            'Country Management',
+            'State Management',
+            'Account Management',
+            'Deposit Account Management',
+            'Payment Method Management',
+            'Product Management',
+            'Donor Management',
+            'Department Management',
+            'Expense Management',
+            'Budget Management',
+            'Donation Management',
+        ];
 
         foreach ($permissions as $permissionName) {
             $permission = Permission::firstOrCreate(['name' => $permissionName]);
