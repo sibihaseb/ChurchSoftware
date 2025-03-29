@@ -3,9 +3,30 @@
 @section('styles')
     <style>
         #donorChart .apexcharts-grid line,
-        #crm-total-customers .apexcharts-xaxis line,
-        #crm-total-customers .apexcharts-yaxis line,
-        #crm-total-customers .apexcharts-grid-borders line {
+        #donorChart .apexcharts-xaxis line,
+        #donorChart .apexcharts-yaxis line,
+        #donorChart .apexcharts-grid-borders line {
+            display: none !important;
+        }
+
+        #total-revenue .apexcharts-grid line,
+        #total-revenue .apexcharts-xaxis line,
+        #total-revenue .apexcharts-yaxis line,
+        #total-revenue .apexcharts-grid-borders line {
+            display: none !important;
+        }
+
+        #total-donations .apexcharts-grid line,
+        #total-donations .apexcharts-xaxis line,
+        #total-donations .apexcharts-yaxis line,
+        #total-donations .apexcharts-grid-borders line {
+            display: none !important;
+        }
+
+        #all-users .apexcharts-grid line,
+        #all-users .apexcharts-xaxis line,
+        #all-users .apexcharts-yaxis line,
+        #all-users .apexcharts-grid-borders line {
             display: none !important;
         }
     </style>
@@ -83,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        {{-- <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card custom-card">
                                 <div class="card-header justify-content-between">
                                     <div class="card-title">Profit Earned</div>
@@ -103,7 +124,7 @@
                                     <div id="crm-profits-earned"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="col-xl-8">
                         <div class="row">
@@ -145,7 +166,7 @@
                                                                 {{ $alldonars['percentage_change'] }}
                                                             </p>
                                                         @endif
-                                                        <p class="text-muted op-7 fs-11">this month</p>
+                                                        <p class="text-muted op-7 fs-11">{{ __('this month') }}</p>
                                                     </div>
 
                                                 </div>
@@ -166,19 +187,33 @@
                                             <div class="flex-fill ms-3">
                                                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                                                     <div>
-                                                        <p class="text-muted mb-0">Total Revenue</p>
-                                                        <h4 class="fw-semibold mt-1">$56,562</h4>
+                                                        <p class="text-muted mb-0">{{ __('Total Revenue') }}</p>
+                                                        <h4 class="fw-semibold mt-1">${{ $totalRevenue['this_month'] }}
+                                                        </h4>
                                                     </div>
-                                                    <div id="crm-total-revenue"></div>
+                                                    <div id="total-revenue"></div>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-1">
                                                     <div>
-                                                        <a class="text-secondary" href="javascript:void(0);">View All<i
+                                                        <a class="text-secondary"
+                                                            href="{{ route('invoice.index') }}">{{ __('View All') }}<i
                                                                 class="ti ti-arrow-narrow-right ms-2 fw-semibold d-inline-block"></i></a>
                                                     </div>
                                                     <div class="text-end">
-                                                        <p class="mb-0 text-success fw-semibold">+25%</p>
-                                                        <span class="text-muted op-7 fs-11">this month</span>
+                                                        @if (str_starts_with($totalRevenue['percentage_change'], '+'))
+                                                            <p class="mb-0 fw-semibold text-success">
+                                                                {{ $totalRevenue['percentage_change'] }}
+                                                            </p>
+                                                        @elseif(str_starts_with($totalRevenue['percentage_change'], '-'))
+                                                            <p class="mb-0 fw-semibold text-danger">
+                                                                {{ $totalRevenue['percentage_change'] }}
+                                                            </p>
+                                                        @else
+                                                            <p class="mb-0 fw-semibold text-muted">
+                                                                {{ $totalRevenue['percentage_change'] }}
+                                                            </p>
+                                                        @endif
+                                                        <p class="text-muted op-7 fs-11">{{ __('this month') }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -192,26 +227,41 @@
                                         <div class="d-flex align-items-top justify-content-between">
                                             <div>
                                                 <span class="avatar avatar-md avatar-rounded bg-success">
-                                                    <i class="ti ti-wave-square fs-16"></i>
+                                                    <i class="ti ti-users fs-16"></i>
                                                 </span>
                                             </div>
                                             <div class="flex-fill ms-3">
                                                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                                                     <div>
-                                                        <p class="text-muted mb-0">Conversion Ratio</p>
-                                                        <h4 class="fw-semibold mt-1">12.08%</h4>
+                                                        <p class="text-muted mb-0">{{ __('Total Users') }}</p>
+                                                        <h4 class="fw-semibold">{{ $allUsers['this_month'] }}
+                                                        </h4>
                                                     </div>
-                                                    <div id="crm-conversion-ratio"></div>
+                                                    <div id="all-users"></div>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-1">
                                                     <div>
-                                                        <a class="text-success" href="javascript:void(0);">View All<i
+                                                        <a class="text-success"
+                                                            href="{{ route('adminuser.index') }}">{{ __('View                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               All') }}<i
                                                                 class="ti ti-arrow-narrow-right ms-2 fw-semibold d-inline-block"></i></a>
                                                     </div>
                                                     <div class="text-end">
-                                                        <p class="mb-0 text-danger fw-semibold">-12%</p>
-                                                        <span class="text-muted op-7 fs-11">this month</span>
+                                                        @if (str_starts_with($allUsers['percentage_change'], '+'))
+                                                            <p class="mb-0 fw-semibold text-success">
+                                                                {{ $allUsers['percentage_change'] }}
+                                                            </p>
+                                                        @elseif(str_starts_with($allUsers['percentage_change'], '-'))
+                                                            <p class="mb-0 fw-semibold text-danger">
+                                                                {{ $allUsers['percentage_change'] }}
+                                                            </p>
+                                                        @else
+                                                            <p class="mb-0 fw-semibold text-muted">
+                                                                {{ $allUsers['percentage_change'] }}
+                                                            </p>
+                                                        @endif
+                                                        <p class="text-muted op-7 fs-11">{{ __('this month') }}</p>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -224,25 +274,39 @@
                                         <div class="d-flex align-items-top justify-content-between">
                                             <div>
                                                 <span class="avatar avatar-md avatar-rounded bg-warning">
-                                                    <i class="ti ti-briefcase fs-16"></i>
+                                                    <i class="ri-hand-coin-line"></i>
                                                 </span>
                                             </div>
                                             <div class="flex-fill ms-3">
                                                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                                                     <div>
-                                                        <p class="text-muted mb-0">Total Deals</p>
-                                                        <h4 class="fw-semibold mt-1">2,543</h4>
+                                                        <p class="text-muted mb-0">{{ __('Total Donations') }}</p>
+                                                        <h4 class="fw-semibold mt-1">{{ $totalDonations['this_month'] }}
+                                                        </h4>
                                                     </div>
-                                                    <div id="crm-total-deals"></div>
+                                                    <div id="total-donations"></div>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-1">
                                                     <div>
-                                                        <a class="text-warning" href="javascript:void(0);">View All<i
+                                                        <a class="text-warning"
+                                                            href="{{ route('invoice.index') }}">{{ __('View All') }}<i
                                                                 class="ti ti-arrow-narrow-right ms-2 fw-semibold d-inline-block"></i></a>
                                                     </div>
                                                     <div class="text-end">
-                                                        <p class="mb-0 text-success fw-semibold">+19%</p>
-                                                        <span class="text-muted op-7 fs-11">this month</span>
+                                                        @if (str_starts_with($totalDonations['percentage_change'], '+'))
+                                                            <p class="mb-0 fw-semibold text-success">
+                                                                {{ $totalDonations['percentage_change'] }}
+                                                            </p>
+                                                        @elseif(str_starts_with($totalDonations['percentage_change'], '-'))
+                                                            <p class="mb-0 fw-semibold text-danger">
+                                                                {{ $totalDonations['percentage_change'] }}
+                                                            </p>
+                                                        @else
+                                                            <p class="mb-0 fw-semibold text-muted">
+                                                                {{ $totalDonations['percentage_change'] }}
+                                                            </p>
+                                                        @endif
+                                                        <p class="text-muted op-7 fs-11">{{ __('this month') }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -508,7 +572,7 @@
                                 <div class="card custom-card">
                                     <div class="card-header justify-content-between">
                                         <div class="card-title">
-                                            Leads By Source
+                                            Leads By Products
                                         </div>
                                         <div class="dropdown">
                                             <a aria-label="anchor" href="javascript:void(0);"
@@ -524,48 +588,62 @@
                                     </div>
                                     <div class="card-body p-0 overflow-hidden">
                                         <div class="leads-source-chart d-flex align-items-center justify-content-center">
-                                            <canvas id="leads-source" class="chartjs-chart w-100 p-4"></canvas>
+                                            <canvas id="top-products-chart" class="chartjs-chart w-100 p-4"></canvas>
                                             <div class="lead-source-value">
-                                                <span class="d-block fs-14">Total</span>
-                                                <span class="d-block fs-25 fw-bold">4,145</span>
+                                                <span class="d-block fs-14">{{ __('Total Donataion Items') }}</span>
+                                                <span class="d-block fs-25 fw-bold">{{ 1 }}</span>
                                             </div>
                                         </div>
                                         <div class="row row-cols-12 border-top border-block-start-dashed">
-                                            <div class="col p-0">
-                                                <div
-                                                    class="ps-4 py-3 pe-3 text-center border-end border-inline-end-dashed">
-                                                    <span
-                                                        class="text-muted fs-12 mb-1 crm-lead-legend mobile d-inline-block">Mobile
-                                                    </span>
-                                                    <div><span class="fs-16 fw-semibold">1,624</span>
+                                            @if (isset($topProducts['topProducts'][0]))
+                                                <div class="col p-0">
+                                                    <div
+                                                        class="ps-4 py-3 pe-3 text-center border-end border-inline-end-dashed">
+                                                        <span
+                                                            class="text-muted fs-12 mb-1 crm-lead-legend mobile d-inline-block">{{ $topProducts['topProducts'][0]->product->name ?? '' }}
+                                                        </span>
+                                                        <div><span
+                                                                class="fs-16 fw-semibold">{{ $topProducts['topProducts'][0]['total_count'] ?? '' }}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col p-0">
-                                                <div class="p-3 text-center border-end border-inline-end-dashed">
-                                                    <span
-                                                        class="text-muted fs-12 mb-1 crm-lead-legend desktop d-inline-block">Desktop
-                                                    </span>
-                                                    <div><span class="fs-16 fw-semibold">1,267</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col p-0">
-                                                <div class="p-3 text-center border-end border-inline-end-dashed">
-                                                    <span
-                                                        class="text-muted fs-12 mb-1 crm-lead-legend laptop d-inline-block">Laptop
-                                                    </span>
-                                                    <div><span class="fs-16 fw-semibold">1,153</span>
+                                            @endif
+                                            @if (isset($topProducts['topProducts'][1]))
+                                                <div class="col p-0">
+                                                    <div class="p-3 text-center border-end border-inline-end-dashed">
+                                                        <span
+                                                            class="text-muted fs-12 mb-1 crm-lead-legend desktop d-inline-block">{{ $topProducts['topProducts'][1]->product->name ?? '' }}
+                                                        </span>
+                                                        <div><span
+                                                                class="fs-16 fw-semibold">{{ $topProducts['topProducts'][1]['total_count'] ?? '' }}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col p-0">
-                                                <div class="p-3 text-center">
-                                                    <span
-                                                        class="text-muted fs-12 mb-1 crm-lead-legend tablet d-inline-block">Tablet
-                                                    </span>
-                                                    <div><span class="fs-16 fw-semibold">679</span></div>
+                                            @endif
+                                            @if (isset($topProducts['topProducts'][2]))
+                                                <div class="col p-0">
+                                                    <div class="p-3 text-center border-end border-inline-end-dashed">
+                                                        <span
+                                                            class="text-muted fs-12 mb-1 crm-lead-legend laptop d-inline-block">{{ $topProducts['topProducts'][2]->product->name ?? '' }}
+                                                        </span>
+                                                        <div><span
+                                                                class="fs-16 fw-semibold">{{ $topProducts['topProducts'][2]['total_count'] ?? '' }}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
+                                            @if (isset($topProducts['topProducts'][3]))
+                                                <div class="col p-0">
+                                                    <div class="p-3 text-center">
+                                                        <span
+                                                            class="text-muted fs-12 mb-1 crm-lead-legend tablet d-inline-block">Tabl{{ $topProducts['topProducts'][3]->product->name ?? '' }}et
+                                                        </span>
+                                                        <div><span
+                                                                class="fs-16 fw-semibold">{{ $topProducts['topProducts'][3]['total_count'] ?? '' }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -835,7 +913,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var chartOptions = {
+            var donorOptions = {
                 chart: {
                     type: "line",
                     height: 30,
@@ -881,10 +959,238 @@
                 tooltip: {
                     enabled: !1
                 },
-                colors: ["rgb(35, 183, 229)"],
+                colors: [
+                    "{{ str_starts_with($alldonars['percentage_change'], '+') ? 'green' : (str_starts_with($alldonars['percentage_change'], '-') ? 'red' : 'gray') }}"
+                ],
             };
 
-            new ApexCharts(document.querySelector("#donorChart"), chartOptions).render();
+            new ApexCharts(document.querySelector("#donorChart"), donorOptions).render();
+
+            var revenueOptions = {
+                chart: {
+                    type: "line",
+                    height: 30,
+                    width: 100,
+                    sparkline: {
+                        enabled: !0
+                    }, // Enable sparkline mode (no axis)
+                },
+
+                stroke: {
+                    show: !0,
+                    curve: "smooth",
+                    lineCap: "butt",
+                    colors: void 0,
+                    width: 1.5,
+                    dashArray: 0,
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        opacityFrom: 0.9,
+                        opacityTo: 0.9,
+                        stops: [0, 98]
+                    },
+                },
+                series: [{
+                    name: "Donors",
+                    data: [{{ $totalRevenue['last_month'] }}, {{ $totalRevenue['this_month'] }}]
+                }],
+                yaxis: {
+                    min: 0,
+                    show: !0,
+                    axisBorder: {
+                        show: !0
+                    }
+                },
+                xaxis: {
+                    show: !0,
+                    axisBorder: {
+                        show: !0
+                    }
+                },
+                tooltip: {
+                    enabled: !1
+                },
+                colors: [
+                    "{{ str_starts_with($totalRevenue['percentage_change'], '+') ? 'green' : (str_starts_with($totalRevenue['percentage_change'], '-') ? 'red' : 'gray') }}"
+                ],
+            };
+
+            new ApexCharts(document.querySelector("#total-revenue"), revenueOptions).render();
+
+            var donationOptions = {
+                chart: {
+                    type: "line",
+                    height: 30,
+                    width: 100,
+                    sparkline: {
+                        enabled: !0
+                    }, // Enable sparkline mode (no axis)
+                },
+
+                stroke: {
+                    show: !0,
+                    curve: "smooth",
+                    lineCap: "butt",
+                    colors: void 0,
+                    width: 1.5,
+                    dashArray: 0,
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        opacityFrom: 0.9,
+                        opacityTo: 0.9,
+                        stops: [0, 98]
+                    },
+                },
+                series: [{
+                    name: "Donors",
+                    data: [{{ $totalDonations['last_month'] }}, {{ $totalDonations['this_month'] }}]
+                }],
+                yaxis: {
+                    min: 0,
+                    show: !0,
+                    axisBorder: {
+                        show: !0
+                    }
+                },
+                xaxis: {
+                    show: !0,
+                    axisBorder: {
+                        show: !0
+                    }
+                },
+                tooltip: {
+                    enabled: !1
+                },
+                colors: [
+                    "{{ str_starts_with($totalDonations['percentage_change'], '+') ? 'green' : (str_starts_with($totalDonations['percentage_change'], '-') ? 'red' : 'gray') }}"
+                ],
+            };
+
+            new ApexCharts(document.querySelector("#total-donations"), donationOptions).render();
+
+            var usersOptions = {
+                chart: {
+                    type: "line",
+                    height: 30,
+                    width: 100,
+                    sparkline: {
+                        enabled: !0
+                    }, // Enable sparkline mode (no axis)
+                },
+
+                stroke: {
+                    show: !0,
+                    curve: "smooth",
+                    lineCap: "butt",
+                    colors: void 0,
+                    width: 1.5,
+                    dashArray: 0,
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        opacityFrom: 0.9,
+                        opacityTo: 0.9,
+                        stops: [0, 98]
+                    },
+                },
+                series: [{
+                    name: "Donors",
+                    data: [{{ $allUsers['last_month'] }}, {{ $allUsers['this_month'] }}]
+                }],
+                yaxis: {
+                    min: 0,
+                    show: !0,
+                    axisBorder: {
+                        show: !0
+                    }
+                },
+                xaxis: {
+                    show: !0,
+                    axisBorder: {
+                        show: !0
+                    }
+                },
+                tooltip: {
+                    enabled: !1
+                },
+                colors: [
+                    "{{ str_starts_with($allUsers['percentage_change'], '+') ? 'green' : (str_starts_with($allUsers['percentage_change'], '-') ? 'red' : 'gray') }}"
+                ],
+            };
+
+            new ApexCharts(document.querySelector("#all-users"), usersOptions).render();
+
+            const topProducts = @json($topProducts['topProducts']);
+
+            const productLabels = topProducts.map(item => item.product.name);
+            const productCounts = topProducts.map(item => item.total_count);
+            const backgroundColors = [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 206, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(153, 102, 255)'
+            ];
+
+            new Chart(document.getElementById("top-products-chart"), {
+                type: 'doughnut',
+                data: {
+                    // labels: productLabels,
+                    datasets: [{
+                        label: 'Top Products',
+                        data: productCounts,
+                        backgroundColor: backgroundColors
+                    }]
+                },
+                options: {
+                    cutout: '90%', // Adjust this to make arcs thinner (higher value = thinner arc)
+                },
+                plugins: [{
+                    afterUpdate: function(chart) {
+                        const arcs = chart.getDatasetMeta(0).data;
+
+                        arcs.forEach(function(arc) {
+                            arc.round = {
+                                x: (chart.chartArea.left + chart.chartArea.right) /
+                                    2,
+                                y: (chart.chartArea.top + chart.chartArea.bottom) /
+                                    2,
+                                radius: (arc.outerRadius + arc.innerRadius) / 2,
+                                thickness: (arc.outerRadius - arc.innerRadius) / 4,
+                                backgroundColor: arc.options.backgroundColor
+                            }
+                        });
+                    },
+                    afterDraw: (chart) => {
+                        const {
+                            ctx,
+                            canvas
+                        } = chart;
+
+                        chart.getDatasetMeta(0).data.forEach(arc => {
+                            const startAngle = Math.PI / 2 - arc.startAngle;
+                            const endAngle = Math.PI / 2 - arc.endAngle;
+
+                            ctx.save();
+                            ctx.translate(arc.round.x, arc.round.y);
+                            ctx.fillStyle = arc.options.backgroundColor;
+                            ctx.beginPath();
+                            ctx.arc(arc.round.radius * Math.sin(endAngle), arc.round
+                                .radius * Math.cos(endAngle), arc.round.thickness,
+                                0, 2 * Math.PI);
+                            ctx.closePath();
+                            ctx.fill();
+                            ctx.restore();
+                        });
+                    }
+                }]
+            });
+
         });
     </script>
 @endsection

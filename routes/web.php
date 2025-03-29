@@ -91,14 +91,14 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/members/{member}/payment/{amount}', [BillingController::class, 'showPaymentForm'])->name('show.payment');
     Route::post('/members/{member}/pay', [BillingController::class, 'processPayment']);
 
-     //country table
-     Route::get('country', [CountryController::class, 'index']);
-     //country table
-     Route::get('us-states', [USStatesController::class, 'index']);
+    //country table
+    Route::get('country', [CountryController::class, 'index']);
+    //country table
+    Route::get('us-states', [USStatesController::class, 'index']);
     //Doners
-     Route::resource('doners', MemberController::class);
-      //Family Doners
-      Route::resource('family-doners', FamilyMemberController::class);
+    Route::resource('doners', MemberController::class);
+    //Family Doners
+    Route::resource('family-doners', FamilyMemberController::class);
 
     // Departments
     Route::resource('departments', DepartmentsController::class);

@@ -20,7 +20,7 @@ class ServiceInvoiceItem extends Model
 
     public function salesReceipt()
     {
-        return $this->belongsTo(ServiceInvoice::class);
+        return $this->belongsTo(ServiceInvoice::class, 'service_invoice_id');
     }
 
     public function product()
