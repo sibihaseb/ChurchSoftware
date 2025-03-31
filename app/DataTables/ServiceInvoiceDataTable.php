@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Member;
 use App\Models\PaymentMethod;
 use App\Models\ServiceInvoice;
+use App\Models\TemporaryAppCode;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -69,7 +70,8 @@ class ServiceInvoiceDataTable extends DataTable
      */
     public function query(ServiceInvoice $model): QueryBuilder
     {
-        $data = $model::with('items')->select();
+        $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
+        $data = $model::where('church_id', $currentAppCode)->with('items')->select();
         return $this->applyScopes($data);
     }
 

@@ -86,12 +86,12 @@
                                 <div class="col-lg-6">
                                     <label class="control-label col-md-4 mt-3">{{ __('Password') }}<span
                                             style="color: red;">*</span></label>
-                                    <input type="text" name="password" id="password" class="form-control" />
+                                    <input type="password" name="password" id="password" class="form-control" />
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="control-label col-md-4 mt-3">{{ __('Confirm Password') }}<span
                                             style="color: red;">*</span></label>
-                                    <input type="text" name="password_confirmation" id="password_confirmation"
+                                    <input type="password" name="password_confirmation" id="password_confirmation"
                                         class="form-control" />
                                 </div>
                             </div>
@@ -248,7 +248,7 @@
                 $('#oldpassword').val("");
                 $('#status').val("1");
                 $('#account_type').val("");
-                 $('#church_id').val("");
+                $('#church_id').val("");
                 // $('#day').val("");
                 // $('.select2-selection__choice').remove();
                 $('#hidden_id').val("");
@@ -369,9 +369,9 @@
                         // $('#phone').val(data.phone);
                         $('#oldpassword').val(data.password);
                         $('#status').val(data.status);
-                         $('#role').val(data.role);
+                        $('#role').val(data.role);
                         // $('#day').val(data.day);
-                         $('#account_type').val(data.account_type);
+                        $('#account_type').val(data.account_type);
                         $('#church_id').val(data.church_id);
                         if (data.church_id) {
                             var typearry = data.church_id.split(',');
