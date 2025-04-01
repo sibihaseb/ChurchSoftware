@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('state_id')->nullable();
+            $table->string('stripe_id')->nullable();
             $table->boolean('status')->default(false);
             $table->string('postal_code')->nullable();
             $table->dateTime('check_in')->nullable();

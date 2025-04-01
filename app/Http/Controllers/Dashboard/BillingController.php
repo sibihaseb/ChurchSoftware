@@ -3,12 +3,35 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\User;
+use App\Models\Church;
 use App\Models\Member;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class BillingController extends Controller
 {
+    public function paymentpage()
+    {
+        $churches = Church::all();
+        $allProducts = Product::get()->groupBy('church_id');
+        return view('donor.donate', compact('churches', 'allProducts'));
+    }
+
+    public function donorPayment(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required',
+            'church_id' => 'required',
+        ]);
+
+        $amount = $request->input('amount');
+
+        // Redirect to the payment form with the amount
+        $this->showPaymentForm(auth()->user()->id, $amount);
+        // return redirect()->route('donor.payment', ['member' => auth()->user()->id, 'amount' => $amount]);
+    }
+
     public function showPaymentForm($memberId, $amount)
     {
         $member = User::findOrFail($memberId);

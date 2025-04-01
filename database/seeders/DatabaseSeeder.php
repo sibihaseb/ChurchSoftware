@@ -57,7 +57,8 @@ class DatabaseSeeder extends Seeder
             $permission = Permission::firstOrCreate(['name' => $permissionName]);
             $roleSuperadmin->givePermissionTo($permission);
         }
-
+        $permission1 = Permission::firstOrCreate(['name' => 'Donate']);
+        $roleDoner->givePermissionTo($permission1);
         // Assign role to the user
         $superadmin->assignRole($roleSuperadmin);
 
@@ -77,17 +78,27 @@ class DatabaseSeeder extends Seeder
         //     'check_out ' => Carbon::now(),
         // ]);
 
-        DB::table('products')->insert([
-            'name' => 'Family'
-        ]);
-        DB::table('payment_methods')->insert([
-            'name' => 'Family'
-        ]);
-        DB::table('deposite_accounts')->insert([
-            'name' => 'Family'
-        ]);
+
         DB::table('churches')->insert([
             'name' => 'Church'
+        ]);
+        DB::table('products')->insert([
+            'name' => 'Family',
+            'church_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('payment_methods')->insert([
+            'name' => 'Family',
+            'church_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('deposite_accounts')->insert([
+            'name' => 'Family',
+            'church_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
         DB::table('expenses')->insert([
             'name' => 'Tax',

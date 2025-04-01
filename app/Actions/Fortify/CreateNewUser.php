@@ -33,7 +33,7 @@ class CreateNewUser implements CreatesNewUsers
             'address' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'country_id' => ['required', 'string', 'max:255'],
-            'state_id' => ['required', 'string', 'max:255'],
+            'state_id' => ['nullable', 'string', 'max:255'],
             'postal_code' => ['required', 'string', 'max:255'],
         ])->validate();
 
@@ -48,6 +48,6 @@ class CreateNewUser implements CreatesNewUsers
             'state_id' => $input['state_id'],
             'postal_code' => $input['postal_code'],
             'account_type' => "d",
-        ]);
+        ])->assignRole('Doner');
     }
 }

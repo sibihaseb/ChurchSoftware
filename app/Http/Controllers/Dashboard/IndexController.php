@@ -15,6 +15,7 @@ use App\Models\TemporaryAppCode;
 use App\Http\Requests\UserRequest;
 use App\Models\ServiceInvoiceItem;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 
 class IndexController extends Controller
@@ -38,12 +39,14 @@ class IndexController extends Controller
 
     public function index()
     {
-        if (!auth()->user()) {
+        if (!auth()->check()) {
             return view('pages.auth.signin-cover');
-        } else {
-            return redirect('/admin/home');
         }
+        return auth()->user()->account_type == 'd'
+            ? $this->donorhome()
+            : $this->home();
     }
+
 
     public function home()
     {
@@ -55,6 +58,15 @@ class IndexController extends Controller
         $allUsers = $this->allUsers();
         $topProducts = $this->getTopProducts();
         return view('pages.welcome', compact('churches', 'alldonars', 'totalRevenue', 'totalDonations', 'allUsers', 'topProducts'));
+    }
+
+    public function donorhome()
+    {
+        $churches = Church::all();
+        $totalDonations = $this->totalDonations();
+        $alldonars = $this->allDonors();
+        $topProducts = $this->getTopProducts();
+        return view('donor.welcome', compact('churches', 'alldonars', 'totalDonations', 'topProducts'));
     }
 
     public function allDonors()
@@ -193,9 +205,9 @@ class IndexController extends Controller
 
     public function getAnalytics(Request $request)
     {
-        $churchId = $request->query('church_id');
+        $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
 
-        if (!$churchId) {
+        if (!$currentAppCode) {
             return response()->json(['error' => 'church_id is required'], 400);
         }
 
@@ -214,12 +226,12 @@ class IndexController extends Controller
             12 => 'Dec'
         ];
 
-        $expenses = Expenses::where('church_id', $churchId)
+        $expenses = Expenses::where('church_id', $currentAppCode)
             ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
             ->groupBy('month')
             ->orderBy('month')
             ->pluck('total', 'month');
-        $budgets = Budgets::where('church_id', $churchId)
+        $budgets = Budgets::where('church_id', $currentAppCode)
             ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
             ->groupBy('month')
             ->orderBy('month')
@@ -242,13 +254,12 @@ class IndexController extends Controller
 
     public function topDonors(Request $request)
     {
-        $churchId = $request->input('church_id');
-
+        $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
         $topDonors = User::select('users.name', 'users.email')
             ->selectRaw('SUM(service_invoice_items.amount) as total_donations')
             ->join('service_invoices', 'users.id', '=', 'service_invoices.user_id')
             ->join('service_invoice_items', 'service_invoices.id', '=', 'service_invoice_items.service_invoice_id')
-            ->where('service_invoices.church_id', $churchId)
+            ->where('service_invoices.church_id', $currentAppCode)
             ->groupBy('users.id', 'users.name', 'users.email')
             ->orderByDesc('total_donations')
             ->limit(5)

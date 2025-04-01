@@ -40,9 +40,19 @@ use App\Models\Member;
 
 
 Route::get('/', [IndexController::class, 'index']);
+Route::prefix('donor')->middleware(['auth'])->group(function () {
+    Route::get('/home', [IndexController::class, 'donorhome']);
+
+    //payments
+    Route::get('/payment', [BillingController::class, 'paymentpage'])->name('donar.wizard');
+    Route::post('/donar/donate', [BillingController::class, 'donorPayment'])->name('donar.donate');
+    Route::get('/donate/{member}/payment/{amount}', [BillingController::class, 'showPaymentForm'])->name('donor.payment');
+    Route::post('/donate/{member}/pay', [BillingController::class, 'processPayment']);
+});
+
 Route::prefix('admin')->middleware(['auth'])->group(function () {
 
-    Route::get('/home', [IndexController::class, 'home']);
+    Route::get('/home', [IndexController::class, 'index']);
     Route::get('/fetch-top-donors', [IndexController::class, 'topDonors'])->name('top-donors');
     Route::get('/analytics', [IndexController::class, 'getAnalytics']);
 

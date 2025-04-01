@@ -1,24 +1,11 @@
 $(document).ready(function () {
-    const churchSelect = $("#churchSelect");
     const donorsList = $("#donorsList");
+    let chart;
 
-    // Fetch top donors for the first church on page load
-    let firstChurchId = churchSelect.find("option:first").next().val(); // Get the first church ID (skipping the placeholder)
-    if (firstChurchId) {
-        fetchTopDonors(firstChurchId);
-    }
-
-    // On change of dropdown
-    churchSelect.on("change", function () {
-        let churchId = $(this).val();
-        fetchTopDonors(churchId);
-    });
-
-    function fetchTopDonors(churchId) {
+    function fetchTopDonors() {
         $.ajax({
             url: "/admin/fetch-top-donors",
             method: "GET",
-            data: { church_id: churchId },
             success: function (response) {
                 donorsList.empty();
                 if (response.length > 0) {
@@ -47,21 +34,17 @@ $(document).ready(function () {
                         `);
                     });
                 } else {
-                    donorsList.append(
-                        `<li>No donors found for this church.</li>`
-                    );
+                    donorsList.append(`<li>No donors found.</li>`);
                 }
             },
             error: function (xhr) {
                 console.error("An error occurred: ", xhr);
-                // alert("Failed to fetch donors. Please try again.");
             },
         });
     }
-    let chart;
 
-    function fetchAnalytics(churchId) {
-        fetch(`/admin/analytics?church_id=${churchId}`)
+    function fetchAnalytics() {
+        fetch(`/admin/analytics`)
             .then((response) => response.json())
             .then((data) => {
                 updateChart(data.expenseData, data.budgetData);
@@ -118,14 +101,7 @@ $(document).ready(function () {
         }
     }
 
-    // Initialize chart with default church_id (Church 1)
-    let defaultChurchId = document.getElementById("church_id").value;
-    fetchAnalytics(defaultChurchId);
-
-    // Update chart on dropdown change
-    document
-        .getElementById("church_id")
-        .addEventListener("change", function () {
-            fetchAnalytics(this.value);
-        });
+    // Fetch data on page load
+    fetchTopDonors();
+    fetchAnalytics();
 });
