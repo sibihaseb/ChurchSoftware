@@ -48,6 +48,9 @@ Route::prefix('donor')->middleware(['auth'])->group(function () {
     Route::post('/donar/donate', [BillingController::class, 'donorPayment'])->name('donar.donate');
     Route::get('/donate/{member}/payment/{amount}', [BillingController::class, 'showPaymentForm'])->name('donor.payment');
     Route::post('/donate/{member}/pay', [BillingController::class, 'processPayment']);
+
+    //donation history
+    Route::get('/donation-history', [BillingController::class, 'donationHistory'])->name('donar.donation.history');
 });
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {

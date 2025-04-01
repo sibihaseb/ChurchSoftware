@@ -66,6 +66,15 @@
                         </a>
                     </li>
                 @endcan
+                @can('Donate')
+                    <li class="slide">
+                        <a href="{{ route('donar.donation.history') }}" class="side-menu__item">
+                            <i class="bx bx-donate-heart side-menu__icon"></i>
+                            <span class="side-menu__label">{{ __('Your Donations') }}<span
+                                    class="badge bg-warning-transparent ms-2"></span></span>
+                        </a>
+                    </li>
+                @endcan
                 @can('Donor Management')
                     <li class="slide">
                         <a href="{{ url('admin/doners') }}" class="side-menu__item">

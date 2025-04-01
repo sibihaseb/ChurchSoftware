@@ -24,7 +24,8 @@
             @csrf
             <input type="hidden" id="member-id" value="{{ $member->id }}">
             <input type="hidden" id="amount" value="{{ $amount }}">
-
+            <input type="hidden" value="{{ isset($church_id) ? $church_id : null }}" id="church_id">
+            <input type="hidden" value="{{ isset($product_id) ? $product_id : null }}" id="product_id">
             <label class="block text-gray-700 font-medium mb-2">Card Details:</label>
             <div id="card-element" class="border border-gray-300 rounded-lg p-2 mb-4"></div>
 
@@ -67,6 +68,8 @@
                 alert(error.message);
             } else {
                 const memberId = document.getElementById('member-id').value;
+                const church_id = document.getElementById('church_id').value;
+                const product_id = document.getElementById('product_id').value;
 
                 fetch(`/admin/members/${memberId}/pay`, {
                         method: 'POST',
@@ -76,7 +79,9 @@
                         },
                         body: JSON.stringify({
                             payment_method: paymentMethod.id,
-                            amount: amount
+                            amount: amount,
+                            church_id: church_id,
+                            product_id: product_id
                         })
                     })
                     .then(response => response.json())
@@ -87,10 +92,13 @@
                             paymentMessage.classList.remove('hidden');
                             paymentMessage.textContent = data.message;
 
-                            // Redirect to a new page after successful payment
-                            setTimeout(() => {
-                                window.location.href = '/admin/invoice';
-                            }, 3000); // Delay of 2 seconds before redirecting
+                            if (window.location.href.includes("donor")) {
+                                window.location.href = '/';
+                            } else {
+                                setTimeout(() => {
+                                    window.location.href = '/admin/invoice';
+                                }, 3000); // Delay of 3 seconds before redirecting
+                            }
                         }
                     })
                     .catch(error => {

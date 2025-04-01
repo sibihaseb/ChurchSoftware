@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('sales_receipt_date');
             $table->string('tags')->nullable();
             $table->string('payment_method');
-            $table->string('deposit_to');
+            $table->string('deposit_to')->nullable();
             $table->string('church_id')->nullable();
             $table->timestamps();
         });

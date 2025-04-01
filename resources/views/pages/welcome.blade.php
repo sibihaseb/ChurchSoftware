@@ -89,12 +89,12 @@
                                 <div class="card-header justify-content-between">
                                     <div class="card-title">Top Donors</div>
                                     <div class="dropdown">
-                                        <select class="form-select" id="churchSelect">
+                                        {{-- <select class="form-select" id="churchSelect">
                                             <option selected disabled>Select a Church</option>
                                             @foreach ($churches as $church)
                                                 <option value="{{ $church->id }}">{{ $church->name }}</option>
                                             @endforeach
-                                        </select>
+                                        </select> --}}
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -807,14 +807,14 @@
                             {{ __('Expense Vs Budget') }}
                         </div>
                         <div>
-                            <select class="form-select" id="church_id">
+                            {{-- <select class="form-select" id="church_id">
                                 <option selected disabled>Select a Church</option>
                                 @foreach ($churches as $index => $church)
                                     <option value="{{ $church->id }}" {{ $index === 0 ? 'selected' : '' }}>
                                         {{ $church->name }}
                                     </option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                         </div>
                     </div>
                     <div class="card-body">
