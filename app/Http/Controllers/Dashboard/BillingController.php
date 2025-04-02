@@ -96,8 +96,9 @@ class BillingController extends Controller
                 ServiceInvoiceItem::create([
                     'service_invoice_id' => $invoiceCreated->id,
                     'product_id' => $request->input('product_id'),
-                    'amount' => $amount,
+                    'amount' => $amount  / 100,
                     'quantity' => 1,
+                    'church_id' => $request->input('church_id'),
                 ]);
             }
         }

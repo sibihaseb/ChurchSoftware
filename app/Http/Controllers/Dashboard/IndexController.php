@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Church;
 use App\Models\Member;
 use App\Models\Budgets;
+use App\Models\Product;
 use App\Models\Project;
 use App\Models\Expenses;
 use Illuminate\Http\Request;
@@ -14,8 +15,8 @@ use App\Models\ServiceInvoice;
 use App\Models\TemporaryAppCode;
 use App\Http\Requests\UserRequest;
 use App\Models\ServiceInvoiceItem;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 
 class IndexController extends Controller
@@ -57,7 +58,8 @@ class IndexController extends Controller
         $totalDonations = $this->totalDonations();
         $allUsers = $this->allUsers();
         $topProducts = $this->getTopProducts();
-        return view('pages.welcome', compact('churches', 'alldonars', 'totalRevenue', 'totalDonations', 'allUsers', 'topProducts'));
+        $allProductFive = $this->allProductFive();
+        return view('pages.welcome', compact('churches', 'alldonars', 'totalRevenue', 'totalDonations', 'allUsers', 'topProducts', 'allProductFive'));
     }
 
     public function donorhome()
@@ -311,5 +313,27 @@ class IndexController extends Controller
         } else {
             return redirect()->back()->with('error', __('Profile  Not updated'));
         }
+    }
+
+    public function allProductFive()
+    {
+        $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
+        $topProducts = ServiceInvoiceItem::where('church_id', $currentAppCode)->select('product_id', DB::raw('COUNT(product_id) as usage_count'))
+            ->groupBy('product_id')
+            ->orderByDesc('usage_count')
+            ->limit(5)
+            ->get()
+            ->map(function ($item) {
+                $product = Product::find($item->product_id);
+                return [
+                    'name' => $product->name ?? 'Unknown',
+                    'usage_count' => $item->usage_count
+                ];
+            });
+        $totalUsage = $topProducts->sum('usage_count');
+        return [
+            'topProducts' => $topProducts,
+            'totalUsage' => $totalUsage
+        ];
     }
 }

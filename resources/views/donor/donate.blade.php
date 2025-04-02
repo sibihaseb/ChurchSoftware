@@ -21,6 +21,16 @@
             max-width: 500px;
             width: 100%;
         }
+
+        .btn-outline-custom {
+            border-color: #68f074;
+            color: #68f074;
+        }
+
+        .btn-outline-custom:hover {
+            background-color: #68f074;
+            color: white;
+        }
     </style>
 @endsection
 
@@ -35,8 +45,8 @@
         <div class="container mt-5 donation-container" style="font-weight: 600">
             <!-- Left Side: Donation Message -->
             <div class="donation-text">
-                <div class="card p-4" style="height: 470px">
-                    <h5>Dear {{ Auth::user()->name }},</h5>
+                <div class="card p-4 text-white" style="height: 470px; background-color: #68f074">
+                    <h5 class="text-white">Dear {{ Auth::user()->name }},</h5>
                     <p>We are deeply grateful for your donation to our church. Your kindness
                         supports our
                         mission to serve
@@ -74,15 +84,13 @@
                             </div>
                             <label class="form-check-label mb-2">Enter custom amount</label>
                             <div class="btn-group mb-3" role="group">
-                                <button type="button" class="btn btn-outline-primary" onclick="setAmount(5)">$5</button>
-                                <button type="button" class="btn btn-outline-primary" onclick="setAmount(10)">$10</button>
-                                <button type="button" class="btn btn-outline-primary" onclick="setAmount(20)">$20</button>
-                                <button type="button" class="btn btn-outline-primary" onclick="setAmount(50)">$50</button>
-                                <button type="button" class="btn btn-outline-primary"
-                                    onclick="setAmount(100)">$100</button>
-                                <button type="button" class="btn btn-outline-primary"
-                                    onclick="setAmount(500)">$500</button>
-                                <button type="button" class="btn btn-outline-primary"
+                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(5)">$5</button>
+                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(10)">$10</button>
+                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(20)">$20</button>
+                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(50)">$50</button>
+                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(100)">$100</button>
+                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(500)">$500</button>
+                                <button type="button" class="btn btn-outline-custom"
                                     onclick="setAmount(1000)">$1000</button>
                             </div>
                             <div class="mb-3 form-check d-flex align-items-center gap-2">
@@ -94,7 +102,8 @@
                                 <input type="number" name="amount" id="customAmount" class="form-control"
                                     placeholder="Enter custom amount" min="1" readonly required>
                             </div>
-                            <button type="submit" class="btn btn-success mt-4">Donate Now</button>
+                            <button type="submit" class="btn mt-4 text-white" style="background-color: #68f074">Donate
+                                Now</button>
                         </form>
                     </div>
                 </div>

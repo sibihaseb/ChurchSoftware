@@ -50,6 +50,9 @@ class Invoice extends Component
     public $new_product;
     public $showNewProduct = false;
     public $products;
+    public $showDeleteModal = false;
+    public $showDepositDeleteModal = false;
+    public $showProductDeleteModal = false;
 
     public function mount($invoiceEditId = null)
     {
@@ -352,5 +355,26 @@ class Invoice extends Component
         $this->items[$index]['product_id'] = $newProduct->id; // Set the newly created product
         $this->new_product = '';
         $this->showNewProduct = false;
+    }
+
+    public function deletePaymentMethod($id)
+    {
+        PaymentMethod::findOrFail($id)->delete();
+        $this->paymentmethods = PaymentMethod::all(); // Refresh list
+        $this->showDeleteModal = false; // Close modal after deletion
+    }
+
+    public function deleteDepositMethod($id)
+    {
+        DepositeAccount::findOrFail($id)->delete();
+        $this->depositetos = DepositeAccount::all(); // Refresh list
+        $this->showDepositDeleteModal = false; // Close modal after deletion
+    }
+
+    public function deleteProduct($id)
+    {
+        Product::findOrFail($id)->delete();
+        $this->products = Product::all(); // Refresh list
+        $this->showProductDeleteModal = false; // Close modal after deletion
     }
 }
