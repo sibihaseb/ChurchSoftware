@@ -21,3 +21,4 @@ yarn-error.log
 docker-compose.yml
 /resources/views/pages/theme
 /resources/assets/**
+/.htaccess
