@@ -197,6 +197,7 @@ class Invoice extends Component
                     'qty' => $item['qty'],
                     'rate' => $item['rate'],
                     'amount' => $item['amount'],
+                    'church_id' => $currentApp->church_id,
                 ]);
             }
         }
