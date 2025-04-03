@@ -15,7 +15,8 @@ class ServiceInvoiceItem extends Model
         'description',
         'qty',
         'rate',
-        'amount'
+        'amount',
+        'church_id'
     ];
 
     public function salesReceipt()
