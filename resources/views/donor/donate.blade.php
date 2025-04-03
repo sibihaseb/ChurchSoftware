@@ -21,16 +21,6 @@
             max-width: 500px;
             width: 100%;
         }
-
-        .btn-outline-custom {
-            border-color: #68f074;
-            color: #68f074;
-        }
-
-        .btn-outline-custom:hover {
-            background-color: #68f074;
-            color: white;
-        }
     </style>
 @endsection
 
@@ -45,16 +35,18 @@
         <div class="container mt-5 donation-container" style="font-weight: 600">
             <!-- Left Side: Donation Message -->
             <div class="donation-text">
-                <div class="card p-4 text-white" style="height: 470px; background-color: #68f074">
-                    <h5 class="text-white">Dear {{ Auth::user()->name }},</h5>
-                    <p>We are deeply grateful for your donation to our church. Your kindness
+                <div class="card p-4 text-white" style="height: 470px; background-color: #111c43">
+                    <h3 class="text-white">Dear {{ Auth::user()->name }},</h3>
+                    <p style="font-weight: 700; font-size:1rem">We are deeply grateful for your donation to our church. Your
+                        kindness
                         supports our
                         mission to serve
                         the community and share God's love. Your generosity enables us to continue important initiatives
                         like [briefly mention specific programs or causes].</p>
-                    <p>Thank you for believing in our mission and for being a part of making a lasting impact. May God bless
+                    <p style="font-weight: 700; font-size:1rem">Thank you for believing in our mission and for being a part
+                        of making a lasting impact. May God bless
                         you for your kindness and faithfulness.</p>
-                    <p>With gratitude and blessings,</p>
+                    <p style="font-weight: 700; font-size:1rem">With gratitude and blessings,</p>
                 </div>
             </div>
 
@@ -84,13 +76,15 @@
                             </div>
                             <label class="form-check-label mb-2">Enter custom amount</label>
                             <div class="btn-group mb-3" role="group">
-                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(5)">$5</button>
-                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(10)">$10</button>
-                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(20)">$20</button>
-                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(50)">$50</button>
-                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(100)">$100</button>
-                                <button type="button" class="btn btn-outline-custom" onclick="setAmount(500)">$500</button>
-                                <button type="button" class="btn btn-outline-custom"
+                                <button type="button" class="btn btn-outline-primary" onclick="setAmount(5)">$5</button>
+                                <button type="button" class="btn btn-outline-primary" onclick="setAmount(10)">$10</button>
+                                <button type="button" class="btn btn-outline-primary" onclick="setAmount(20)">$20</button>
+                                <button type="button" class="btn btn-outline-primary" onclick="setAmount(50)">$50</button>
+                                <button type="button" class="btn btn-outline-primary"
+                                    onclick="setAmount(100)">$100</button>
+                                <button type="button" class="btn btn-outline-primary"
+                                    onclick="setAmount(500)">$500</button>
+                                <button type="button" class="btn btn-outline-primary"
                                     onclick="setAmount(1000)">$1000</button>
                             </div>
                             <div class="mb-3 form-check d-flex align-items-center gap-2">
@@ -102,7 +96,7 @@
                                 <input type="number" name="amount" id="customAmount" class="form-control"
                                     placeholder="Enter custom amount" min="1" readonly required>
                             </div>
-                            <button type="submit" class="btn mt-4 text-white" style="background-color: #68f074">Donate
+                            <button type="submit" class="btn mt-4 text-white btn-primary">Donate
                                 Now</button>
                         </form>
                     </div>
