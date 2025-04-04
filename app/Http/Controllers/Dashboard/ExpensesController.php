@@ -18,8 +18,17 @@ class ExpensesController extends Controller
     {
         $departments = Department::where('church_id',$this->currentApp()->church_id)->get();
         $types = ExpensesTypes::where('church_id',$this->currentApp()->church_id)->get();
-        return $dataTable->render(' dashboard.expenses.index' ,compact('departments','types'));
+        return $dataTable->render('dashboard.expenses.index' ,compact('departments','types'));
     }
+    public function create()
+    {
+        $departments = Department::where('church_id',$this->currentApp()->church_id)->get();
+        $types = ExpensesTypes::where('church_id',$this->currentApp()->church_id)->get();
+
+        return view('dashboard.expenses.createOrUpdate', compact('departments','types'));
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -39,10 +48,18 @@ class ExpensesController extends Controller
         }
         $data = Expenses::create($validatedData);
         if ($data) {
-            return $this->successMessageResponse(__('Expenses Created Successfully'), 201);
+            return redirect('admin/expenses')->with('success', 'Created successfully');
         } else {
             return $this->errorResponse(__('Expenses Not Created'), 422);
         }
+    }
+    public function edit($id)
+    {
+        $data = Expenses::findOrFail($id);
+        $departments = Department::where('church_id',$this->currentApp()->church_id)->get();
+        $types = ExpensesTypes::where('church_id',$this->currentApp()->church_id)->get();
+
+        return view('dashboard.expenses.createOrUpdate', compact('departments','types','data'));
     }
 
 
@@ -79,7 +96,8 @@ class ExpensesController extends Controller
             $data->update($validatedData);
         });
 
-        return $this->successMessageResponse(__('Expenses Updated Successfully'), 201);
+        // $currentPage = $request->input('currentPage', 1); // Get the current page from the hidden input
+        return redirect()->to('admin/expenses')->with('success', __('Updated Successfully'));
     }
 
 

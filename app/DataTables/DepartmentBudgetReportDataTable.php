@@ -2,12 +2,13 @@
 
 namespace App\DataTables;
 
-use App\Models\Budget;
 use App\Models\Budgets;
 use App\Models\BudgetTypes;
 use App\Models\Department;
+use App\Models\DepartmentBudgetReport;
 use App\Models\TemporaryAppCode;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Http\Request;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -16,7 +17,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BudgetsDataTable extends DataTable
+class DepartmentBudgetReportDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -30,7 +31,7 @@ class BudgetsDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $button = null;
                 // if (auth()->user()->hasPermissionTo('Edit Content')) {
-                    $button .= '<button id="' . $data->id . '" class="edit btn btn-link text-info"><i class="ri-pencil-line"></i></button>';
+                    $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
                 // }
                 // if (auth()->user()->hasPermissionTo('Delete Content')) {
                     $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
@@ -67,12 +68,23 @@ class BudgetsDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Budgets $model): QueryBuilder
-    {
-        $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
-        $query = $model::where('church_id', $currentAppCode)->select();
-        return $this->applyScopes($query);
+ public function query(Budgets $model, Request $request): QueryBuilder
+{
+    $tempAppCode = TemporaryAppCode::where('user_id', auth()->id())->first();
+    $currentAppCode = $tempAppCode ? $tempAppCode->church_id : null;
+
+    if (!$currentAppCode) {
+        return $model::query(); // Return an empty query if no app code found
     }
+
+    $query = $model::where('church_id', $currentAppCode)
+        ->when($request->code, function ($q) use ($request) {
+            return $q->where('department_id', 'like', '%' . $request->code . '%');
+        })->select();
+
+    return $this->applyScopes($query);
+}
+
 
     /**
      * Optional method if you want to use the html builder.
@@ -80,7 +92,7 @@ class BudgetsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('budgets-table')
+                    ->setTableId('departmentbudgetreport-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -111,7 +123,7 @@ class BudgetsDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(100)
+                ->width(60)
                 ->addClass('text-center'),
         ];
     }
@@ -121,6 +133,6 @@ class BudgetsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Budgets_' . date('YmdHis');
+        return 'DepartmentBudgetReport_' . date('YmdHis');
     }
 }

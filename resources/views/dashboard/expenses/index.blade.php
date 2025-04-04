@@ -38,8 +38,8 @@
                             {{ __('Expenses') }}
                         </div>
                         <div class="d-flex align-items-center justify-content-center gap-2">
-                            <button type="button" name="create_record" id="create_record" class="btn btn-success btn-sm">
-                                {{ __('Create Expenses') }}</button>
+                            <a href="{{ route('expenses.create') }}"
+                                    class="btn btn-success btn-sm">{{ __('Create Expense') }}</a>
                         </div>
 
                     </div>
@@ -347,6 +347,17 @@
         });
         $("#closemodalbyicon").click(function() {
             $('#sample_form').trigger('reset');
+        });
+    </script>
+     <script>
+        $(document).ready(function() {
+            $(document).on('click', '.edit', function() {
+                var id = $(this).attr('id');
+                var currentPage = window.LaravelDataTables["expenses-table"].page.info().page +
+                    1; // Get current page (index is zero-based)
+                // Redirect to the edit URL while passing the current page as a query parameter
+                window.location.href = "/admin/expenses/" + id + "/edit?page=" + currentPage;
+            });
         });
     </script>
 @endsection

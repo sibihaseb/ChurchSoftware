@@ -38,8 +38,8 @@
                             {{ __('Budgets') }}
                         </div>
                         <div class="d-flex align-items-center justify-content-center gap-2">
-                            <button type="button" name="create_record" id="create_record" class="btn btn-success btn-sm">
-                                {{ __('Create Budgets') }}</button>
+                            <a href="{{ route('budgets.create') }}"
+                                class="btn btn-success btn-sm">{{ __('Create Budgets') }}</a>
                         </div>
 
                     </div>
@@ -54,100 +54,99 @@
         </div>
     </div>
     <div id="formModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">{{ __('Add New User') }}</h4>
-                <button type="button" class="btn-close" id="closemodalbyicon" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <span id="form_result"></span>
-                <form method="post" id="sample_form" class="form-horizontal">
-                    @csrf
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label class="control-label col-md-4" for="name">{{ __('Name') }}<span
-                                            style="color: red;">*</span></label>
-                                    <input type="text" name="name" id="name" class="form-control"
-                                        placeholder="enter name" />
-                                </div>
-                                <div class="col-lg-6">
-                                    <label class="control-label col-md-4" for="amount">{{ __('Amount') }}<span
-                                            style="color: red;">*</span></label>
-                                    <input type="text" name="amount" id="amount" class="form-control"
-                                        placeholder="enter name" />
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">{{ __('Add New User') }}</h4>
+                    <button type="button" class="btn-close" id="closemodalbyicon" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <span id="form_result"></span>
+                    <form method="post" id="sample_form" class="form-horizontal">
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label class="control-label col-md-4" for="name">{{ __('Name') }}<span
+                                                style="color: red;">*</span></label>
+                                        <input type="text" name="name" id="name" class="form-control"
+                                            placeholder="enter name" />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="control-label col-md-4" for="amount">{{ __('Amount') }}<span
+                                                style="color: red;">*</span></label>
+                                        <input type="text" name="amount" id="amount" class="form-control"
+                                            placeholder="enter name" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label class="control-label col-md-4 mt-3"
-                                        id="plan_period_label">{{ __('Departments') }}<span
-                                            style="color: red;">*</span></label>
-                                    <select name="department_id[]"
-                                        class="app_code_select @error('app_code') is-invalid @enderror"
-                                        multiple="multiple" id="department_id">
-                                        <option disabled>{{ __('Select') }}</option>
-                                        @foreach ($departments as $data)
-                                            <option value="{!! $data->id !!}">{{ $data->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label class="control-label col-md-4 mt-3"
-                                        id="plan_period_label">{{ __('Expenses Types') }}<span
-                                            style="color: red;">*</span></label>
-                                    <select name="type_id[]"
-                                        class="app_code_select @error('app_code') is-invalid @enderror"
-                                        multiple="multiple" id="type_id">
-                                        <option disabled>{{ __('Select') }}</option>
-                                        @foreach ($types as $data)
-                                            <option value="{!! $data->id !!}">{{ $data->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label class="control-label col-md-4 mt-3"
+                                            id="plan_period_label">{{ __('Departments') }}<span
+                                                style="color: red;">*</span></label>
+                                        <select name="department_id[]"
+                                            class="app_code_select @error('app_code') is-invalid @enderror"
+                                            multiple="multiple" id="department_id">
+                                            <option disabled>{{ __('Select') }}</option>
+                                            @foreach ($departments as $data)
+                                                <option value="{!! $data->id !!}">{{ $data->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="control-label col-md-4 mt-3"
+                                            id="plan_period_label">{{ __('Budgets Types') }}<span
+                                                style="color: red;">*</span></label>
+                                        <select name="type_id[]"
+                                            class="app_code_select @error('app_code') is-invalid @enderror"
+                                            multiple="multiple" id="type_id">
+                                            <option disabled>{{ __('Select') }}</option>
+                                            @foreach ($types as $data)
+                                                <option value="{!! $data->id !!}">{{ $data->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-12 mt-8">
-                            <div class="row">
-                                <div class="col-lg-12 mt-4">
-                                    <label id="labelpass1" class="control-label col-md-4">
-                                        {{ __('Purpose') }} <span style="color: red;">*</span>
-                                    </label>
-                                    <textarea name="purpose" id="purpose" class="form-control" placeholder="purpose" rows="3"></textarea>
+                            <div class="col-lg-12 mt-8">
+                                <div class="row">
+                                    <div class="col-lg-12 mt-4">
+                                        <label id="labelpass1" class="control-label col-md-4">
+                                            {{ __('Purpose') }} <span style="color: red;">*</span>
+                                        </label>
+                                        <textarea name="purpose" id="purpose" class="form-control" placeholder="purpose" rows="3"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <br />
-                    <div class="form-group" align="center">
-                        <input type="hidden" name="hidden_id" id="hidden_id" />
-                        <input type="hidden" name="action" id="action" value="Add" />
-                        <button type="button" id="closemybt" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        {{-- <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}"/> --}}
-                        <input type="submit" name="action_button" id="action_button" class="btn btn-warning"
-                            value="{{ __('Add') }}" />
-                    </div>
-                </form>
+                        <br />
+                        <div class="form-group" align="center">
+                            <input type="hidden" name="hidden_id" id="hidden_id" />
+                            <input type="hidden" name="action" id="action" value="Add" />
+                            <button type="button" id="closemybt" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            {{-- <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}"/> --}}
+                            <input type="submit" name="action_button" id="action_button" class="btn btn-warning"
+                                value="{{ __('Add') }}" />
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@include('pages.modal.delete_modal')
+    @include('pages.modal.delete_modal')
 @endsection
 
 @section('scripts')
-    
     <!-- PRISM JS -->
     <script src="{{ asset('build/assets/libs/prismjs/prism.js') }}"></script>
     @vite('resources/assets/js/prism-custom.js')
@@ -162,7 +161,7 @@
             placeholder: "Select",
             tags: true,
         });
-        
+
         $(document).ready(function() {
             $('#create_record').click(function() {
                 $('.modal-title').text('{{ __('Add New Budgets') }}');
@@ -348,6 +347,18 @@
         });
         $("#closemodalbyicon").click(function() {
             $('#sample_form').trigger('reset');
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.edit', function() {
+                var id = $(this).attr('id');
+                var currentPage = window.LaravelDataTables["budgets-table"].page.info().page +
+                    1; // Get current page (index is zero-based)
+                // Redirect to the edit URL while passing the current page as a query parameter
+                window.location.href = "/admin/budgets/" + id + "/edit?page=" + currentPage;
+            });
         });
     </script>
 @endsection

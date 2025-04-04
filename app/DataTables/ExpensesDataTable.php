@@ -2,6 +2,8 @@
 
 namespace App\DataTables;
 
+use App\Models\BudgetTypes;
+use App\Models\Department;
 use App\Models\Expense;
 use App\Models\Expenses;
 use App\Models\TemporaryAppCode;
@@ -28,12 +30,36 @@ class ExpensesDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $button = null;
                 // if (auth()->user()->hasPermissionTo('Edit Content')) {
-                    $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
+                    $button .= '<button id="' . $data->id . '" class="edit btn btn-link text-info"><i class="ri-pencil-line"></i></button>';
                 // }
                 // if (auth()->user()->hasPermissionTo('Delete Content')) {
                     $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
                 // }
                 return $button;
+            })
+            ->addColumn('deprtment', function ($data) {
+                $departmentIds = explode(',', $data->department_id); // convert comma-separated string to array
+            
+                $departments = Department::whereIn('id', $departmentIds)->pluck('name'); // fetch department names
+            
+                $title = '';
+                foreach ($departments as $department) {
+                    $title .= '<span class="badge text-bg-primary mb-1" role="button" style="font-size: 12px;">' . $department . '</span> ';
+                }
+            
+                return $title ?: '<span class="text-muted">No Departments</span>';
+            })
+            ->addColumn('Budget Types', function ($data) {
+                $typeIds = explode(',', $data->type_id); // convert comma-separated string to array
+            
+                $types = BudgetTypes::whereIn('id', $typeIds)->pluck('name'); // fetch type names
+            
+                $title = '';
+                foreach ($types as $type) {
+                    $title .= '<span class="badge text-bg-success mb-1" role="button" style="font-size: 12px;">' . $type . '</span> ';
+                }
+            
+                return $title ?: '<span class="text-muted">No Budget Types</span>';
             })
             ->escapeColumns([]);
     }
@@ -79,11 +105,13 @@ class ExpensesDataTable extends DataTable
             Column::make('id'),
             Column::make('name'),
             Column::make('amount'),
+            Column::make('deprtment'),
+            Column::make('Budget Types'),
             Column::make('purpose'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                ->width(100)
                 ->addClass('text-center'),
         ];
     }
