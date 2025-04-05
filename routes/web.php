@@ -40,6 +40,7 @@ use App\Models\Member;
 
 
 Route::get('/', [IndexController::class, 'index']);
+Route::get('/church/signup', [IndexController::class, 'churchsignup'])->name('church.signup');
 Route::prefix('donor')->middleware(['auth'])->group(function () {
     Route::get('/home', [IndexController::class, 'donorhome']);
 

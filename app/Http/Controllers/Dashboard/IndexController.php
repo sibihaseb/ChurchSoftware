@@ -38,6 +38,11 @@ class IndexController extends Controller
         $this->endOfLastMonth = Carbon::now()->subMonth()->endOfMonth();
     }
 
+    public function churchsignup()
+    {
+        return view('pages.auth.signup-church');
+    }
+
     public function index()
     {
         if (!auth()->check()) {

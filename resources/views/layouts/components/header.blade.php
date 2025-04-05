@@ -46,7 +46,7 @@
                         ->where('user_id', auth()->user()->id)
                         ->first();
 
-                    if (auth()->user()->account_type === 'A') {
+                    if (auth()->user()->account_type === 'a') {
                         $appCode = auth()->user()->church_id;
                         $appCodeArray = explode(',', $appCode);
                     }
@@ -57,7 +57,7 @@
                     }
                 @endphp
                 <div class="mt-2" style="width: 400px">
-                    @if (auth()->user()->account_type === 'A')
+                    @if (auth()->user()->account_type === 'a')
                         @if (is_array($appCodeArray) && count($appCodeArray) > 1)
                             <select class="form-control" data-trigger name="appChange" id="appChange">
                                 @foreach ($AllApps as $app)

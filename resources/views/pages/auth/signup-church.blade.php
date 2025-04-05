@@ -25,7 +25,7 @@
                                 {{ env('APP_NAME') }}
                             </a>
                         </div>
-                        <p class="h5 fw-semibold mb-2">Sign Up</p>
+                        <p class="h5 fw-semibold mb-2">Sign Up & Church Registration</p>
                         <p class="mb-3 text-muted op-7 fw-normal">Welcome & Join us by creating a free account !</p>
                         {{-- <div class="btn-list">
                             <button class="btn btn-light"><svg class="google-svg" xmlns="http://www.w3.org/2000/svg"
@@ -104,12 +104,19 @@
                                                     class="ri-eye-off-line align-middle"></i></button>
                                         </div>
                                     </div>
-                                    {{-- <div class="col-md-6">
-                                        <label for="phone-number" class="form-label">Phone Number</label>
-                                        <input type="tel" class="form-control" id="phone-number" name="phone"
-                                            placeholder="Phone Number">
+                                    <div class="col-lg-12">
+                                        <label for="church-name" class="form-label">Chruch Name</label>
+                                        <input type="tel" class="form-control" name="church_name"
+                                            placeholder="Enter your church name">
+                                        @error('church_name')
+                                            <div class="mt-4 mb-4">
+                                                <span class="alert-danger" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            </div>
+                                        @enderror
                                     </div>
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <label for="country" class="form-label">Country</label>
                                         <select class="form-control" id="country" name="country_id">
                                             <option value="">{{ __('Select Country') }}</option>
@@ -202,8 +209,8 @@
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
                                         <div class="mb-5">
-                                            <img src="{{ asset('images/10252702.png') }}" class="authentication-image"
-                                                alt="">
+                                            <img src="{{ asset('images/10252702.png') }}"
+                                                class="authentication-image" alt="">
                                         </div>
                                         <h6 class="fw-semibold text-fixed-white">Building Stronger Communities Through
                                             Giving</h6>

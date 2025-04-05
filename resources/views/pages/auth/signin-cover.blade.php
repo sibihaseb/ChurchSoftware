@@ -76,8 +76,12 @@
                                     <button type="submit" class="btn btn-lg btn-primary">
                                         {{ __('Login') }}
                                     </button>
+                                    <a href="{{ route('church.signup') }}" class="btn btn-lg btn-primary mt-2">Register
+                                        Church</a>
                                 </div>
                             </form>
+                        </div>
+                        <div>
                         </div>
                     </div>
                 </div>
