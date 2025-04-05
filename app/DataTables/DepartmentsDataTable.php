@@ -32,6 +32,11 @@ class DepartmentsDataTable extends DataTable
                 // if (auth()->user()->hasPermissionTo('Delete Content')) {
                     $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
                 // }
+                // if (auth()->user()->hasPermissionTo('User Reports')) {
+                    $button .= '<a href="' . url('admin/department-budget-report?code=' . $data->id) . '">
+                                    <i class="report ri-file-list-line text-success m-2"></i>
+                                </a>';
+                // }
                 return $button;
             })
             ->escapeColumns([]);
@@ -80,7 +85,7 @@ class DepartmentsDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                ->width(150)
                 ->addClass('text-center'),
         ];
     }

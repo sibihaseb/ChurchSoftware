@@ -24,6 +24,13 @@ class BudgetsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public function create()
+    {
+        $departments = Department::where('church_id',$this->currentApp()->church_id)->get();
+        $types = BudgetTypes::where('church_id',$this->currentApp()->church_id)->get();
+
+        return view('dashboard.budgets.createOrUpdate', compact('departments','types'));
+    }
     public function store(BudgetsRequest $request)
     {
         $validatedData = $request->validated();
@@ -40,12 +47,19 @@ class BudgetsController extends Controller
         }
         $data = Budgets::create($validatedData);
         if ($data) {
-            return $this->successMessageResponse(__('Budgets Created Successfully'), 201);
+            return redirect('admin/budgets')->with('success', 'Created successfully');
         } else {
             return $this->errorResponse(__('Budgets Not Created'), 422);
         }
     }
+    public function edit($id)
+    {
+        $data = Budgets::findOrFail($id);
+        $departments = Department::where('church_id',$this->currentApp()->church_id)->get();
+        $types = BudgetTypes::where('church_id',$this->currentApp()->church_id)->get();
 
+        return view('dashboard.budgets.createOrUpdate', compact('departments','types','data'));
+    }
 
 
     /**
@@ -80,7 +94,8 @@ class BudgetsController extends Controller
             $data->update($validatedData);
         });
 
-        return $this->successMessageResponse(__('Budgets Updated Successfully'), 201);
+        // $currentPage = $request->input('currentPage', 1); // Get the current page from the hidden input
+        return redirect()->to('admin/budgets')->with('success', __('Updated Successfully'));
     }
 
 
