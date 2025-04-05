@@ -232,18 +232,38 @@
                                         class="side-menu__item">{{ __('Expenses Type') }}</a>
                                 </li>
                             @endcan
-                            @can('Budget Management')
-                                <li class="slide">
+                               <li class="slide">
                                     <a href="{{ url('admin/budgets') }}" class="side-menu__item">{{ __('Budgets') }}</a>
                                 </li>
                                 <li class="slide">
                                     <a href="{{ url('admin/budget_types') }}"
                                         class="side-menu__item">{{ __('Budget Types') }}</a>
                                 </li>
-                            @endcan
+                            @endcan  @can('Budget Management')
+                           
                         </ul>
                     </li>
                 @endcan
+                {{-- @can('All Department Reports') --}}
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bx bx-notepad bx-pie-chart-alt side-menu__icon"></i>
+                        <span class="side-menu__label">{{ __('All Department Reports') }}<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0);">{{ __('Dashboards') }}</a>
+                        </li>
+
+                        <li class="slide">
+                            <a href="{{ url('admin/all-budget-reports') }}"
+                                class="side-menu__item">{{ __('All Department Reports') }}</a>
+                        </li>
+                    </ul>
+                </li>
+            {{-- @endcan --}}
             </ul>
 
             <!-- End::slide -->

@@ -2,8 +2,13 @@
 
 namespace App\DataTables;
 
+use App\Models\Department;
 use App\Models\DepartmentExpensesReport;
+use App\Models\Expenses;
+use App\Models\ExpensesTypes;
+use App\Models\TemporaryAppCode;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Http\Request;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -21,17 +26,65 @@ class DepartmentExpensesReportDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', 'departmentexpensesreport.action')
-            ->setRowId('id');
+        // Clone the query to calculate the total from filtered data
+        $totalBudget = (clone $query)->sum('amount');
+        return datatables()
+            ->eloquent($query)
+            ->addColumn('deprtment', function ($data) {
+                $departmentIds = explode(',', $data->department_id); // convert comma-separated string to array
+            
+                $departments = Department::whereIn('id', $departmentIds)->pluck('name'); // fetch department names
+            
+                $title = '';
+                foreach ($departments as $department) {
+                    $title .= '<span class="badge text-bg-primary mb-1" role="button" style="font-size: 12px;">' . $department . '</span> ';
+                }
+            
+                return $title ?: '<span class="text-muted">No Departments</span>';
+            })
+            ->addColumn('Expenses Types', function ($data) {
+                $typeIds = explode(',', $data->type_id); // convert comma-separated string to array
+            
+                $types = ExpensesTypes::whereIn('id', $typeIds)->pluck('name'); // fetch type names
+            
+                $title = '';
+                foreach ($types as $type) {
+                    $title .= '<span class="badge text-bg-success mb-1" role="button" style="font-size: 12px;">' . $type . '</span> ';
+                }
+            
+                return $title ?: '<span class="text-muted">No Budget Types</span>';
+            })
+            ->addColumn('Total Expenses', function () use ($totalBudget) {
+                return '<span class="text-success fw-bold">' . number_format($totalBudget, 2) . '</span>';
+            })
+            ->escapeColumns([]);
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(DepartmentExpensesReport $model): QueryBuilder
+    public function query(Expenses $model, Request $request): QueryBuilder
     {
-        return $model->newQuery();
+        $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
+    
+        $data = $model::where('church_id', $currentAppCode)
+            ->when($request->code, function ($query) use ($request) {
+                $query->whereRaw('FIND_IN_SET(?, department_id)', [$request->code]);
+            })
+            ->when($request->filled('date_from') && $request->filled('date_to'), function ($query) use ($request) {
+                $query->whereBetween('created_at', [
+                    $request->date_from . ' 00:00:00',
+                    $request->date_to . ' 23:59:59',
+                ]);
+            })
+            ->when($request->filled('date_from') && !$request->filled('date_to'), function ($query) use ($request) {
+                $query->where('created_at', '>=', $request->date_from . ' 00:00:00');
+            })
+            ->when(!$request->filled('date_from') && $request->filled('date_to'), function ($query) use ($request) {
+                $query->where('created_at', '<=', $request->date_to . ' 23:59:59');
+            });
+    
+        return $this->applyScopes($data);
     }
 
     /**
@@ -44,12 +97,11 @@ class DepartmentExpensesReportDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(1, 'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
-                        Button::make('pdf'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
@@ -62,15 +114,14 @@ class DepartmentExpensesReportDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('name'),
+            Column::make('amount'),
+            Column::make('deprtment'),
+            Column::make('Expenses Types'),
+            Column::make('purpose'),
+            Column::make('Total Expenses'),
+          
         ];
     }
 

@@ -167,9 +167,14 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('/model/change-status-selected/{model}', [MemberController::class, 'changeStatusSelected'])->name('common.changeStatusSelected');
 
     // Route::group(['middleware' => 'permission:User Reports'], function () {
-        Route::get('department-report', [DepartmentReportController::class, 'index'])->name('department.report');
-        Route::get('department-budget-report', [DepartmentReportController::class, 'budgetReport'])->name('department.budget.report');
-        Route::get('department-budgetVexpenses-report', [DepartmentReportController::class, 'budgetVexpensesReport'])->name('department.budgetVexpenses.report');
-        Route::get('department-expenses-report', [DepartmentReportController::class, 'expensesReport'])->name('department.expenses.report');
+        // Route::get('department-report/{code}', [DepartmentReportController::class, 'index'])->name('department.report');
+        Route::get('department-budget-report/{code}', [DepartmentReportController::class, 'budgetReport'])->name('department.budget.report');
+        // Route::get('department-budgetVexpenses-report/{code}', [DepartmentReportController::class, 'budgetVexpensesReport'])->name('department.budgetVexpenses.report');
+        Route::get('department-expenses-report/{code}', [DepartmentReportController::class, 'expensesReport'])->name('department.expenses.report');
+    // });
+
+    // Route::group(['middleware' => 'permission:All Department Reports'], function () {
+   Route::get('all-budget-reports', [DepartmentReportController::class, 'allBugdetReports'])->name('department.all.reports');
+   Route::get('all-expenses-reports', [DepartmentReportController::class, 'allExpensesReports'])->name('department.all.expenses.reports');
     // });
 });
