@@ -832,6 +832,7 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <h4 class="fw-bold mb-2">{{ $allProductFive['totalUsage'] }}</h4>
                         <div class="progress-stacked progress-animate progress-xs mb-4">
                             @foreach ($allProductFive['topProducts'] as $index => $product)
                                 @php
