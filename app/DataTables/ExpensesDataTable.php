@@ -6,6 +6,7 @@ use App\Models\BudgetTypes;
 use App\Models\Department;
 use App\Models\Expense;
 use App\Models\Expenses;
+use App\Models\ExpensesTypes;
 use App\Models\TemporaryAppCode;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -49,10 +50,10 @@ class ExpensesDataTable extends DataTable
             
                 return $title ?: '<span class="text-muted">No Departments</span>';
             })
-            ->addColumn('Budget Types', function ($data) {
+            ->addColumn('Expenses Types', function ($data) {
                 $typeIds = explode(',', $data->type_id); // convert comma-separated string to array
             
-                $types = BudgetTypes::whereIn('id', $typeIds)->pluck('name'); // fetch type names
+                $types = ExpensesTypes::whereIn('id', $typeIds)->pluck('name'); // fetch type names
             
                 $title = '';
                 foreach ($types as $type) {
@@ -106,7 +107,7 @@ class ExpensesDataTable extends DataTable
             Column::make('name'),
             Column::make('amount'),
             Column::make('deprtment'),
-            Column::make('Budget Types'),
+            Column::make('Expenses Types'),
             Column::make('purpose'),
             Column::computed('action')
                 ->exportable(false)

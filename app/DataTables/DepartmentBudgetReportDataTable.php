@@ -26,64 +26,67 @@ class DepartmentBudgetReportDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        // Clone the query to calculate the total from filtered data
+        $totalBudget = (clone $query)->sum('amount');
+    
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function ($data) {
-                $button = null;
-                // if (auth()->user()->hasPermissionTo('Edit Content')) {
-                    $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
-                // }
-                // if (auth()->user()->hasPermissionTo('Delete Content')) {
-                    $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
-                // }
-                return $button;
-            })
             ->addColumn('deprtment', function ($data) {
-                $departmentIds = explode(',', $data->department_id); // convert comma-separated string to array
-            
-                $departments = Department::whereIn('id', $departmentIds)->pluck('name'); // fetch department names
-            
+                $departmentIds = explode(',', $data->department_id);
+                $departments = Department::whereIn('id', $departmentIds)->pluck('name');
+    
                 $title = '';
                 foreach ($departments as $department) {
                     $title .= '<span class="badge text-bg-primary mb-1" role="button" style="font-size: 12px;">' . $department . '</span> ';
                 }
-            
+    
                 return $title ?: '<span class="text-muted">No Departments</span>';
             })
             ->addColumn('Budget Types', function ($data) {
-                $typeIds = explode(',', $data->type_id); // convert comma-separated string to array
-            
-                $types = BudgetTypes::whereIn('id', $typeIds)->pluck('name'); // fetch type names
-            
+                $typeIds = explode(',', $data->type_id);
+                $types = BudgetTypes::whereIn('id', $typeIds)->pluck('name');
+    
                 $title = '';
                 foreach ($types as $type) {
                     $title .= '<span class="badge text-bg-success mb-1" role="button" style="font-size: 12px;">' . $type . '</span> ';
                 }
-            
+    
                 return $title ?: '<span class="text-muted">No Budget Types</span>';
+            })
+            ->addColumn('Total Budget', function () use ($totalBudget) {
+                return '<span class="text-success fw-bold">' . number_format($totalBudget, 2) . '</span>';
             })
             ->escapeColumns([]);
     }
+    
 
     /**
      * Get the query source of dataTable.
      */
- public function query(Budgets $model, Request $request): QueryBuilder
-{
-    $tempAppCode = TemporaryAppCode::where('user_id', auth()->id())->first();
-    $currentAppCode = $tempAppCode ? $tempAppCode->church_id : null;
-
-    if (!$currentAppCode) {
-        return $model::query(); // Return an empty query if no app code found
+    public function query(Budgets $model, Request $request): QueryBuilder
+    {
+        $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
+    
+        $data = $model::where('church_id', $currentAppCode)
+            ->when($request->code, function ($query) use ($request) {
+                $query->whereRaw('FIND_IN_SET(?, department_id)', [$request->code]);
+            })
+            ->when($request->filled('date_from') && $request->filled('date_to'), function ($query) use ($request) {
+                $query->whereBetween('created_at', [
+                    $request->date_from . ' 00:00:00',
+                    $request->date_to . ' 23:59:59',
+                ]);
+            })
+            ->when($request->filled('date_from') && !$request->filled('date_to'), function ($query) use ($request) {
+                $query->where('created_at', '>=', $request->date_from . ' 00:00:00');
+            })
+            ->when(!$request->filled('date_from') && $request->filled('date_to'), function ($query) use ($request) {
+                $query->where('created_at', '<=', $request->date_to . ' 23:59:59');
+            });
+    
+        return $this->applyScopes($data);
     }
-
-    $query = $model::where('church_id', $currentAppCode)
-        ->when($request->code, function ($q) use ($request) {
-            return $q->where('department_id', 'like', '%' . $request->code . '%');
-        })->select();
-
-    return $this->applyScopes($query);
-}
+    
 
 
     /**
@@ -96,12 +99,11 @@ class DepartmentBudgetReportDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(1, 'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
-                        Button::make('pdf'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
@@ -120,11 +122,8 @@ class DepartmentBudgetReportDataTable extends DataTable
             Column::make('deprtment'),
             Column::make('Budget Types'),
             Column::make('purpose'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+            Column::make('Total Budget'),
+          
         ];
     }
 

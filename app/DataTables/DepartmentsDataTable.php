@@ -33,7 +33,7 @@ class DepartmentsDataTable extends DataTable
                     $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
                 // }
                 // if (auth()->user()->hasPermissionTo('User Reports')) {
-                    $button .= '<a href="' . url('admin/department-budget-report?code=' . $data->id) . '">
+                    $button .= '<a href="' . url('admin/department-budget-report/' . $data->id) . '">
                                     <i class="report ri-file-list-line text-success m-2"></i>
                                 </a>';
                 // }

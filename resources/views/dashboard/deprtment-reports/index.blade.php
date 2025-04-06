@@ -2,6 +2,8 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('build/assets/libs/datatables/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/libs/jsvectormap/css/jsvectormap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 
 @section('content')
@@ -13,7 +15,7 @@
                 <li class="breadcrumb-item active" aria-current="page">{{ __('Departments Report') }}</li>
             </ol>
         </nav>
-        {{-- @if(isset($totalPoints, $currentMonthPoints))
+        {{-- @if (isset($totalPoints, $currentMonthPoints))
         <div class="row">
             <div class="col-xxl-2 col-xl-2">
                 <div class="card custom-card">
@@ -119,7 +121,7 @@
                                         <h5 class="fw-semibold mb-0 lh-1">{{$currentMonthPoints}}</h5>
                                     </a>
                                 </div>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold"><?= date('F'); ?> Points</p>
+                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold"><?= date('F') ?> Points</p>
                             </div>
                         </div>
                     </div>
@@ -130,55 +132,118 @@
         <!-- Tab Structure -->
         <div class="card custom-card">
             <div class="card-body">
-                <!-- Tabs -->
-                {{-- <ul class="nav nav-pills" id="reportTabs">
-                    <li class="nav-item active">
-                        <a href="{{ route('user.report', ['code' => $user->code]) }}"
-                            class="nav-link {{ request()->routeIs('user.report') ? 'active' : '' }}"
-                            id="personal-tab">{{ __('Personal Details') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('location.report', ['code' => $user->code]) }}"
-                            class="nav-link {{ request()->routeIs('location.report') ? 'active' : '' }}"
-                            id="coupon-tab">{{ __('Account Location') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('coupon.report', ['code' => $user->code]) }}"
-                            class="nav-link {{ request()->routeIs('coupon.report') ? 'active' : '' }}"
-                            id="coupon-tab">{{ __('Coupon Report') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('payment.report', ['code' => $user->code]) }}"
-                            class="nav-link {{ request()->routeIs('payment.report') ? 'active' : '' }}"
-                            id="coupon-tab">{{ __('Payment Report') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('watch.report', ['code' => $user->code]) }}"
-                            class="nav-link {{ request()->routeIs('watch.report') ? 'active' : '' }}"
-                            id="coupon-tab">{{ __('Watch History') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('user.badge.report', ['code' => $user->code]) }}"
-                            class="nav-link {{ request()->routeIs('user.badge.report') ? 'active' : '' }}"
-                            id="coupon-tab">{{ __('Badge Report') }}</a>
-                    </li>
-                </ul> --}}
-                <!-- Tab Content -->
-                <div class="tab-content" id="reportTabsContent">
-                    <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                <!-- Row to hold both tabs and date picker -->
+                <div class="row align-items-center justify-content-between">
+                    <!-- Tabs -->
+                    <div class="col-md-8 col-sm-12 mb-2">
+                        <ul class="nav nav-pills flex-wrap" id="reportTabs">
+                            <li class="nav-item">
+                                <a href="{{ route('department.budget.report', ['code' => $user->id]) }}"
+                                    class="nav-link {{ request()->routeIs('department.budget.report') ? 'active' : '' }}"
+                                    id="personal-tab">{{ __('Department Budget Report') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('department.expenses.report', ['code' => $user->id]) }}"
+                                    class="nav-link {{ request()->routeIs('department.expenses.report') ? 'active' : '' }}"
+                                    id="coupon-tab">{{ __('Department Expense Report') }}</a>
+                            </li>
+                            {{-- <li class="nav-item">
+                                <a href="{{ route('department.budgetVexpenses.report', ['code' => $user->id]) }}"
+                                    class="nav-link {{ request()->routeIs('department.budgetVexpenses.report') ? 'active' : '' }}"
+                                    id="coupon-tab">{{ __('Budget Vs Expense Report') }}</a>
+                            </li> --}}
+                        </ul>
+                    </div>
+
+                    <!-- Date Range Picker -->
+                    <div class="col-md-4 col-sm-12 text-md-end text-start mb-2">
+                        <div id="reportrange"
+                            style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px; display: inline-block;">
+                            <i class="ri-calendar-2-line ri-lg mt-1"></i>&nbsp;
+                            <span></span> <i class="ri-arrow-down-s-line ri-lg mt-1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="reportTabsContent">
+                <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                    <div class="table-responsive">
                         <div class="table-responsive">
-                            <div class="table-responsive">
-                                {{ $dataTable->table() }}
-                                {{ $dataTable->scripts() }}
-                            </div>
+                            {{ $dataTable->table() }}
+                            {{ $dataTable->scripts() }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @php
+            if (request()->routeIs('department.budget.report')) {
+                $action = route('department.budget.report', ['code' => $user->id]);
+            } elseif (request()->routeIs('department.expenses.report')) {
+                $action = route('department.expenses.report', ['code' => $user->id]);
+            }
+        @endphp
+        <form method="GET" id="datequery" action="{{ $action }}">
+            <input type="hidden" value="" name="date_from" id="date_from" />
+            <input type="hidden" value="" name="date_to" id="date_to" />
+        </form>
     </div>
+    </div>
+    @php
+        $startparam = Request::get('date_from');
+        $endparam = Request::get('date_to');
+    @endphp
 @endsection
 
 @section('scripts')
     <script src="{{ asset('build/assets/libs/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript">
+        var paramstart = '<?php echo $startparam; ?>';
+        var paramend = '<?php echo $endparam; ?>';
+        console.log(paramstart)
+        var start = paramstart ? moment(paramstart, 'YYYY-MM-DD') : moment().subtract(7, 'days');
+        var end = paramend ? moment(paramend, 'YYYY-MM-DD') : moment();
+
+        var initialLoad = true; // Flag to check if it's the initial load
+
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+
+            // Log the selected dates
+            console.log('Selected start date:', start.format('YYYY-MM-DD'));
+            console.log('Selected end date:', end.format('YYYY-MM-DD'));
+
+            // If it's not the initial load, set values and submit the form
+            if (!initialLoad) {
+                $('#date_from').val(start.format('YYYY-MM-DD'));
+                $('#date_to').val(end.format('YYYY-MM-DD'));
+                $('#datequery').submit();
+            }
+        }
+
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            maxDate: moment(), // Disable future dates by setting maxDate to today
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf(
+                    'month')]
+            }
+        }, cb);
+
+        // Set the initial date display without submitting the form
+        cb(start, end);
+
+        // Set initialLoad to false after the first callback to ensure subsequent changes trigger the form submission
+        initialLoad = false;
+    </script>
 @endsection
