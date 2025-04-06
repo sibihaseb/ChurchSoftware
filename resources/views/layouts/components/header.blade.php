@@ -72,7 +72,7 @@
                             </select>
                         @else
                             <input type="hidden" name="appChange" id="appChange" value="{{ $appCodeArray[0] }}">
-                            <h4 class="mt-2">{{ $currentAppData->name }}</h4>
+                            <h5 class="mt-2">{{ $currentAppData->name }}</h5>
                         @endif
                     @else
                         <select class="form-control" data-trigger name="appChange" id="appChange">
