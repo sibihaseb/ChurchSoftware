@@ -219,8 +219,18 @@ class Invoice extends Component
         $this->reset();  // Reset form on "Save & Create New"
         // Ensure there's at least one empty item in the form
         $this->items = [
-            ['product_id' => '', 'description' => '', 'qty' => 1, 'rate' => 0, 'amount' => 0]
+            [
+                'product_id' => '',
+                'description' => '',
+                'qty' => 1,
+                'rate' => 0,
+                'amount' => 0,
+            ]
         ];
+        $this->church_id = $currentApp->church_id;
+        $this->paymentmethods = PaymentMethod::all();
+        $this->depositetos = DepositeAccount::all();
+        $this->products = Product::all();
     }
 
     public function render()
