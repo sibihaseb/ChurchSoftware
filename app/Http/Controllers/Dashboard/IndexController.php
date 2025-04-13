@@ -341,4 +341,59 @@ class IndexController extends Controller
             'totalUsage' => $totalUsage
         ];
     }
+
+    public function monthlyRevenue()
+    {
+        $revenueData = [];
+
+        // Get the start of the current year
+        $startOfYear = now()->copy()->startOfYear();
+
+        // Loop through all 12 months of the current year
+        for ($i = 0; $i < 12; $i++) {
+            $startOfMonth = $startOfYear->copy()->addMonths($i)->startOfMonth();
+            $endOfMonth = $startOfMonth->copy()->endOfMonth();
+            $label = $startOfMonth->format('M'); // Jan, Feb, Mar, etc.
+
+            $monthlyRevenue = ServiceInvoiceItem::whereHas('salesReceipt', function ($query) use ($startOfMonth, $endOfMonth) {
+                $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+            })->sum('amount');
+
+            $revenueData[] = [
+                'month' => $label,
+                'revenue' => round($monthlyRevenue, 2),
+            ];
+        }
+
+        return response()->json([
+            'revenueData' => $revenueData,
+        ]);
+    }
+
+    public function totalDonationsChart()
+    {
+        $donationData = [];
+
+        // Get the start of the current year
+        $startOfYear = now()->copy()->startOfYear();
+
+        // Loop through all 12 months of the current year
+        for ($i = 0; $i < 12; $i++) {
+            $startOfMonth = $startOfYear->copy()->addMonths($i)->startOfMonth();
+            $endOfMonth = $startOfMonth->copy()->endOfMonth();
+            $label = $startOfMonth->format('M'); // Jan, Feb, Mar, etc.
+
+            // Count Service Invoices (donations) for the month
+            $monthlyDonations = ServiceInvoice::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+
+            $donationData[] = [
+                'month' => $label,
+                'donations' => $monthlyDonations,
+            ];
+        }
+
+        return response()->json([
+            'donationData' => $donationData,
+        ]);
+    }
 }

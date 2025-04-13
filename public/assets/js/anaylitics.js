@@ -101,7 +101,160 @@ $(document).ready(function () {
         }
     }
 
+    function fetchRevenueAnalytics() {
+        fetch(`/admin/analytics/revenue`)
+            .then((response) => response.json())
+            .then((data) => {
+                const months = data.revenueData.map((item) => item.month);
+                const revenues = data.revenueData.map((item) => item.revenue);
+                updateRevenueChart(months, revenues);
+            })
+            .catch((error) =>
+                console.error("Error fetching revenue data:", error)
+            );
+    }
+
+    function updateRevenueChart(months, revenueData) {
+        var options = {
+            series: [
+                {
+                    name: "Revenue",
+                    data: revenueData,
+                },
+            ],
+            chart: {
+                type: "line",
+                height: 350,
+                animations: { speed: 500 },
+            },
+            colors: ["#00C292"],
+            dataLabels: { enabled: false },
+            stroke: { curve: "smooth", width: 3 },
+            xaxis: {
+                categories: months,
+                axisTicks: { show: false },
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return "$" + value;
+                    },
+                },
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return "$" + val.toFixed(2);
+                    },
+                },
+            },
+        };
+
+        const chartContainer = document.querySelector("#crm-revenue-month");
+
+        if (!window.revenueChart) {
+            window.revenueChart = new ApexCharts(chartContainer, options);
+            window.revenueChart.render();
+        } else {
+            window.revenueChart.updateOptions(options);
+        }
+    }
+
+    let donationChart = null;
+
+    function fetchDonations() {
+        fetch("/admin/analytics/donation")
+            .then((response) => response.json())
+            .then((data) => {
+                if (data && Array.isArray(data.donationData)) {
+                    updateDonationChart(data.donationData);
+                } else {
+                    console.error("Invalid data format:", data);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching donation data:", error);
+            });
+    }
+
+    function updateDonationChart(donationData) {
+        const months = donationData.map((item) => item.month);
+        const donations = donationData.map((item) => item.donations);
+
+        const options = {
+            series: [
+                {
+                    name: "Donations",
+                    data: donations,
+                },
+            ],
+            chart: {
+                type: "line",
+                height: 350,
+                animations: {
+                    speed: 500,
+                },
+                dropShadow: {
+                    enabled: true,
+                    top: 8,
+                    blur: 3,
+                    color: "#000",
+                    opacity: 0.1,
+                },
+            },
+            colors: ["#28a745"],
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "smooth",
+                width: 2,
+            },
+            grid: {
+                borderColor: "#f1f1f1",
+                strokeDashArray: 3,
+            },
+            xaxis: {
+                categories: months,
+                labels: {
+                    style: {
+                        fontSize: "12px",
+                    },
+                },
+            },
+            yaxis: {
+                labels: {
+                    formatter: (value) => value,
+                },
+            },
+            tooltip: {
+                y: {
+                    formatter: (val) => `${val} donations`,
+                },
+            },
+            markers: {
+                hover: {
+                    sizeOffset: 5,
+                },
+            },
+        };
+
+        if (donationChart) {
+            donationChart.destroy();
+        }
+
+        donationChart = new ApexCharts(
+            document.querySelector("#donation-chart"),
+            options
+        );
+        donationChart.render();
+    }
+
+    // Load chart on page load
+    fetchDonations();
+
     // Fetch data on page load
     fetchTopDonors();
     fetchAnalytics();
+    fetchRevenueAnalytics();
 });
