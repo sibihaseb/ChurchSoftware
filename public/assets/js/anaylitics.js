@@ -55,10 +55,11 @@ $(document).ready(function () {
     function updateChart(expenseData, budgetData) {
         var options = {
             series: [
-                { type: "line", name: "Expenses", data: expenseData },
-                { type: "line", name: "Budgets", data: budgetData },
+                { name: "Expenses", data: expenseData },
+                { name: "Budgets", data: budgetData },
             ],
             chart: {
+                type: "bar", // 👈 CHANGE THIS
                 height: 350,
                 animations: { speed: 500 },
                 dropShadow: {
@@ -72,7 +73,7 @@ $(document).ready(function () {
             colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
             dataLabels: { enabled: false },
             grid: { borderColor: "#f1f1f1", strokeDashArray: 3 },
-            stroke: { curve: "smooth", width: [2, 2] },
+            stroke: { width: 0 }, // 👈 Bars usually don't need line stroke
             xaxis: { axisTicks: { show: false } },
             yaxis: {
                 labels: {
@@ -82,12 +83,18 @@ $(document).ready(function () {
                 },
             },
             tooltip: {
-                y: [
-                    { formatter: (e) => "$" + e.toFixed(0) },
-                    { formatter: (e) => "$" + e.toFixed(0) },
-                ],
+                y: {
+                    formatter: (e) => "$" + e.toFixed(0),
+                },
             },
-            markers: { hover: { sizeOffset: 5 } },
+            markers: { hover: { sizeOffset: 5 } }, // Not really needed for bar chart, but won't hurt
+            plotOptions: {
+                bar: {
+                    horizontal: false, // ⬅️ Change to true if you want horizontal bars
+                    columnWidth: "45%", // ⬅️ Adjust bar thickness
+                    endingShape: "rounded", // ⬅️ Makes bar edges rounded
+                },
+            },
         };
 
         if (chart) {
@@ -123,13 +130,13 @@ $(document).ready(function () {
                 },
             ],
             chart: {
-                type: "line",
+                type: "bar", // 👈 CHANGED TO 'bar'
                 height: 350,
                 animations: { speed: 500 },
             },
             colors: ["#00C292"],
             dataLabels: { enabled: false },
-            stroke: { curve: "smooth", width: 3 },
+            stroke: { width: 0 }, // 👈 No stroke for bars
             xaxis: {
                 categories: months,
                 axisTicks: { show: false },
@@ -146,6 +153,13 @@ $(document).ready(function () {
                     formatter: function (val) {
                         return "$" + val.toFixed(2);
                     },
+                },
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false, // 👈 vertical bars (set true if you want horizontal)
+                    columnWidth: "45%", // 👈 Adjust thickness
+                    endingShape: "rounded", // 👈 Rounded corners for bar top
                 },
             },
         };
@@ -189,7 +203,7 @@ $(document).ready(function () {
                 },
             ],
             chart: {
-                type: "line",
+                type: "bar", // 👈 CHANGED TO 'bar'
                 height: 350,
                 animations: {
                     speed: 500,
@@ -207,8 +221,7 @@ $(document).ready(function () {
                 enabled: false,
             },
             stroke: {
-                curve: "smooth",
-                width: 2,
+                width: 0, // 👈 no smooth line needed for bars
             },
             grid: {
                 borderColor: "#f1f1f1",
@@ -235,6 +248,13 @@ $(document).ready(function () {
             markers: {
                 hover: {
                     sizeOffset: 5,
+                },
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false, // ⬅️ vertical bars
+                    columnWidth: "45%", // ⬅️ bar thickness
+                    endingShape: "rounded", // ⬅️ rounded top corners
                 },
             },
         };

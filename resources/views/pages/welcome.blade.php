@@ -90,7 +90,7 @@
                                                         <h4 class="fw-semibold">{{ $alldonars['this_month'] }}
                                                         </h4>
                                                     </div>
-                                                    <div id="donorChart"></div>
+                                                    {{-- <div id="donorChart"></div> --}}
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-1">
                                                     <div>
@@ -137,7 +137,7 @@
                                                         <h4 class="fw-semibold mt-1">${{ $totalRevenue['this_month'] }}
                                                         </h4>
                                                     </div>
-                                                    <div id="total-revenue"></div>
+                                                    {{-- <div id="total-revenue"></div> --}}
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-1">
                                                     <div>
@@ -183,7 +183,7 @@
                                                         <h4 class="fw-semibold">{{ $allUsers['this_month'] }}
                                                         </h4>
                                                     </div>
-                                                    <div id="all-users"></div>
+                                                    {{-- <div id="all-users"></div> --}}
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-1">
                                                     <div>
@@ -230,7 +230,7 @@
                                                         <h4 class="fw-semibold mt-1">{{ $totalDonations['this_month'] }}
                                                         </h4>
                                                     </div>
-                                                    <div id="total-donations"></div>
+                                                    {{-- <div id="total-donations"></div> --}}
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-1">
                                                     <div>
