@@ -134,6 +134,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::resource('family-member-type', FamilyMemberTypeController::class);
         Route::resource('doners', MemberController::class);
         Route::get('doners/{tvcategory}/{status}', [MemberController::class, 'status']);
+        Route::get('doner-report/{code}', [MemberController::class, 'donerReport'])->name('doner.report');
     });
 
 

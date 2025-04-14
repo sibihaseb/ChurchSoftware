@@ -11,8 +11,8 @@
         <nav class="py-4">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">{{ __('Home') }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('admin/departments') }}">{{ __('All Departments') }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('Departments Report') }}</li>
+                <li class="breadcrumb-item"><a href="{{ url('admin/doners') }}">{{ __('All Doners') }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ __('Doner Report') }}</li>
             </ol>
         </nav>
         <!-- Tab Structure -->
@@ -22,23 +22,6 @@
                 <div class="row align-items-center justify-content-between">
                     <!-- Tabs -->
                     <div class="col-md-8 col-sm-12 mb-2">
-                        <ul class="nav nav-pills flex-wrap" id="reportTabs">
-                            <li class="nav-item">
-                                <a href="{{ route('department.all.reports') }}"
-                                    class="nav-link {{ request()->routeIs('department.all.reports') ? 'active' : '' }}"
-                                    id="personal-tab">{{ __('All Department Budget Report') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('department.all.expenses.reports') }}"
-                                    class="nav-link {{ request()->routeIs('department.all.expenses.reports') ? 'active' : '' }}"
-                                    id="coupon-tab">{{ __('All Department Expense Report') }}</a>
-                            </li>
-                            {{-- <li class="nav-item">
-                                <a href="{{ route('department.budgetVexpenses.report', ['code' => $user->id]) }}"
-                                    class="nav-link {{ request()->routeIs('department.budgetVexpenses.report') ? 'active' : '' }}"
-                                    id="coupon-tab">{{ __('Budget Vs Expense Report') }}</a>
-                            </li> --}}
-                        </ul>
                     </div>
 
                     <!-- Date Range Picker -->
@@ -65,10 +48,8 @@
             </div>
         </div>
         @php
-            if (request()->routeIs('department.all.reports')) {
-                $action = route('department.all.reports');
-            } elseif (request()->routeIs('department.all.expenses.reports')) {
-                $action = route('department.all.expenses.reports');
+            if (request()->routeIs('doner.report')) {
+                $action = route('doner.report', ['code' => $user->id]);
             }
         @endphp
         <form method="GET" id="datequery" action="{{ $action }}">

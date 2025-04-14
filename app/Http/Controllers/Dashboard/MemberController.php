@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\DataTables\DonerReportDataTable;
 use App\DataTables\MemberDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MemberRequest;
@@ -215,5 +216,17 @@ class MemberController extends Controller
         } else {
             return $this->errorResponse('Status not Updated', 204);
         }
+    }
+
+    private function renderDonerReport($dataTable, $code)
+    {
+        $user = User::where('id', $code)->first();
+        return $dataTable->render('dashboard.doners.doner_report', compact('user'));
+    }
+
+    public function donerReport(DonerReportDataTable $dataTable, $code)
+    {
+        // $code = $request->code;
+        return $this->renderDonerReport($dataTable, $code);
     }
 }

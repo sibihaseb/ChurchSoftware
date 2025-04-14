@@ -33,6 +33,9 @@ class MemberDataTable extends DataTable
                 // if (auth()->user()->hasPermissionTo('Edit Content')) {
                 $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
                 // }
+                $button .= '<a href="' . url('admin/doner-report/' . $data->id) . '">
+                <i class="report ri-file-list-line text-success m-2"></i>
+            </a>';
                 return $button;
             })
             ->addColumn('checkbox', function ($data) {
@@ -115,7 +118,7 @@ class MemberDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                ->width(150)
                 ->addClass('text-center'),
         ];
     }
