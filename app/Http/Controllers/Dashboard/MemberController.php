@@ -152,7 +152,7 @@ class MemberController extends Controller
         try {
             DB::transaction(function () use ($ids, $model) {
                 foreach ($ids as $id) {
-                    $modelClass = "App\\Models\\$model";
+                    $modelClass = $model == 'Role' ? "Spatie\\Permission\\Models\\$model" : "App\\Models\\$model";
                     $data = $modelClass::findOrFail($id);
     
                     if ($data) {
@@ -188,7 +188,7 @@ class MemberController extends Controller
         DB::transaction(function () use ($ids, $model) {
             foreach ($ids as $id) {
                 // Dynamically resolve the model class
-                $modelClass = "App\\Models\\$model";
+                $modelClass = $model == 'Role' ? "Spatie\\Permission\\Models\\$model" : "App\\Models\\$model";
                 // Find the record by ID, or fail if not found
                 $data = $modelClass::findOrFail($id);
                 // Toggle the status

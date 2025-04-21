@@ -51,6 +51,7 @@ class DatabaseSeeder extends Seeder
             'Expense Management',
             'Budget Management',
             'Donation Management',
+            'Tag Management',
         ];
 
         foreach ($permissions as $permissionName) {

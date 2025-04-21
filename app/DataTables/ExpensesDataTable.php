@@ -62,6 +62,9 @@ class ExpensesDataTable extends DataTable
             
                 return $title ?: '<span class="text-muted">No Budget Types</span>';
             })
+            ->addColumn('checkbox', function ($data) {
+                return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
+            })
             ->escapeColumns([]);
     }
 
@@ -84,6 +87,28 @@ class ExpensesDataTable extends DataTable
                     ->setTableId('expenses-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    ->parameters([
+                        'drawCallback' => 'function() {
+                            var table = this.api(); // Store the DataTable API instance
+                            let checkedCount = 0;
+                            $(".row-select").each(function() {
+                                // Check if the checkbox should be checked based on selectedIds
+                                if (selectedIds.has($(this).val())) {
+                                console.log($(this).val())
+                                    $(this).prop("checked", true);
+                                    checkedCount++;
+                                } else {
+                                    $(this).prop("checked", false); // Optionally reset unchecked
+                                }
+                            });
+        
+                            if ($(".row-select").length === checkedCount) {
+                                $("#checkall").prop("checked", true);
+                            } else {
+                                $("#checkall").prop("checked", false);
+                            }
+                        }',
+                    ])
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
@@ -103,6 +128,12 @@ class ExpensesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('checkbox')
+            ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
+            ->exportable(false)
+            ->printable(false)
+            ->width(30)
+            ->addClass('text-center align-middle'),
             Column::make('id'),
             Column::make('name'),
             Column::make('amount'),

@@ -125,9 +125,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     });
 
     // Tag
-    Route::group(['middleware' => 'permission:Tag Management'], function () {
+    // Route::group(['middleware' => 'permission:Tag Management'], function () {
         Route::resource('tag', TagController::class);
-    });
+    // });
 
     // FamilyMemberType
     Route::group(['middleware' => 'permission:Donor Management'], function () {

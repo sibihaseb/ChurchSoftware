@@ -38,7 +38,7 @@
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <button type="button" name="create_record" id="create_record"
                                 class="btn btn-success btn-sm">{{ __('Create Language') }}</button>
-                            {{-- <!-- Form for deleting selected rows -->
+                            <!-- Form for deleting selected rows -->
                             <form id="delete_form" action="{{ route('common.deleteSelected', 'DashboardLanguage') }}"
                                 class="mb-0" method="POST">
                                 @csrf
@@ -46,7 +46,7 @@
                                 <input type="hidden" name="page" id="page_id1">
                                 <button type="button" id="delete_selected"
                                 class="btn btn-danger btn-sm">{{ __('Delete Selected Items') }}</button>
-                            </form> --}}
+                            </form>
                         </div>
                     </div>
                     <div class="card-body">

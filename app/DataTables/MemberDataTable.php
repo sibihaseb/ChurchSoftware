@@ -105,11 +105,11 @@ class MemberDataTable extends DataTable
     {
         return [
             Column::computed('checkbox')
-                ->title('<input type="checkbox" id="checkall">')  // "Select All" checkbox in the header
-                ->exportable(false)
-                ->printable(false)
-                ->width(30)
-                ->addClass('text-center'),
+            ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
+            ->exportable(false)
+            ->printable(false)
+            ->width(30)
+            ->addClass('text-center align-middle'),// Center checkbox in each row
             Column::make('id'),
             Column::make('name'),
             Column::make('email'),

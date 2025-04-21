@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\FamilyMember;
+use App\Models\TemporaryAppCode;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -33,9 +34,9 @@ class FamilyMemberDataTable extends DataTable
                 // }
                 return $button;
             })
-            // ->addColumn('checkbox', function ($data) {
-            //     return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
-            // })
+            ->addColumn('checkbox', function ($data) {
+                return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
+            })
 
             ->escapeColumns([]);
     }
@@ -59,6 +60,28 @@ class FamilyMemberDataTable extends DataTable
                     ->setTableId('familymember-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    ->parameters([
+                        'drawCallback' => 'function() {
+                            var table = this.api(); // Store the DataTable API instance
+                            let checkedCount = 0;
+                            $(".row-select").each(function() {
+                                // Check if the checkbox should be checked based on selectedIds
+                                if (selectedIds.has($(this).val())) {
+                                console.log($(this).val())
+                                    $(this).prop("checked", true);
+                                    checkedCount++;
+                                } else {
+                                    $(this).prop("checked", false); // Optionally reset unchecked
+                                }
+                            });
+        
+                            if ($(".row-select").length === checkedCount) {
+                                $("#checkall").prop("checked", true);
+                            } else {
+                                $("#checkall").prop("checked", false);
+                            }
+                        }',
+                    ])
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
