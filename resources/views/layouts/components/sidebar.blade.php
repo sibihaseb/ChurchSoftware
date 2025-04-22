@@ -66,8 +66,7 @@
                         </a>
                     </li>
                 @endcan
-
-                @can('Donate')
+                @can('Donation Management')
                     <li class="slide">
                         <a href="{{ route('donar.donation.history') }}" class="side-menu__item">
                             <i class="bx bx-donate-heart side-menu__icon"></i>
