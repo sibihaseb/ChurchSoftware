@@ -66,11 +66,21 @@
                         </a>
                     </li>
                 @endcan
+
                 @can('Donate')
                     <li class="slide">
                         <a href="{{ route('donar.donation.history') }}" class="side-menu__item">
                             <i class="bx bx-donate-heart side-menu__icon"></i>
                             <span class="side-menu__label">{{ __('Your Donations') }}<span
+                                    class="badge bg-warning-transparent ms-2"></span></span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Donate')
+                    <li class="slide">
+                        <a href="{{ url('admin/all-budget-reports') }}" class="side-menu__item">
+                            <i class="bx bx-donate-heart side-menu__icon"></i>
+                            <span class="side-menu__label">{{ __('Reports') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                         </a>
                     </li>
@@ -232,20 +242,19 @@
                                         class="side-menu__item">{{ __('Expenses Type') }}</a>
                                 </li>
                             @endcan
-                               <li class="slide">
-                                    <a href="{{ url('admin/budgets') }}" class="side-menu__item">{{ __('Budgets') }}</a>
-                                </li>
-                                <li class="slide">
-                                    <a href="{{ url('admin/budget_types') }}"
-                                        class="side-menu__item">{{ __('Budget Types') }}</a>
-                                </li>
-                            @endcan  @can('Budget Management')
-                           
+                            <li class="slide">
+                                <a href="{{ url('admin/budgets') }}" class="side-menu__item">{{ __('Budgets') }}</a>
+                            </li>
+                            <li class="slide">
+                                <a href="{{ url('admin/budget_types') }}"
+                                    class="side-menu__item">{{ __('Budget Types') }}</a>
+                            </li>
+                            @endcan @can('Budget Management')
                         </ul>
                     </li>
                 @endcan
                 {{-- @can('All Department Reports') --}}
-                <li class="slide has-sub">
+                {{-- <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
                         <i class="bx bx-notepad bx-pie-chart-alt side-menu__icon"></i>
                         <span class="side-menu__label">{{ __('All Department Reports') }}<span
@@ -262,8 +271,8 @@
                                 class="side-menu__item">{{ __('All Department Reports') }}</a>
                         </li>
                     </ul>
-                </li>
-            {{-- @endcan --}}
+                </li> --}}
+                {{-- @endcan --}}
             </ul>
 
             <!-- End::slide -->
