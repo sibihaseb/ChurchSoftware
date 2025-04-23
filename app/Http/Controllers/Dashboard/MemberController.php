@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MemberRequest;
 use App\Models\Church;
 use App\Models\Country;
+use App\Models\PaymentMethod;
 use App\Models\User;
 use App\Models\USStates;
 use Illuminate\Http\Request;
@@ -221,7 +222,8 @@ class MemberController extends Controller
     private function renderDonerReport($dataTable, $code)
     {
         $user = User::where('id', $code)->first();
-        return $dataTable->render('dashboard.doners.doner_report', compact('user'));
+        $paymentmethod = PaymentMethod::where('church_id',$this->currentApp()->church_id)->get();
+        return $dataTable->render('dashboard.doners.doner_report', compact('user','paymentmethod'));
     }
 
     public function donerReport(DonerReportDataTable $dataTable, $code)

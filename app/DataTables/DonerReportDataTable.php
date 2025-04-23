@@ -26,7 +26,7 @@ class DonerReportDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-     
+
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($data) {
@@ -42,7 +42,7 @@ class DonerReportDataTable extends DataTable
                 return $button;
             })
             ->addColumn('amount', function ($data) {
-                return '$' . collect($data->items)->sum('amount');
+                return '$' . number_format($data->total_amount, 2);
             })
             ->addColumn('email', function ($data) {
                 $text = null;
@@ -73,7 +73,9 @@ class DonerReportDataTable extends DataTable
     {
         $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
     
-        $data = $model::where('church_id', $currentAppCode)->with('items')
+        $data = $model::where('church_id', $currentAppCode)
+            ->with('items')
+            ->withSum('items as total_amount', 'amount') // Add this line to get total amount per invoice
             ->when($request->code, function ($query) use ($request) {
                 $query->whereRaw('FIND_IN_SET(?, user_id)', [$request->code]);
             })
@@ -88,10 +90,19 @@ class DonerReportDataTable extends DataTable
             })
             ->when(!$request->filled('date_from') && $request->filled('date_to'), function ($query) use ($request) {
                 $query->where('created_at', '<=', $request->date_to . ' 23:59:59');
+            })
+            ->when($request->filled('amount'), function ($query) use ($request) {
+                $query->having('total_amount', '<=', $request->amount);
+            })
+            ->when($request->filled('payment_method'), function ($query) use ($request) {
+                $query->where('payment_method', $request->payment_method);
             });
     
         return $this->applyScopes($data);
     }
+    
+
+
 
     /**
      * Optional method if you want to use the html builder.
@@ -99,19 +110,19 @@ class DonerReportDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('donerreport-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('donerreport-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**

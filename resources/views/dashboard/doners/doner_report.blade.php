@@ -22,7 +22,39 @@
                 <div class="row align-items-center justify-content-between">
                     <!-- Tabs -->
                     <div class="col-md-8 col-sm-12 mb-2">
+                        <form id="filterForm" method="GET">
+                            <div class="row g-2">
+                                <!-- Amount Filter (acts as MAX amount) -->
+                                <div class="col-md-4">
+                                    <label class="control-label col-md-12">{{ __('Amount Filter') }}:
+                                    </label>
+                                    <input type="text" name="amount" class="form-control"
+                                        placeholder="Show records below this amount" value="{{ request('amount') }}">
+                                </div>
+
+                                <!-- Payment Method Filter -->
+                                <div class="col-md-4">
+                                    <label class="control-label col-md-12">{{ __('Payment Method Filter') }}:
+                                    </label>
+                                    <select name="payment_method" class="form-control">
+                                        <option value="">Select</option>
+                                        @foreach ($paymentmethod as $method)
+                                            <option value="{{ $method->id }}"
+                                                {{ request('payment_method') == $method->id ? 'selected' : '' }}>
+                                                {{ $method->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-md-2 mt-4">
+                                    <button type="submit" class="btn btn-primary w-100">{{ __('Filter') }}</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+
 
                     <!-- Date Range Picker -->
                     <div class="col-md-4 col-sm-12 text-md-end text-start mb-2">
@@ -97,7 +129,7 @@
             endDate: end,
             maxDate: moment(), // Disable future dates by setting maxDate to today
             ranges: {
-                  // Day-based ranges (for finer granularity)
+                // Day-based ranges (for finer granularity)
                 'Today': [moment(), moment()],
                 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                 'Last 7 Days': [moment().subtract(6, 'days'), moment()],
