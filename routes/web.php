@@ -134,7 +134,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::resource('family-member-type', FamilyMemberTypeController::class);
         Route::resource('doners', MemberController::class);
         Route::get('doners/{tvcategory}/{status}', [MemberController::class, 'status']);
-        Route::get('doner-report/{code}', [MemberController::class, 'donerReport'])->name('doner.report');
+        Route::get('doner-report/{code}', [MemberController::class, 'donerReport'])->name('doner.report.base');
+        Route::get('doner-report/{code}/date/{date_from}/{date_to}', [MemberController::class, 'donerReport'])->name('doner.report.date');
+        Route::get('doner-report/{code}/amount/{amount}', [MemberController::class, 'donerReport'])->name('doner.report.amount');
+        Route::get('doner-report/{code}/payment/{payment_method}', [MemberController::class, 'donerReport'])->name('doner.report.payment');
+        Route::get('doner-report/{code}/amount-payment/{amount}/{payment_method}', [MemberController::class, 'donerReport'])->name('doner.report.amount_payment');
     });
 
 

@@ -14,6 +14,7 @@ use App\Models\USStates;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 
 class MemberController extends Controller
@@ -226,9 +227,39 @@ class MemberController extends Controller
         return $dataTable->render('dashboard.doners.doner_report', compact('user','paymentmethod'));
     }
 
-    public function donerReport(DonerReportDataTable $dataTable, $code)
+    public function donerReport(DonerReportDataTable $dataTable)
     {
-        // $code = $request->code;
-        return $this->renderDonerReport($dataTable, $code);
+        $user = User::where('id', request()->route('code'))->first();
+        $paymentmethod = PaymentMethod::where('church_id', $this->currentApp()->church_id)->get();
+    
+        // Initialize request parameters
+        $requestParams = ['code' => request()->route('code')];
+    
+        // Determine the current route name
+        $currentRouteName = Route::currentRouteName();
+    
+        if ($currentRouteName === 'doner.report.date') {
+            // Route: admin/doner-report/{code}/date/{date_from}/{date_to}
+            $requestParams['date_from'] = request()->route('date_from');
+            $requestParams['date_to'] = request()->route('date_to');
+        } elseif ($currentRouteName === 'doner.report.amount') {
+            // Route: admin/doner-report/{code}/amount/{amount}
+            $requestParams['amount'] = request()->route('amount');
+        } elseif ($currentRouteName === 'doner.report.payment') {
+            // Route: admin/doner-report/{code}/payment/{payment_method}
+            $requestParams['payment_method'] = request()->route('payment_method');
+        } elseif ($currentRouteName === 'doner.report.amount_payment') {
+            // Route: admin/doner-report/{code}/amount-payment/{amount}/{payment_method}
+            $requestParams['amount'] = request()->route('amount');
+            $requestParams['payment_method'] = request()->route('payment_method');
+        } elseif ($currentRouteName === 'doner.report.base') {
+            // Route: admin/doner-report/{code}
+            // No additional parameters
+        }
+    
+        // Merge parameters into the request
+        request()->merge($requestParams);
+    
+        return $this->renderDonerReport($dataTable, $requestParams['code']);
     }
 }
