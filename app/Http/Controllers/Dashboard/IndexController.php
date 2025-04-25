@@ -279,7 +279,7 @@ class IndexController extends Controller
     public function getTopProducts()
     {
         $topProducts = ServiceInvoiceItem::select('product_id')
-            ->selectRaw('COUNT(product_id) as total_count')
+            ->selectRaw('COUNT(product_id) as total_count, SUM(amount) as total_amount')
             ->groupBy('product_id')
             ->orderByDesc('total_count')
             ->with('product') // Eager load product details
@@ -289,6 +289,7 @@ class IndexController extends Controller
             return [
                 'product' => $item->product,
                 'total_count' => $item->total_count,
+                'total_amount' => $item->total_amount,
             ];
         });
         return [
@@ -323,7 +324,9 @@ class IndexController extends Controller
     public function allProductFive()
     {
         $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
-        $topProducts = ServiceInvoiceItem::where('church_id', $currentAppCode)->select('product_id', DB::raw('COUNT(product_id) as usage_count'))
+
+        $topProducts = ServiceInvoiceItem::where('church_id', $currentAppCode)
+            ->select('product_id', DB::raw('COUNT(product_id) as usage_count'), DB::raw('SUM(amount) as total_amount'))
             ->groupBy('product_id')
             ->orderByDesc('usage_count')
             ->limit(5)
@@ -332,13 +335,16 @@ class IndexController extends Controller
                 $product = Product::find($item->product_id);
                 return [
                     'name' => $product->name ?? 'Unknown',
-                    'usage_count' => $item->usage_count
+                    'usage_count' => $item->usage_count,
+                    'total_amount' => $item->total_amount,
                 ];
             });
-        $totalUsage = $topProducts->sum('usage_count');
+
+        $totalAmount = $topProducts->sum('total_amount');
+
         return [
             'topProducts' => $topProducts,
-            'totalUsage' => $totalUsage
+            'totalAmount' => $totalAmount
         ];
     }
 

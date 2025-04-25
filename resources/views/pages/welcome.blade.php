@@ -377,13 +377,16 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4 class="fw-bold mb-2">{{ $allProductFive['totalUsage'] }}</h4>
+                        <h4 class="fw-bold mb-2">${{ number_format($allProductFive['totalAmount'], 0) }}</h4>
                         <div class="progress-stacked progress-animate progress-xs mb-4">
                             @foreach ($allProductFive['topProducts'] as $index => $product)
                                 @php
                                     $percentage =
-                                        $allProductFive['totalUsage'] > 0
-                                            ? round(($product['usage_count'] / $allProductFive['totalUsage']) * 100, 2)
+                                        $allProductFive['totalAmount'] > 0
+                                            ? round(
+                                                ($product['total_amount'] / $allProductFive['totalAmount']) * 100,
+                                                2,
+                                            )
                                             : 0;
                                     $colors = ['primary', 'info', 'warning', 'success', 'danger'];
                                 @endphp
@@ -399,12 +402,14 @@
                                 <li class="{{ $colors[$index] }}">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div>{{ $product['name'] }}</div>
-                                        <div class="fs-12 text-muted">{{ $product['usage_count'] }} times</div>
+                                        <div class="fs-12 text-muted">${{ number_format($product['total_amount'], 2) }}
+                                        </div>
                                     </div>
                                 </li>
                             @endforeach
                         </ul>
                     </div>
+
                 </div>
 
             </div>
