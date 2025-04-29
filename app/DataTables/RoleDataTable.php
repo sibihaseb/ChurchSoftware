@@ -74,7 +74,7 @@ class RoleDataTable extends DataTable
                 }',
             ])
             //->dom('Bfrtip')
-            ->orderBy(1)
+           ->orderBy(1,'asc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),

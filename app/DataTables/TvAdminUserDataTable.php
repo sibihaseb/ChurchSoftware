@@ -82,7 +82,7 @@ class TvAdminUserDataTable extends DataTable
                 }',
             ])
             ->dom('Bfrtip')
-            ->orderBy(1, 'desc')
+            ->orderBy(1,'asc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
