@@ -15,7 +15,7 @@
         <nav class="py-4">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">{{ __('Home') }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('Doners') }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ __('Donors') }}</li>
             </ol>
         </nav>
         <div class="row">
@@ -33,12 +33,12 @@
                     @endif
                     <div class="card-header justify-content-between">
                         <div class="card-title">
-                            {{ __('Doners') }}
+                            {{ __('Donors') }}
                         </div>
 
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <button type="button" name="create_record" id="create_record"
-                                class="btn btn-success btn-sm">{{ __('Create Doners') }}</button>
+                                class="btn btn-success btn-sm">{{ __('Create Donor') }}</button>
                                  <!-- Form for deleting selected rows -->
                          <form id="delete_form" action="{{ route('common.deleteSelected', 'User') }}"
                          class="mb-0" method="POST">
@@ -406,7 +406,7 @@
 
             $('#create_record').click(function() {
 
-                $('.modal-title').text('{{ __('Add New Doners') }}');
+                $('.modal-title').text('{{ __('Add New Donors') }}');
                 $('#action_button').val('{{ __('Add') }}');
                 $('#action').val('Add');
                 $('#form_result').html('');

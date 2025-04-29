@@ -39,7 +39,7 @@
                         </div>
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <button type="button" name="create_record" id="create_record" class="btn btn-success btn-sm">
-                                {{ __('Create Departments') }}</button>
+                                {{ __('Create Department') }}</button>
                                 <form id="delete_form" action="{{ route('common.deleteSelected', 'Department') }}" class="mb-0"
                                 method="POST">
                                 @csrf

@@ -230,7 +230,7 @@
 
                             <li class="slide">
                                 <a href="{{ url('admin/departments') }}"
-                                    class="side-menu__item">{{ __('All Department') }}</a>
+                                    class="side-menu__item">{{ __('All Departments') }}</a>
                             </li>
                             @can('Expense Management')
                                 <li class="slide">

@@ -17,7 +17,7 @@
         <nav class="py-4">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">{{ __('Home') }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('BudgetTypes') }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ __('Budget Types') }}</li>
             </ol>
         </nav>
         <div class="row">
@@ -35,11 +35,11 @@
                     @endif
                     <div class="card-header justify-content-between">
                         <div class="card-title">
-                            {{ __('BudgetTypes') }}
+                            {{ __('Budget Types') }}
                         </div>
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <button type="button" name="create_record" id="create_record" class="btn btn-success btn-sm">
-                                {{ __('Create BudgetTypes') }}</button>
+                                {{ __('Create Budget Type') }}</button>
                                 <form id="delete_form" action="{{ route('common.deleteSelected', 'BudgetTypes') }}" class="mb-0"
                                 method="POST">
                                 @csrf

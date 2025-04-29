@@ -39,7 +39,8 @@ class RoleDataTable extends DataTable
      */
     public function query(Role $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->whereNotIn('name', ['Superadmin', 'Doner']);
     }
 
     /**
