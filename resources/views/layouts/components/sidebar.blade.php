@@ -69,7 +69,7 @@
                 @can('Donor Management')
                     <li class="slide">
                         <a href="{{ url('admin/all-budget-reports') }}" class="side-menu__item">
-                            <i class="bx bx-donate-heart side-menu__icon"></i>
+                            <i class='bx bxs-report side-menu__icon'></i>
                             <span class="side-menu__label">{{ __('Reports') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                         </a>
@@ -87,7 +87,7 @@
                 @can('Donor Management')
                     <li class="slide">
                         <a href="{{ url('admin/doners') }}" class="side-menu__item">
-                            <i class="bx bx-donate-heart side-menu__icon"></i>
+                            <i class='bx bxs-heart-circle side-menu__icon'></i>
                             <span class="side-menu__label">{{ __('All Donors') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                         </a>
