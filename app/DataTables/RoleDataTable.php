@@ -39,7 +39,8 @@ class RoleDataTable extends DataTable
      */
     public function query(Role $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->whereNotIn('name', ['Superadmin', 'Doner']);
     }
 
     /**
@@ -74,7 +75,7 @@ class RoleDataTable extends DataTable
                 }',
             ])
             //->dom('Bfrtip')
-            ->orderBy(1)
+           ->orderBy(1,'asc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),

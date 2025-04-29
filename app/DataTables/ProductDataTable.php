@@ -37,6 +37,9 @@ class ProductDataTable extends DataTable
             ->addColumn('checkbox', function ($data) {
                 return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
             })
+            ->addColumn('created_at', function ($data) {
+                return $data->created_at ? $data->created_at->diffForHumans() : '-';
+            })
             ->escapeColumns([]);
     }
 
@@ -82,7 +85,7 @@ class ProductDataTable extends DataTable
                         }',
                     ])
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                   ->orderBy(1,'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -106,8 +109,9 @@ class ProductDataTable extends DataTable
             ->printable(false)
             ->width(30)
             ->addClass('text-center align-middle'),
-            Column::make('id'),
+            // Column::make('id'),
             Column::make('name'),
+            Column::make('created_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
