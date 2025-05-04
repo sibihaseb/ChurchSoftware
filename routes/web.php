@@ -44,7 +44,6 @@ Route::get('/', [IndexController::class, 'index']);
 Route::get('/church/signup', [IndexController::class, 'churchsignup'])->name('church.signup');
 Route::prefix('donor')->middleware(['auth'])->group(function () {
     Route::get('/home', [IndexController::class, 'donorhome']);
-
     //payments
     Route::get('/payment', [BillingController::class, 'paymentpage'])->name('donar.wizard');
     Route::post('/donar/donate', [BillingController::class, 'donorPayment'])->name('donar.donate');
@@ -126,7 +125,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // Tag
     // Route::group(['middleware' => 'permission:Tag Management'], function () {
-        Route::resource('tag', TagController::class);
+    Route::resource('tag', TagController::class);
     // });
 
     // FamilyMemberType

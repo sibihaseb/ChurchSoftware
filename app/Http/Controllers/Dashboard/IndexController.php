@@ -46,7 +46,7 @@ class IndexController extends Controller
     public function index()
     {
         if (!auth()->check()) {
-            return view('pages.auth.signin-cover');
+            return view('welcome');
         }
         return auth()->user()->account_type == 'd'
             ? $this->donorhome()
