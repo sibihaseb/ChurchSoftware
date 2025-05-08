@@ -504,7 +504,7 @@
                         Track, manage, and engage with donors all in one place. Boost your
                         fundraising with intelligent donor insights.
                     </p>
-                    <a href="#" class="btn">Get Started</a>
+                    <a href="{{ route('church.signup') }}" class="btn">Get Started</a>
                     <a href="#" class="btn-white" style="margin-left: 10px"> <i
                             class="ri ri-play-circle-line"></i>
                         Watch Demo</a>

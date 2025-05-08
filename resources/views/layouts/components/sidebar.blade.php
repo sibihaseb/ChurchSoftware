@@ -51,8 +51,8 @@
                 @can('Donation Management')
                     <li class="slide">
                         <a href="{{ route('invoice.index') }}" class="side-menu__item">
-                            <i class="bx bx-donate-heart side-menu__icon"></i>
-                            <span class="side-menu__label">{{ __('All Donations') }}<span
+                            <i class="bx bxs-donate-heart side-menu__icon"></i>
+                            <span class="side-menu__label">{{ __('Donations') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                         </a>
                     </li>
@@ -60,7 +60,7 @@
                 @can('Donate')
                     <li class="slide">
                         <a href="{{ route('donar.wizard') }}" class="side-menu__item">
-                            <i class="bx bx-donate-heart side-menu__icon"></i>
+                            <i class="bx bxs-donate-heart side-menu__icon"></i>
                             <span class="side-menu__label">{{ __('Donate') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                         </a>
@@ -69,7 +69,7 @@
                 @can('Donor Management')
                     <li class="slide">
                         <a href="{{ url('admin/all-budget-reports') }}" class="side-menu__item">
-                            <i class='bx bxs-report side-menu__icon'></i>
+                            <i class='bx bxs-bar-chart-alt-2 side-menu__icon'></i>
                             <span class="side-menu__label">{{ __('Reports') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                         </a>
@@ -88,7 +88,7 @@
                     <li class="slide">
                         <a href="{{ url('admin/doners') }}" class="side-menu__item">
                             <i class='bx bxs-heart-circle side-menu__icon'></i>
-                            <span class="side-menu__label">{{ __('All Donors') }}<span
+                            <span class="side-menu__label">{{ __('Donors') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                         </a>
                     </li>
@@ -97,7 +97,7 @@
                 @can('User Management')
                     <li class="slide has-sub">
                         <a href="javascript:void(0);" class="side-menu__item">
-                            <i class="bx bx-fingerprint side-menu__icon"></i>
+                            <i class="bx bx-user side-menu__icon"></i>
                             <span class="side-menu__label">{{ __('User Setting') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                             <i class="fe fe-chevron-right side-menu__angle"></i>
@@ -164,7 +164,7 @@
                 @can('Account Management')
                     <li class="slide has-sub">
                         <a href="javascript:void(0);" class="side-menu__item">
-                            <i class="bx bx-cog side-menu__icon"></i>
+                            <i class="bx bxs-cog side-menu__icon"></i>
                             <span class="side-menu__label">{{ __('Account Setting') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                             <i class="fe fe-chevron-right side-menu__angle"></i>
@@ -191,7 +191,7 @@
                 @can('Product Management')
                     <li class="slide has-sub">
                         <a href="javascript:void(0);" class="side-menu__item">
-                            <i class="bx bx-store side-menu__icon"></i>
+                            <i class='bx bxs-purchase-tag-alt side-menu__icon'></i>
                             <span class="side-menu__label">{{ __('Product Setting') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                             <i class="fe fe-chevron-right side-menu__angle"></i>
@@ -218,7 +218,7 @@
                 @can('Department Management')
                     <li class="slide has-sub">
                         <a href="javascript:void(0);" class="side-menu__item">
-                            <i class="bx bx-group side-menu__icon"></i>
+                            <i class='bx bxs-buildings side-menu__icon'></i>
                             <span class="side-menu__label">{{ __('Department Setting') }}<span
                                     class="badge bg-warning-transparent ms-2"></span></span>
                             <i class="fe fe-chevron-right side-menu__angle"></i>

@@ -292,7 +292,8 @@
                                             <canvas id="top-products-chart" class="chartjs-chart w-100 p-4"></canvas>
                                             <div class="lead-source-value">
                                                 <span class="d-block fs-14">{{ __('Total Donataion Items') }}</span>
-                                                <span class="d-block fs-25 fw-bold">{{ 1 }}</span>
+                                                <span
+                                                    class="d-block fs-25 fw-bold">{{ $topProducts['total_count'] }}</span>
                                             </div>
                                         </div>
                                         <div class="row row-cols-12 border-top border-block-start-dashed">
