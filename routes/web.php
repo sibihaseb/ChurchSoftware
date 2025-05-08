@@ -48,6 +48,8 @@ Route::get('/church/signup', [IndexController::class, 'churchsignup'])->name('ch
 Route::post('/contact', [ContactUsController::class, 'store'])->name('contact.store');
 Route::get('/contact', [ContactUsController::class, 'create'])->name('contact.create');
 
+//privacy policy
+Route::get('privacy-policy', [IndexController::class, 'privacypolicy'])->name('privacy.policy');
 
 Route::prefix('donor')->middleware(['auth'])->group(function () {
     Route::get('/home', [IndexController::class, 'donorhome']);

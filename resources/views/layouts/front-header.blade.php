@@ -72,7 +72,7 @@
                     <h4 class="footer-heading">Legal</h4>
                     <ul class="footer-links">
                         <li><a href="#">Terms</a></li>
-                        <li><a href="#">Privacy</a></li>
+                        <li><a href="{{ route('privacy.policy') }}">Privacy</a></li>
                         <li><a href="#">Security</a></li>
                     </ul>
                 </div>

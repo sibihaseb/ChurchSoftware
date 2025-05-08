@@ -402,4 +402,9 @@ class IndexController extends Controller
             'donationData' => $donationData,
         ]);
     }
+
+    public function privacypolicy()
+    {
+        return view('privacy');
+    }
 }
