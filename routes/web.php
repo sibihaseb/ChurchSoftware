@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\ChurchController;
 use App\Http\Controllers\Dashboard\BillingController;
 use App\Http\Controllers\Dashboard\BudgetsController;
 use App\Http\Controllers\Dashboard\BudgetTypesController;
+use App\Http\Controllers\Dashboard\ContactUsController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProjectController;
 use App\Http\Controllers\Dashboard\MemberTypeController;
@@ -42,6 +43,12 @@ use App\Models\Member;
 
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/church/signup', [IndexController::class, 'churchsignup'])->name('church.signup');
+
+//contact us
+Route::post('/contact', [ContactUsController::class, 'store'])->name('contact.store');
+Route::get('/contact', [ContactUsController::class, 'create'])->name('contact.create');
+
+
 Route::prefix('donor')->middleware(['auth'])->group(function () {
     Route::get('/home', [IndexController::class, 'donorhome']);
     //payments
@@ -184,4 +191,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('all-budget-reports', [DepartmentReportController::class, 'allBugdetReports'])->name('department.all.reports');
     Route::get('all-expenses-reports', [DepartmentReportController::class, 'allExpensesReports'])->name('department.all.expenses.reports');
     // });
+
+    // Show contact form (GET)
+    Route::get('/contact', [ContactUsController::class, 'index'])->name('contact.show');
+    Route::delete('/contact/{id}', [ContactUsController::class, 'destroy'])->name('contact.destroy');
+    Route::post('/contact/bulk-delete', [ContactUsController::class, 'bulkDelete'])->name('contact.bulkDelete');
 });

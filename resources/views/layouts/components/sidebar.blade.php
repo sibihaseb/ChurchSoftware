@@ -252,6 +252,13 @@
                         </ul>
                     </li>
                 @endcan
+                <li class="slide">
+                    <a href="{{ url('admin/contact') }}" class="side-menu__item">
+                        <i class='bx bxs-envelope side-menu__icon'></i>
+                        <span class="side-menu__label">{{ __('Contact Us') }}<span
+                                class="badge bg-warning-transparent ms-2"></span></span>
+                    </a>
+                </li>
                 {{-- @can('All Department Reports') --}}
                 {{-- <li class="slide has-sub">
                     <a href="javascript:void(0);" class="side-menu__item">
