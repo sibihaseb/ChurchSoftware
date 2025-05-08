@@ -14,7 +14,7 @@
     <!-- Header -->
     <header>
         <div class="container header-container">
-            <div class="logo">Donorsmile</div>
+            <div class="logo"><a href="/" style="text-decoration: none">Donorsmile</a></div>
             <nav>
                 <ul class="nav-links">
                     <li><a href="#">Home</a></li>
@@ -37,7 +37,8 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <div class="footer-logo">Donorsmile</div>
+                    <div class="footer-logo"><a href="/"
+                            style="text-decoration: none; color: white">Donorsmile</a></div>
                     <p class="footer-about">
                         We help nonprofits and organizations manage their donors and
                         fundraising efforts more effectively.
