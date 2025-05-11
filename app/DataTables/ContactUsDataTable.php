@@ -24,13 +24,18 @@ class ContactUsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('action', function ($data) {
+                $button = null;
+                // if (auth()->user()->hasPermissionTo('Delete Content')) {
+                $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
+                // }
+                return $button;
+            })
             ->addColumn('checkbox', function ($data) {
                 return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
             })
-            ->addColumn('action', function ($data) {
-                return '<i class="delete ri-delete-bin-line text-danger m-2" data-id="' . $data->id . '" style="cursor:pointer;"></i>';
-            })
-            ->rawColumns(['checkbox', 'action']); // Important: don't escape HTML
+            ->addIndexColumn()
+            ->escapeColumns([]);
     }
 
     /**
@@ -51,24 +56,30 @@ class ContactUsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->parameters([
-                'order' => [[1, 'desc']], // Order by ID (skip checkbox column)
-                'responsive' => true,
-                'autoWidth' => false,
-                'language' => [
-                    'search' => 'Filter:',
-                    'lengthMenu' => 'Show _MENU_ entries',
-                    'info' => 'Showing _START_ to _END_ of _TOTAL_ entries',
-                    'infoEmpty' => 'No entries found',
-                    'zeroRecords' => 'No matching records found',
-                ],
                 'drawCallback' => 'function() {
-                // Rebind events if necessary
-                $("#checkall").on("click", function () {
-                    $(".row-select").prop("checked", this.checked);
-                });
-            }',
+                            var table = this.api(); // Store the DataTable API instance
+                            let checkedCount = 0;
+                            $(".row-select").each(function() {
+                                // Check if the checkbox should be checked based on selectedIds
+                                if (selectedIds.has($(this).val())) {
+                                console.log($(this).val())
+                                    $(this).prop("checked", true);
+                                    checkedCount++;
+                                } else {
+                                    $(this).prop("checked", false); // Optionally reset unchecked
+                                }
+                            });
+
+                            if ($(".row-select").length === checkedCount) {
+                                $("#checkall").prop("checked", true);
+                            } else {
+                                $("#checkall").prop("checked", false);
+                            }
+                        }',
             ])
-            ->dom('Bfrtip') // Enables full control (buttons, filters, etc.)
+            //->dom('Bfrtip')
+            ->orderBy(1, 'asc')
+            ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
                 Button::make('csv'),
@@ -85,11 +96,11 @@ class ContactUsDataTable extends DataTable
     {
         return [
             Column::computed('checkbox')
-                ->title('<input type="checkbox" id="checkall">')
+                ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
                 ->exportable(false)
                 ->printable(false)
                 ->width(30)
-                ->addClass('text-center'),
+                ->addClass('text-center align-middle'),
             Column::computed('DT_RowIndex')
                 ->title('Id'),
             Column::make('name'),
