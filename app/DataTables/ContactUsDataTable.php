@@ -90,7 +90,8 @@ class ContactUsDataTable extends DataTable
                 ->printable(false)
                 ->width(30)
                 ->addClass('text-center'),
-            Column::make('id'),
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('name'),
             Column::make('email'),
             Column::make('subject'),

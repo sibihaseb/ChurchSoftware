@@ -51,6 +51,7 @@ class DonationHistoryDataTable extends DataTable
                 return $paymentmethod->name;
             })
 
+            ->addIndexColumn()
             ->escapeColumns([]);
     }
 
@@ -73,7 +74,7 @@ class DonationHistoryDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
-           ->orderBy(1,'asc')
+            ->orderBy(1, 'asc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
@@ -91,7 +92,8 @@ class DonationHistoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('name'),
             Column::make('email'),
             Column::make('sales_receipt_date'),

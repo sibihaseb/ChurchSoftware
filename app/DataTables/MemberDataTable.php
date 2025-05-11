@@ -42,6 +42,7 @@ class MemberDataTable extends DataTable
                 return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
             })
 
+            ->addIndexColumn()
             ->escapeColumns([]);
     }
 
@@ -87,7 +88,7 @@ class MemberDataTable extends DataTable
                 }',
             ])
             //->dom('Bfrtip')
-            ->orderBy(1,'asc')
+            ->orderBy(1, 'asc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
@@ -105,12 +106,13 @@ class MemberDataTable extends DataTable
     {
         return [
             Column::computed('checkbox')
-            ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
-            ->exportable(false)
-            ->printable(false)
-            ->width(30)
-            ->addClass('text-center align-middle'),// Center checkbox in each row
-            Column::make('id'),
+                ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center align-middle'), // Center checkbox in each row
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('name'),
             Column::make('email'),
             Column::make('phone'),

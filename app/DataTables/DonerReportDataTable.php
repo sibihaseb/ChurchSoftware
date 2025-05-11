@@ -64,6 +64,7 @@ class DonerReportDataTable extends DataTable
                 return $paymentmethod->name;
             })
 
+            ->addIndexColumn()
             ->escapeColumns([]);
     }
     /**
@@ -72,7 +73,7 @@ class DonerReportDataTable extends DataTable
     public function query(ServiceInvoice $model, Request $request): QueryBuilder
     {
         $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
-    
+
         $data = $model::where('church_id', $currentAppCode)
             ->with('items')
             ->withSum('items as total_amount', 'amount') // Add this line to get total amount per invoice
@@ -97,10 +98,10 @@ class DonerReportDataTable extends DataTable
             ->when($request->filled('payment_method'), function ($query) use ($request) {
                 $query->where('payment_method', $request->payment_method);
             });
-    
+
         return $this->applyScopes($data);
     }
-    
+
 
 
 
@@ -114,7 +115,7 @@ class DonerReportDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
-           ->orderBy(1,'asc')
+            ->orderBy(1, 'asc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
@@ -131,7 +132,8 @@ class DonerReportDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('name'),
             Column::make('email'),
             Column::make('sales_receipt_date'),

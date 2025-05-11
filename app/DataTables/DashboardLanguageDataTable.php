@@ -30,7 +30,7 @@ class DashboardLanguageDataTable extends DataTable
                 //     $button = '<i id="' . $data->id . '" class="edit ri-pencil-line text-info m-2"></i>';
                 // }
                 // if (auth()->user()->hasPermissionTo('Delete Content')) {
-                    $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
+                $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
                 // }
                 return $button;
             })
@@ -45,6 +45,7 @@ class DashboardLanguageDataTable extends DataTable
             ->addColumn('checkbox', function ($data) {
                 return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
             })
+            ->addIndexColumn()
             ->escapeColumns([]);
     }
 
@@ -88,7 +89,7 @@ class DashboardLanguageDataTable extends DataTable
                         }',
             ])
             //->dom('Bfrtip')
-            ->orderBy(1,'asc')
+            ->orderBy(1, 'asc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
@@ -106,12 +107,13 @@ class DashboardLanguageDataTable extends DataTable
     {
         return [
             Column::computed('checkbox')
-            ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
-            ->exportable(false)
-            ->printable(false)
-            ->width(30)
-            ->addClass('text-center align-middle'),
-            Column::make('id'),
+                ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center align-middle'),
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('title'),
             Column::make('code'),
             Column::make('flag_image')->orderable(false),

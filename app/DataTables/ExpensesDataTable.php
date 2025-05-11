@@ -31,40 +31,44 @@ class ExpensesDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $button = null;
                 // if (auth()->user()->hasPermissionTo('Edit Content')) {
-                    $button .= '<button id="' . $data->id . '" class="edit btn btn-link text-info"><i class="ri-pencil-line"></i></button>';
+                $button .= '<button id="' . $data->id . '" class="edit btn btn-link text-info"><i class="ri-pencil-line"></i></button>';
                 // }
                 // if (auth()->user()->hasPermissionTo('Delete Content')) {
-                    $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
+                $button .= '<i id="' . $data->id . '" class="delete ri-delete-bin-line text-danger m-2"></i>';
                 // }
                 return $button;
             })
+            ->addColumn('amount', function ($data) {
+                return '$' . $data->amount;
+            })
             ->addColumn('deprtment', function ($data) {
                 $departmentIds = explode(',', $data->department_id); // convert comma-separated string to array
-            
+
                 $departments = Department::whereIn('id', $departmentIds)->pluck('name'); // fetch department names
-            
+
                 $title = '';
                 foreach ($departments as $department) {
                     $title .= '<span class="badge text-bg-primary mb-1" role="button" style="font-size: 12px;">' . $department . '</span> ';
                 }
-            
+
                 return $title ?: '<span class="text-muted">No Departments</span>';
             })
             ->addColumn('Expenses Types', function ($data) {
                 $typeIds = explode(',', $data->type_id); // convert comma-separated string to array
-            
+
                 $types = ExpensesTypes::whereIn('id', $typeIds)->pluck('name'); // fetch type names
-            
+
                 $title = '';
                 foreach ($types as $type) {
                     $title .= '<span class="badge text-bg-success mb-1" role="button" style="font-size: 12px;">' . $type . '</span> ';
                 }
-            
+
                 return $title ?: '<span class="text-muted">No Budget Types</span>';
             })
             ->addColumn('checkbox', function ($data) {
                 return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
             })
+            ->addIndexColumn()
             ->escapeColumns([]);
     }
 
@@ -84,11 +88,11 @@ class ExpensesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('expenses-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->parameters([
-                        'drawCallback' => 'function() {
+            ->setTableId('expenses-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->parameters([
+                'drawCallback' => 'function() {
                             var table = this.api(); // Store the DataTable API instance
                             let checkedCount = 0;
                             $(".row-select").each(function() {
@@ -101,25 +105,25 @@ class ExpensesDataTable extends DataTable
                                     $(this).prop("checked", false); // Optionally reset unchecked
                                 }
                             });
-        
+
                             if ($(".row-select").length === checkedCount) {
                                 $("#checkall").prop("checked", true);
                             } else {
                                 $("#checkall").prop("checked", false);
                             }
                         }',
-                    ])
-                    //->dom('Bfrtip')
-                   ->orderBy(1,'asc')
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ])
+            //->dom('Bfrtip')
+            ->orderBy(1, 'asc')
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -129,12 +133,13 @@ class ExpensesDataTable extends DataTable
     {
         return [
             Column::computed('checkbox')
-            ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
-            ->exportable(false)
-            ->printable(false)
-            ->width(30)
-            ->addClass('text-center align-middle'),
-            Column::make('id'),
+                ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center align-middle'),
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('name'),
             Column::make('amount'),
             Column::make('deprtment'),

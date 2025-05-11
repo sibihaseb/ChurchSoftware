@@ -38,6 +38,7 @@ class FamilyMemberDataTable extends DataTable
                 return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
             })
 
+            ->addIndexColumn()
             ->escapeColumns([]);
     }
 
@@ -50,18 +51,18 @@ class FamilyMemberDataTable extends DataTable
         $query = $model::where('church_id', $currentAppCode)->select();
         return $this->applyScopes($query);
     }
-   
+
     /**
      * Optional method if you want to use the html builder.
      */
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('familymember-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->parameters([
-                        'drawCallback' => 'function() {
+            ->setTableId('familymember-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->parameters([
+                'drawCallback' => 'function() {
                             var table = this.api(); // Store the DataTable API instance
                             let checkedCount = 0;
                             $(".row-select").each(function() {
@@ -74,25 +75,25 @@ class FamilyMemberDataTable extends DataTable
                                     $(this).prop("checked", false); // Optionally reset unchecked
                                 }
                             });
-        
+
                             if ($(".row-select").length === checkedCount) {
                                 $("#checkall").prop("checked", true);
                             } else {
                                 $("#checkall").prop("checked", false);
                             }
                         }',
-                    ])
-                    //->dom('Bfrtip')
-                   ->orderBy(1,'asc')
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                      
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ])
+            //->dom('Bfrtip')
+            ->orderBy(1, 'asc')
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -102,11 +103,12 @@ class FamilyMemberDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('add your columns'),
             Column::make('created_at'),
             Column::make('updated_at'),

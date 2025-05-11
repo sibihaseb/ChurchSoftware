@@ -40,8 +40,8 @@
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <button type="button" name="create_record" id="create_record" class="btn btn-success btn-sm">
                                 {{ __('Create Budget Type') }}</button>
-                                <form id="delete_form" action="{{ route('common.deleteSelected', 'BudgetTypes') }}" class="mb-0"
-                                method="POST">
+                            <form id="delete_form" action="{{ route('common.deleteSelected', 'BudgetTypes') }}"
+                                class="mb-0" method="POST">
                                 @csrf
                                 <input type="hidden" name="ids" id="delete_ids">
                                 <input type="hidden" name="page" id="page_id1">
@@ -62,53 +62,52 @@
         </div>
     </div>
     <div id="formModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">{{ __('Add New User') }}</h4>
-                <button type="button" class="btn-close" id="closemodalbyicon" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <span id="form_result"></span>
-                <form method="post" id="sample_form" class="form-horizontal">
-                    @csrf
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <label class="control-label col-md-4" for="name">{{ __('Name') }}<span
-                                            style="color: red;">*</span></label>
-                                    <input type="text" name="name" id="name" class="form-control"
-                                        placeholder="enter name" />
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">{{ __('Add New User') }}</h4>
+                    <button type="button" class="btn-close" id="closemodalbyicon" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <span id="form_result"></span>
+                    <form method="post" id="sample_form" class="form-horizontal">
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label class="control-label col-md-4" for="name">{{ __('Name') }}<span
+                                                style="color: red;">*</span></label>
+                                        <input type="text" name="name" id="name" class="form-control"
+                                            placeholder="enter name" />
+                                    </div>
+
                                 </div>
-                               
                             </div>
                         </div>
-                    </div>
-                    <br />
-                    <div class="form-group" align="center">
-                        <input type="hidden" name="hidden_id" id="hidden_id" />
-                        <input type="hidden" name="action" id="action" value="Add" />
-                        <button type="button" id="closemybt" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        {{-- <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}"/> --}}
-                        <input type="submit" name="action_button" id="action_button" class="btn btn-warning"
-                            value="{{ __('Add') }}" />
-                    </div>
-                </form>
+                        <br />
+                        <div class="form-group" align="center">
+                            <input type="hidden" name="hidden_id" id="hidden_id" />
+                            <input type="hidden" name="action" id="action" value="Add" />
+                            <button type="button" id="closemybt" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            {{-- <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}"/> --}}
+                            <input type="submit" name="action_button" id="action_button" class="btn btn-warning"
+                                value="{{ __('Add') }}" />
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@include('pages.modal.delete_modal')
-@include('pages.modal.multiple_delete_modal')
+    @include('pages.modal.delete_modal')
+    @include('pages.modal.multiple_delete_modal')
 @endsection
 
 @section('scripts')
-    
     <!-- PRISM JS -->
     <script src="{{ asset('build/assets/libs/prismjs/prism.js') }}"></script>
     @vite('resources/assets/js/prism-custom.js')
@@ -233,12 +232,11 @@
             }, 3000);
         }
     </script>
- 
+
     <script>
-        
         $(document).ready(function() {
             $('#create_record').click(function() {
-                $('.modal-title').text('{{ __('Add New BudgetTypes') }}');
+                $('.modal-title').text('{{ __('Add New Budget Types') }}');
                 $('#action_button').val('{{ __('Add') }}');
                 $('#action').val('Add');
                 $('#form_result').html('');
@@ -322,12 +320,13 @@
                                 setTimeout(function() {
                                     $('#formModal').modal('hide'); // Hide the modal
                                 }, 1000);
-                                window.LaravelDataTables["budgettypes-table"].ajax.reload(function(
-                                    json) {
-                                    window.LaravelDataTables["budgettypes-table"].page(
-                                            currentPage)
-                                        .draw(false);
-                                }, false);
+                                window.LaravelDataTables["budgettypes-table"].ajax.reload(
+                                    function(
+                                        json) {
+                                        window.LaravelDataTables["budgettypes-table"].page(
+                                                currentPage)
+                                            .draw(false);
+                                    }, false);
                             }
                             $('#form_result').html(html);
                         },
@@ -389,13 +388,16 @@
                     },
                     success: function(data) {
                         // Get the current page number of the DataTable
-                        var currentPage = window.LaravelDataTables["budgettypes-table"].page.info()
+                        var currentPage = window.LaravelDataTables["budgettypes-table"].page
+                            .info()
                             .page;
                         setTimeout(function() {
                             $('#confirmModal').modal('hide');
                         }, 2000);
-                        window.LaravelDataTables["budgettypes-table"].ajax.reload(function(json) {
-                            window.LaravelDataTables["budgettypes-table"].page(currentPage)
+                        window.LaravelDataTables["budgettypes-table"].ajax.reload(function(
+                        json) {
+                            window.LaravelDataTables["budgettypes-table"].page(
+                                    currentPage)
                                 .draw(false);
                         }, false);
                     }

@@ -44,7 +44,7 @@ class CountryDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
-            ->orderBy(1,'asc')
+            ->orderBy(1, 'asc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
@@ -61,7 +61,8 @@ class CountryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('title'),
             Column::make('code')
         ];

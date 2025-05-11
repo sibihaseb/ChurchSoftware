@@ -64,6 +64,7 @@ class ServiceInvoiceDataTable extends DataTable
             ->addColumn('checkbox', function ($data) {
                 return '<input type="checkbox" class="row-select" value="' . $data->id . '">';
             })
+            ->addIndexColumn()
             ->escapeColumns([]);
     }
 
@@ -109,7 +110,7 @@ class ServiceInvoiceDataTable extends DataTable
                 }',
             ])
             //->dom('Bfrtip')
-           ->orderBy(1,'asc')
+            ->orderBy(1, 'asc')
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
@@ -128,12 +129,13 @@ class ServiceInvoiceDataTable extends DataTable
     {
         return [
             Column::computed('checkbox')
-            ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
-            ->exportable(false)
-            ->printable(false)
-            ->width(30)
-            ->addClass('text-center align-middle'),
-            Column::make('id'),
+                ->title('<div class="text-center"><input type="checkbox" id="checkall" class="ml-2"></div>') // Center header checkbox
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center align-middle'),
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('name'),
             Column::make('email'),
             Column::make('sales_receipt_date'),

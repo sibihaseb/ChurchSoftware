@@ -28,37 +28,38 @@ class DepartmentBudgetReportDataTable extends DataTable
     {
         // Clone the query to calculate the total from filtered data
         $totalBudget = (clone $query)->sum('amount');
-    
+
         return datatables()
             ->eloquent($query)
             ->addColumn('deprtment', function ($data) {
                 $departmentIds = explode(',', $data->department_id);
                 $departments = Department::whereIn('id', $departmentIds)->pluck('name');
-    
+
                 $title = '';
                 foreach ($departments as $department) {
                     $title .= '<span class="badge text-bg-primary mb-1" role="button" style="font-size: 12px;">' . $department . '</span> ';
                 }
-    
+
                 return $title ?: '<span class="text-muted">No Departments</span>';
             })
             ->addColumn('Budget Types', function ($data) {
                 $typeIds = explode(',', $data->type_id);
                 $types = BudgetTypes::whereIn('id', $typeIds)->pluck('name');
-    
+
                 $title = '';
                 foreach ($types as $type) {
                     $title .= '<span class="badge text-bg-success mb-1" role="button" style="font-size: 12px;">' . $type . '</span> ';
                 }
-    
+
                 return $title ?: '<span class="text-muted">No Budget Types</span>';
             })
             ->addColumn('Total Budget', function () use ($totalBudget) {
                 return '<span class="text-success fw-bold">' . number_format($totalBudget, 2) . '</span>';
             })
+            ->addIndexColumn()
             ->escapeColumns([]);
     }
-    
+
 
     /**
      * Get the query source of dataTable.
@@ -66,7 +67,7 @@ class DepartmentBudgetReportDataTable extends DataTable
     public function query(Budgets $model, Request $request): QueryBuilder
     {
         $currentAppCode = TemporaryAppCode::where('user_id', auth()->user()->id)->first()->church_id;
-    
+
         $data = $model::where('church_id', $currentAppCode)
             ->when($request->code, function ($query) use ($request) {
                 $query->whereRaw('FIND_IN_SET(?, department_id)', [$request->code]);
@@ -83,10 +84,10 @@ class DepartmentBudgetReportDataTable extends DataTable
             ->when(!$request->filled('date_from') && $request->filled('date_to'), function ($query) use ($request) {
                 $query->where('created_at', '<=', $request->date_to . ' 23:59:59');
             });
-    
+
         return $this->applyScopes($data);
     }
-    
+
 
 
     /**
@@ -95,19 +96,19 @@ class DepartmentBudgetReportDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('departmentbudgetreport-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1, 'asc')
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('departmentbudgetreport-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1, 'asc')
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -116,14 +117,15 @@ class DepartmentBudgetReportDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::computed('DT_RowIndex')
+                ->title('Id'),
             Column::make('name'),
             Column::make('amount'),
             Column::make('deprtment'),
             Column::make('Budget Types'),
             Column::make('purpose'),
             Column::make('Total Budget'),
-          
+
         ];
     }
 
