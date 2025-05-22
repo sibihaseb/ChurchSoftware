@@ -4,6 +4,13 @@
     <!-- SWIPER CSS -->
     <link rel="stylesheet" href="{{ asset('build/assets/libs/swiper/swiper-bundle.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <style>
+        .authentication .authentication-cover .aunthentication-cover-content img {
+            width: 100% !important;
+            height: 100% !important;
+            margin-top: 80px;
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @endsection
 
@@ -191,16 +198,16 @@
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
                                         <div class="mb-5">
-                                            <img src="{{ asset('images/54465.png') }}" class="authentication-image"
+                                            <img src="{{ asset('images/first.jpeg') }}" class="authentication-image"
                                                 alt="">
                                         </div>
-                                        <h6 class="fw-semibold text-fixed-white">The Power of Donation</h6>
+                                        {{-- <h6 class="fw-semibold text-fixed-white">The Power of Donation</h6>
                                         <p class="fw-normal fs-14 op-7">Donations have the incredible ability to create
                                             meaningful change in the lives of individuals and communities. Whether it's
                                             providing essential resources like food, shelter, or medical care, donations
                                             help bridge the gap between scarcity and sufficiency. A simple act of giving
                                             can uplift those in need, providing hope and a chance for a better future.
-                                        </p>
+                                        </p> --}}
                                     </div>
                                 </div>
                             </div>
@@ -208,18 +215,18 @@
                                 <div
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
-                                        <div class="mb-5">
-                                            <img src="{{ asset('images/10252702.png') }}"
-                                                class="authentication-image" alt="">
+                                        <div class="mb-5" style="margin-top:50px;">
+                                            <img src="{{ asset('images/second.jpeg') }}" class="authentication-image"
+                                                alt="">
                                         </div>
-                                        <h6 class="fw-semibold text-fixed-white">Building Stronger Communities Through
+                                        {{-- <h6 class="fw-semibold text-fixed-white">Building Stronger Communities Through
                                             Giving</h6>
                                         <p class="fw-normal fs-14 op-7">When people come together to support a common
                                             cause, communities grow stronger and more united. Donations not only address
                                             immediate needs but also contribute to long-term solutions, such as
                                             educational programs and sustainable development projects. By donating,
                                             individuals become part of a collective effort to create a positive impact,
-                                            making their communities more resilient and self-sustaining.</p>
+                                            making their communities more resilient and self-sustaining.</p> --}}
                                     </div>
                                 </div>
                             </div>
@@ -228,16 +235,16 @@
                                     class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                                     <div>
                                         <div class="mb-5">
-                                            <img src="{{ asset('images/4125377.png') }}" class="authentication-image"
+                                            <img src="{{ asset('images/third.jpeg') }}" class="authentication-image"
                                                 alt="">
                                         </div>
-                                        <h6 class="fw-semibold text-fixed-white">The Personal Rewards of Donating</h6>
+                                        {{-- <h6 class="fw-semibold text-fixed-white">The Personal Rewards of Donating</h6>
                                         <p class="fw-normal fs-14 op-7">Beyond the tangible benefits to recipients,
                                             donating has a profound impact on the giver as well. It fosters a sense of
                                             empathy, purpose, and fulfillment. Knowing that one's contribution has the
                                             power to change lives can be deeply rewarding and motivating. Additionally,
                                             donating promotes a culture of kindness and generosity, inspiring others to
-                                            give back and support meaningful causes.</p>
+                                            give back and support meaningful causes.</p> --}}
                                     </div>
                                 </div>
                             </div>
