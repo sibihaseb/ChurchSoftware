@@ -6,10 +6,30 @@
     <link rel="stylesheet" href="{{ asset('build/assets/libs/swiper/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('build/assets/css/authentication.css') }}">
     <style>
+        .authentication {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .authentication-cover {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .authentication-image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        .swiper,
+        .swiper-wrapper,
+        .swiper-slide {
+            height: 100%;
+        }
+
         .authentication .authentication-cover .aunthentication-cover-content img {
-            width: 100% !important;
-            height: 100% !important;
-            margin-top: 80px;
+            margin-top: 0;
         }
     </style>
 @endsection
@@ -29,7 +49,7 @@
 
     <div class="row authentication mx-0">
 
-        <div class="col-xxl-7 col-xl-7 col-lg-12">
+        <div class="col-xxl-6 col-xl-6 col-lg-12">
             <div class="row justify-content-center align-items-center h-100">
                 <div class="col-xxl-6 col-xl-7 col-lg-7 col-md-7 col-sm-8 col-12">
                     <div class="p-5">
@@ -73,70 +93,20 @@
                 </div>
             </div>
         </div>
-        <div class="col-xxl-5 col-xl-5 col-lg-5 d-xl-block d-none px-0">
+          <!-- Image Side (Left) -->
+        <div class="col-xxl-6 col-xl-6 col-lg-6 d-xl-block d-none px-0">
             <div class="authentication-cover">
-                <div class="aunthentication-cover-content rounded">
-                    <div class="swiper keyboard-control">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div
-                                    class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
-                                    <div>
-                                        <div class="mb-5">
-                                            <img src="{{ asset('images/first.jpeg') }}" class="authentication-image"
-                                                alt="">
-                                        </div>
-                                        {{-- <h6 class="fw-semibold text-fixed-white">The Power of Donation</h6>
-                                        <p class="fw-normal fs-14 op-7">Donations have the incredible ability to create
-                                            meaningful change in the lives of individuals and communities. Whether it's
-                                            providing essential resources like food, shelter, or medical care, donations
-                                            help bridge the gap between scarcity and sufficiency. A simple act of giving
-                                            can uplift those in need, providing hope and a chance for a better future.
-                                        </p> --}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div
-                                    class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
-                                    <div>
-                                        <div class="mb-5" style="margin-top:50px;">
-                                            <img src="{{ asset('images/second.jpeg') }}" class="authentication-image"
-                                                alt="">
-                                        </div>
-                                        {{-- <h6 class="fw-semibold text-fixed-white">Building Stronger Communities Through
-                                            Giving</h6>
-                                        <p class="fw-normal fs-14 op-7">When people come together to support a common
-                                            cause, communities grow stronger and more united. Donations not only address
-                                            immediate needs but also contribute to long-term solutions, such as
-                                            educational programs and sustainable development projects. By donating,
-                                            individuals become part of a collective effort to create a positive impact,
-                                            making their communities more resilient and self-sustaining.</p> --}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div
-                                    class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
-                                    <div>
-                                        <div class="mb-5">
-                                            <img src="{{ asset('images/third.jpeg') }}" class="authentication-image"
-                                                alt="">
-                                        </div>
-                                        {{-- <h6 class="fw-semibold text-fixed-white">The Personal Rewards of Donating</h6>
-                                        <p class="fw-normal fs-14 op-7">Beyond the tangible benefits to recipients,
-                                            donating has a profound impact on the giver as well. It fosters a sense of
-                                            empathy, purpose, and fulfillment. Knowing that one's contribution has the
-                                            power to change lives can be deeply rewarding and motivating. Additionally,
-                                            donating promotes a culture of kindness and generosity, inspiring others to
-                                            give back and support meaningful causes.</p> --}}
-                                    </div>
-                                </div>
-                            </div>
+                <div class="swiper keyboard-control h-100">
+                    <div class="swiper-wrapper h-100">
+                        <div class="swiper-slide">
+                            <img src="{{ asset('images/first.jpeg') }}" class="authentication-image" alt="">
                         </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-pagination"></div>
+                        {{-- <div class="swiper-slide">
+                            <img src="{{ asset('images/second.jpeg') }}" class="authentication-image" alt="">
+                        </div> --}}
+                        <div class="swiper-slide">
+                            <img src="{{ asset('images/third.jpeg') }}" class="authentication-image" alt="">
+                        </div>
                     </div>
                 </div>
             </div>
