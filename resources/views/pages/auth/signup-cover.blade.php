@@ -4,7 +4,7 @@
     <!-- SWIPER CSS -->
     <link rel="stylesheet" href="{{ asset('build/assets/libs/swiper/swiper-bundle.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-   <style>
+    <style>
         .authentication {
             min-height: 100vh;
             display: flex;
@@ -77,7 +77,7 @@
                                 @csrf
                                 <div class="row gy-3">
                                     <!-- Existing Fields -->
-                                    <div class="col-md-6">
+                                    <div class="col-xl-12">
                                         <label for="signup-name" class="form-label">First & Last Name</label>
                                         <input type="text" class="form-control" id="signup-name" name="name"
                                             placeholder="Enter your name">
@@ -89,7 +89,7 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xl-12">
                                         <label for="signup-email" class="form-label">Email Address</label>
                                         <input type="email" class="form-control" id="signup-email" name="email"
                                             placeholder="Email">
@@ -201,7 +201,7 @@
                 </div>
             </div>
         </div>
-         <!-- Image Side (Left) -->
+        <!-- Image Side (Left) -->
         <div class="col-xxl-6 col-xl-6 col-lg-6 d-xl-block d-none px-0">
             <div class="authentication-cover">
                 <div class="swiper keyboard-control h-100">
